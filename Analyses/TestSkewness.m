@@ -23,7 +23,7 @@ function [h,p,stats] = TestSkewness(control,repeat,test,varargin)
 %
 %  OUTPUT
 %
-%    h                  0 if H0 (random remapping) cannot be rejected, 1 otherwise
+%    h                  1 if H0 (random remapping) can be rejected
 %    p                  p-value of bootstrap test
 %    stats.control.m	   median skewness (control)
 %    stats.control.s	   standard error of the median skewness (control)

@@ -21,7 +21,7 @@ function x = DBGetVariables(query,varargin)
 %
 %    x = DBGetVariables(query,<options>)
 %
-%    query          optional list query (WHERE clause; see Example)
+%    query          optional database query (WHERE clause; see Example)
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================
@@ -29,8 +29,8 @@ function x = DBGetVariables(query,varargin)
 %    -------------------------------------------------------------------------
 %     'output'       'variables' to get the variables but not the information,
 %                    i.e. eid, name, comments, parameters, etc. (default),
-%                    'info' for the information but not the variables, and
-%                    'full' for both
+%                    'info' for the information but not the variables, 'full'
+%                    for both, or 'keys' for eid and name only
 %    =========================================================================
 %
 %  OUTPUT
@@ -94,7 +94,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'output',
 			output = lower(varargin{i+1});
-			if ~isstring(output,'variables','info','full'),
+			if ~isstring(output,'variables','info','full','keys'),
 				error('Incorrect value for property ''output'' (type ''help <a href="matlab:help DBGetVariables">DBGetVariables</a>'' for details).');
 			end
 		otherwise,
@@ -103,12 +103,15 @@ for i = 1:2:length(varargin),
 end
 
 % Query database
-if strcmp(output,'full'),
-	x = mym(['select v,eid,name,comments,parameters,mfiles,code,date,user from variables' query]);
-elseif strcmp(output,'variables'),
-	x = mym(['select v from variables' query]);
-else
-	x = mym(['select eid,name,comments,parameters,mfiles,code,date,user from variables' query]);
+switch output,
+	case 'full',
+		x = mym(['select v,eid,name,comments,parameters,mfiles,code,date,user from variables' query]);
+	case 'variables',
+		x = mym(['select v from variables' query]);
+	case 'info',
+		x = mym(['select eid,name,comments,parameters,mfiles,code,date,user from variables' query]);
+	case 'keys',
+		x = mym(['select eid,name from variables' query]);
 end
 
 

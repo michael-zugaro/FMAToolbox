@@ -24,7 +24,7 @@ function PlotColorCurves(curves,range,varargin)
 %     Properties    Values
 %    -------------------------------------------------------------------------
 %     'cutoffs'     lower and upper cutoff values ([] = autoscale, default)
-%     'gamma'       gamma correction (1 = no correction, default)
+%     'hgamma'      gamma-like correction for hue (1 = no correction, default)
 %     'colorspace'  'HSV' or 'RGB' (default = 'RGB')
 %     'bar'         draw a color bar (default = 'off')
 %     'type'        either 'linear' or 'circular' (default 'linear')
@@ -66,7 +66,7 @@ last = length(varargin);
 for i = 1:length(varargin),
 	if ischar(varargin{i}),
 		switch(lower(varargin{i})),
-			case {'cutoffs','gamma','colorspace','bar','type'},
+			case {'cutoffs','gamma','hgamma','colorspace','bar','type'},
 				options = {varargin{i:end}};
 				last = i-1;
 				break;

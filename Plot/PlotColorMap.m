@@ -19,7 +19,7 @@ function PlotColorMap(data,dimm,varargin)
 %     'y'           ordinates
 %     'threshold'   dimm values below this limit are zeroed (default = 0.01)
 %     'cutoffs'     lower and upper cutoff values ([] = autoscale, default)
-%     'gamma'       gamma correction (1 = no correction, default)
+%     'hgamma'      gamma-like correction for hue (1 = no correction, default)
 %     'colorspace'  'HSV' or 'RGB' (default = 'RGB')
 %     'bar'         draw a color bar (default = 'off')
 %     'type'        either 'linear' or 'circular' (default 'linear')
@@ -52,7 +52,9 @@ function PlotColorMap(data,dimm,varargin)
 
 % Default values
 cutoffs = [];
+hgamma = 1;
 gamma = 1;
+hg = 0;
 colorspace = 'rgb';
 threshold = 0.01;
 drawBar = 0;
@@ -80,63 +82,64 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 
 		case 'threshold',
-		threshold = varargin{i+1};
-		if ~isdscalar(threshold,'>=0'),
-			error('Incorrect value for property ''threshold'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
-		end
-
+			threshold = varargin{i+1};
+			if ~isdscalar(threshold,'>=0'),
+				error('Incorrect value for property ''threshold'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
+			end
 		case 'x',
-		x = varargin{i+1};
-		if ~isdvector(x),
-			error('Incorrect value for property ''x'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
-		end
-
+			x = varargin{i+1};
+			if ~isdvector(x),
+				error('Incorrect value for property ''x'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
+			end
 		case 'y',
-		y = varargin{i+1};
-		if ~isdvector(y),
-			error('Incorrect value for property ''y'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
-		end
-
+			y = varargin{i+1};
+			if ~isdvector(y),
+				error('Incorrect value for property ''y'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
+			end
 		case 'cutoffs',
-		cutoffs = varargin{i+1};
-		if ~isdvector(cutoffs,'#2','<'),
-			error('Incorrect value for property ''cutoffs'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
-		end
-
+			cutoffs = varargin{i+1};
+			if ~isdvector(cutoffs,'#2','<'),
+				error('Incorrect value for property ''cutoffs'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
+			end
+		case 'hgamma',
+			hg = 1;
+			hgamma = varargin{i+1};
+			if ~isdscalar(hgamma,'>=0'),
+				error('Incorrect value for property ''hgamma'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
+			end
 		case 'gamma',
-		gamma = varargin{i+1};
-		if ~isdscalar(gamma,'>=0'),
-			error('Incorrect value for property ''gamma'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
-		end
-
+			gamma = varargin{i+1};
+			if ~isdscalar(gamma,'>=0'),
+				error('Incorrect value for deprecated property ''gamma'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
+			end
 		case 'colorspace',
-		colorspace = lower(varargin{i+1});
-		if ~isstring(colorspace,'hsv','rgb'),
-			error('Incorrect value for property ''colorspace'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
-		end
-
+			colorspace = lower(varargin{i+1});
+			if ~isstring(colorspace,'hsv','rgb'),
+				error('Incorrect value for property ''colorspace'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
+			end
 		case 'bar',
-		drawBar = lower(varargin{i+1});
-		if ~isstring(drawBar,'on','off'),
-			error('Incorrect value for property ''bar'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
-		end
-
+			drawBar = lower(varargin{i+1});
+			if ~isstring(drawBar,'on','off'),
+				error('Incorrect value for property ''bar'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
+			end
 		case 'type',
-		type = lower(varargin{i+1});
-		if ~isstring(type,'linear','circular'),
-			error('Incorrect value for property ''type'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
-		end
-
+			type = lower(varargin{i+1});
+			if ~isstring(type,'linear','circular'),
+				error('Incorrect value for property ''type'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
+			end
 		case 'ydir',
-		ydir = lower(varargin{i+1});
-		if ~isstring(ydir,'normal','reverse'),
-			error('Incorrect value for property ''ydir'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
-		end
-
+			ydir = lower(varargin{i+1});
+			if ~isstring(ydir,'normal','reverse'),
+				error('Incorrect value for property ''ydir'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
+			end
 		otherwise,
-		error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).']);
+			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).']);
 
 	end
+end
+
+if hg == 0,
+	hgamma = 1/gamma;
 end
 
 if ~isempty(cutoffs),
@@ -153,6 +156,7 @@ if length(dimm) == 1,
 	dimm = dimm*ones(size(data));
 end
 
+f = gcf;
 a = gca;
 
 p = imagesc(x,y,data,[m M]);
@@ -170,10 +174,10 @@ if ~isempty(y) && length(y) ~= 1,
 	set(a,'ylim',[min(y)-binY/2 max(y)+binY/2]);
 end
 
-colormap(Bright(100,'gamma',gamma,'type',type));
+colormap(Bright(100,'hgamma',hgamma,'type',type));
 
 if strcmp(drawBar,'on'),
 	b = colorbar('vert');
 	set(b,'xtick',[],'tickdir','out','box','off','ycolor','k');
-	axes(a);
+	set(f,'currentaxes',a);
 end

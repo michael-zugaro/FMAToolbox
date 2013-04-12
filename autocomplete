@@ -103,11 +103,6 @@ TC.XML
 	<arg argn="2:2:30" ctype="VAR" value="binSize duration"/>
 </binding>
 
-<binding name="CircularDistribution">
-	<arg argn="1" ctype="VAR"/>
-	<arg argn="2:2:30" ctype="VAR" value="nBins smooth groups"/>
-</binding>
-
 <binding name="CV">
 	<arg argn="1" ctype="VAR"/>
 	<arg argn="2:2:30" ctype="VAR" value="measure order method binSize smooth"/>
@@ -210,6 +205,12 @@ TC.XML
 	<arg argn="3:2:31" ctype="VAR" previous="show" value="on off"/>
 </binding>
 
+<binding name="NormalizeFields">
+	<arg argn="1" ctype="VAR"/>
+	<arg argn="2:2:30" ctype="VAR" value="rate"/>
+	<arg argn="3:2:31" ctype="VAR" previous="rate" value="on off"/>
+</binding>
+
 <binding name="PETHTransition">
 	<arg argn="1 2" ctype="VAR"/>
 	<arg argn="3:2:31" ctype="VAR" value="method show"/>
@@ -256,6 +257,12 @@ TC.XML
 	<arg argn="2" ctype="VAR" value="good preferred non-preferred"/>
 </binding>
 
+<binding name="ReconstructPositions">
+	<arg argn="1 2 3" ctype="VAR"/>
+	<arg argn="4:2:30" ctype="VAR" value="training window type nbins"/>
+	<arg argn="5:2:31" ctype="VAR" previous="type" value="ll lc cc"/>
+</binding>
+
 <binding name="RemoveArtefacts">
 	<arg argn="1 2" ctype="VAR"/>
 	<arg argn="3:2:31" ctype="VAR" value="durations"/>
@@ -285,7 +292,7 @@ TC.XML
 
 <binding name="SurveyCCG">
 	<arg argn="1" ctype="VAR"/>
-	<arg argn="2:2:30" ctype="VAR" value="minv pixel show"/>
+	<arg argn="2:2:30" ctype="VAR" value="minv pixel show duration"/>
 	<arg argn="3:2:31" ctype="VAR" previous="show" value="on off"/>
 </binding>
 
@@ -302,6 +309,13 @@ TC.XML
 	<arg argn="5:2:31" ctype="VAR" previous="track" value="linear circular"/>
 	<arg argn="5:2:31" ctype="VAR" previous="show" value="on off"/>
 	<arg argn="5:2:31" ctype="VAR" previous="figures" value="single multiple"/>
+</binding>
+
+<binding name="SurveyTuningCurves">
+	<arg argn="1" ctype="VAR"/>
+	<arg argn="2:30" ctype="VAR" value="minv pixel type show"/>
+	<arg argn="5:2:31" ctype="VAR" previous="type" value="cartesian polar"/>
+	<arg argn="5:2:31" ctype="VAR" previous="show" value="on off"/>
 </binding>
 
 <binding name="SyncHist">
@@ -321,6 +335,24 @@ TC.XML
 <binding name="SyncMap">
 	<arg argn="1 2" ctype="VAR"/>
 	<arg argn="3:2:31" ctype="VAR" value="durations nBins smooth"/>
+</binding>
+
+<binding name="TestRemapping">
+	<arg argn="1 2 3" ctype="VAR"/>
+	<arg argn="4:2:30" ctype="VAR" value="type alpha iterations show"/>
+	<arg argn="5:2:31" ctype="VAR" previous="type" value="linear circular"/>
+	<arg argn="5:2:31" ctype="VAR" previous="show" value="on off"/>
+</binding>
+
+<binding name="TestSkewness">
+	<arg argn="1 2 3" ctype="VAR"/>
+	<arg argn="4:2:30" ctype="VAR" value="alpha iterations show"/>
+	<arg argn="5:2:31" ctype="VAR" previous="show" value="on off"/>
+</binding>
+
+<binding name="ThresholdSpikes">
+	<arg argn="1 2" ctype="VAR"/>
+	<arg argn="3:2:31" ctype="VAR" value="units"/>
 </binding>
 
 <binding name="TuneArtefactTimes">
@@ -362,6 +394,11 @@ TC.XML
 	<arg argn="2" ctype="VAR" value="all clean video normalized real partial none"/>
 </binding>
 
+<binding name="GetSpikeAmplitudes">
+	<arg argn="1" ctype="VAR"/>
+	<arg argn="2:2:32" ctype="VAR" value="restrict"/>
+</binding>
+
 <binding name="GetSpikeFeatures">
 	<arg argn="1" ctype="VAR"/>
 </binding>
@@ -401,6 +438,12 @@ TC.XML
 
 <!-- FMAToolbox/Database -->
 
+<binding name="DBAddFigure">
+	<arg argn="1:6" ctype="VAR"/>
+	<arg argn="7:2:31" ctype="VAR" value="onlyPNG"/>
+	<arg argn="8:2:32" ctype="VAR" previous="onlyPNG" value="on off"/>
+</binding>
+
 <binding name="DBExportGallery">
 	<arg argn="1 2" ctype="VAR"/>
 	<arg argn="3:2:31" ctype="VAR" value="size nColumns info code"/>
@@ -408,16 +451,10 @@ TC.XML
 	<arg argn="4:2:32" ctype="VAR" previous="code" value="on off"/>
 </binding>
 
-<binding name="DBAddFigure">
-	<arg argn="1:6" ctype="VAR"/>
-	<arg argn="7:2:31" ctype="VAR" value="onlyPNG"/>
-	<arg argn="8:2:32" ctype="VAR" previous="onlyPNG" value="on off"/>
-</binding>
-
 <binding name="DBGetFigures">
 	<arg argn="1" ctype="VAR"/>
 	<arg argn="2:2:30" ctype="VAR" value="output"/>
-	<arg argn="3:2:31" ctype="VAR" previous="output" value="figures info full"/>
+	<arg argn="3:2:31" ctype="VAR" previous="output" value="figures info full keys"/>
 </binding>
 
 <binding name="DBGetValues">
@@ -428,7 +465,7 @@ TC.XML
 <binding name="DBGetVariables">
 	<arg argn="1" ctype="VAR"/>
 	<arg argn="2:2:30" ctype="VAR" value="output"/>
-	<arg argn="3:2:31" ctype="VAR" previous="output" value="variables info full"/>
+	<arg argn="3:2:31" ctype="VAR" previous="output" value="variables info full keys"/>
 </binding>
 
 <!-- FMAToolbox/General -->
@@ -443,6 +480,11 @@ TC.XML
 	<arg argn="3" ctype="VAR" value="ww l2 lr"/>
 </binding>
 
+<binding name="CircularDistribution">
+	<arg argn="1" ctype="VAR"/>
+	<arg argn="2:2:30" ctype="VAR" value="nBins smooth groups"/>
+</binding>
+
 <binding name="CircularRegression">
 	<arg argn="1 2" ctype="VAR"/>
 	<arg argn="3:2:31" ctype="VAR" value="slope method"/>
@@ -453,6 +495,12 @@ TC.XML
 	<arg argn="1" ctype="VAR"/>
 	<arg argn="2:2:30" ctype="VAR" value="strict epsilon"/>
 	<arg argn="3:2:31" ctype="VAR" previous="strict" value="on off"/>
+</binding>
+
+<binding name="Detrend">
+	<arg argn="1" ctype="VAR"/>
+	<arg argn="2:2:30" ctype="VAR" value="model window common order"/>
+	<arg argn="3:2:31" ctype="VAR" previous="common" value="on off"/>
 </binding>
 
 <binding name="Diff">
@@ -550,9 +598,21 @@ TC.XML
 	<arg argn="5:2:31" ctype="VAR"/>
 </binding>
 
+<binding name="XCorr1">
+	<arg argn="1 2" ctype="VAR"/>
+	<arg argn="3:2:31" ctype="VAR" value="type"/>
+	<arg argn="3:2:31" ctype="VAR" previous="type" value="linear circular"/>
+</binding>
+
 <binding name="ZeroCrossings">
 	<arg argn="1" ctype="VAR"/>
 	<arg argn="2:2:30" ctype="VAR" value="smooth"/>
+</binding>
+
+<binding name="mean2str">
+	<arg argn="1 2 3" ctype="VAR"/>
+	<arg argn="3:32" ctype="VAR" value="precision split"/>
+	<arg argn="3:32" ctype="VAR" previous="split" value="on off"/>
 </binding>
 
 <!-- FMAToolbox/IO -->
@@ -643,9 +703,13 @@ TC.XML
 	<arg argn="3:2:31" ctype="VAR" value="uniform auto"/>
 </binding>
 
+<binding name="AdjustColorMap">
+	<arg argn="1:2:31" ctype="VAR" value="shift gamma hgamma hrotate"/>
+</binding>
+
 <binding name="Bright">
 	<arg argn="1" ctype="VAR"/>
-	<arg argn="2:2:30" ctype="VAR" value="gamma type"/>
+	<arg argn="2:2:30" ctype="VAR" value="gamma type stops"/>
 	<arg argn="3:2:31" ctype="VAR" previous="type" value="linear circular"/>
 </binding>
 
@@ -654,7 +718,7 @@ TC.XML
 </binding>
 
 <binding name="Hide">
-	<arg argn="1 2" ctype="VAR" value="on off all none"/>
+	<arg argn="1 2" ctype="VAR" value="on off all none status"/>
 </binding>
 
 <binding name="Insets">
@@ -671,10 +735,15 @@ TC.XML
 
 <binding name="PlotColorMap">
 	<arg argn="1 2" ctype="VAR"/>
-	<arg argn="3:2:31" ctype="VAR" value="x y threshold cutoffs gamma colorspace bar type"/>
+	<arg argn="3:2:31" ctype="VAR" value="x y threshold cutoffs hgamma colorspace bar type"/>
 	<arg argn="4:2:32" ctype="VAR" previous="colorspace" value="hsv rgb"/>
 	<arg argn="4:2:32" ctype="VAR" previous="bar" value="on off"/>
 	<arg argn="4:2:32" ctype="VAR" previous="type" value="linear circular"/>
+</binding>
+
+<binding name="PlotColorCurves">
+	<arg argn="1" ctype="VAR"/>
+	<arg argn="2:2:32" ctype="VAR" value="cutoffs gamma colorspace bar type"/>
 </binding>
 
 <binding name="PlotCSD">
@@ -759,6 +828,12 @@ TC.XML
 	<arg argn="1 2" ctype="VAR"/>
 	<arg argn="3:2:31" ctype="VAR" value="direction size"/>
 	<arg argn="4:2:32" ctype="VAR" previous="direction" value="h v"/>
+</binding>
+
+<binding name="SideAxes">
+	<arg argn="1" ctype="VAR"/>
+	<arg argn="2 3" ctype="VAR" value="top bottom left right"/>
+	<arg argn="3:2:31" ctype="VAR" value="gap"/>
 </binding>
 
 <binding name="Subpanel">

@@ -4,7 +4,7 @@ function str = mean2str(m,s,n,varargin)
 %
 %  USAGE
 %
-%    s = mean2str(m,s,<options>)
+%    s = mean2str(m,s,n,<options>)
 %
 %    m              mean
 %    s              standard error of the mean (use <href="matlab:help sem">sem</a>)

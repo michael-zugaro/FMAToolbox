@@ -16,8 +16,8 @@ function f = DBGetFigures(query,varargin)
 %    -------------------------------------------------------------------------
 %     'output'       'figures' to get the figures but not the information,
 %                    i.e. eid, name, comments, parameters, etc. (default),
-%                    'info' for the information but not the figures, and
-%                    'full' for both
+%                    'info' for the information but not the figures, 'full'
+%                    for both, or 'keys' for eid and name only
 %    =========================================================================
 %
 %  OUTPUT
@@ -82,7 +82,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'output',
 			output = lower(varargin{i+1});
-			if ~isstring(output,'figures','info','full'),
+			if ~isstring(output,'figures','info','full','keys'),
 				error('Incorrect value for property ''output'' (type ''help <a href="matlab:help DBGetFigures">DBGetFigures</a>'' for details).');
 			end
 		otherwise,
@@ -91,12 +91,15 @@ for i = 1:2:length(varargin),
 end
 
 % Query database
-if strcmp(output,'full'),
-	f = mym(['select fig,eid,name,comments,parameters,mfiles,code,date,user from figures' query]);
-elseif strcmp(output,'figures'),
-	f = mym(['select fig from figures' query]);
-else
-	f = mym(['select eid,name,comments,parameters,mfiles,code,date,user from figures' query]);
+switch output,
+	case 'full',
+		f = mym(['select fig,eid,name,comments,parameters,mfiles,code,date,user from figures' query]);
+	case 'figures',
+		f = mym(['select fig from figures' query]);
+	case 'info',
+		f = mym(['select eid,name,comments,parameters,mfiles,code,date,user from figures' query]);
+	case 'keys',
+		f = mym(['select eid,name from figures' query]);
 end
 
 % Make sure query results are not empty

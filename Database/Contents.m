@@ -67,7 +67,8 @@
 %   DBGetValues          - Group values for all variables that match given criteria
 %   DBMatchValues        - Match values for two different sets of variables
 %   DBGetVariables       - Get all variables that match given criteria
-%   DBDisplay            - Display results of a database query.
+%   DBListFigures        - List figures matching certain criteria.
+%   DBListVariables      - List variables matching certain criteria.
 %
 % Exporting figures.
 %

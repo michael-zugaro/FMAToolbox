@@ -48,7 +48,7 @@ function [curve,stats] = FiringCurve(samples,spikes,varargin)
 %    For circular data:
 %
 %    stats.m             mean angle
-%    stats.mode          distribution mode
+%    stats.mode          distribution mode, prefered angle
 %    stats.r             mean resultant length
 %    stats.k             von Mises concentration
 %

@@ -37,6 +37,7 @@ function [data,stats] = PhasePrecession(positions,spikes,phases,varargin)
 %
 %    data.x                position samples
 %
+%    data.position.ok      spikes occurring at valid coordinates (logical)
 %    data.position.t       spike times (only for valid coordinates)
 %    data.position.x       x coordinate for each spike
 %    data.position.phase   spike phase for each spike (in radians)
@@ -174,6 +175,7 @@ if ~isempty(positions),
 		warning('Parameter ''positions'' should contain values in [0 1]. The data will now be transformed accordingly.');
 	end
 	[x,ignored] = Interpolate(positions,spikes,'trim','off','maxGap',maxGap);
+	data.position.ok = ~ignored;
 	data.position.t = spikes(~ignored);
 	data.position.x = x(:,2);
 	data.position.phase = spikePhases(~ignored,2);

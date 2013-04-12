@@ -4,7 +4,7 @@ function new = DBDuplicate(old,new,varargin)
 %
 %  USAGE
 %
-%    name = DBDuplicate(old,new,<options>)
+%    name = DBDuplicate(old,new)
 %
 %    old            database to duplicate
 %    new            new database name (see NOTE below)
