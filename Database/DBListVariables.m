@@ -6,7 +6,7 @@ function DBListVariables(query)
 %
 %    DBListVariables(query)
 %
-%    query          database query (WHERE clause)
+%    query          optional database query (WHERE clause)
 %
 %  EXAMPLE
 %
@@ -28,7 +28,7 @@ function DBListVariables(query)
 CheckMyM;
 
 if nargin < 1,
-	error('Incorrect number of parameters (type ''help <a href="matlab:help DBListVariables">DBListVariables</a>'' for details).');
+	query = '';
 end
 
 DBDisplay(DBGetVariables(query,'output','keys'));

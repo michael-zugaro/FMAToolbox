@@ -6,7 +6,7 @@ function DBListFigures(query)
 %
 %    DBListFigures(query)
 %
-%    query          database query (WHERE clause)
+%    query          optional database query (WHERE clause)
 %
 %  EXAMPLE
 %
@@ -28,7 +28,7 @@ function DBListFigures(query)
 CheckMyM;
 
 if nargin < 1,
-	error('Incorrect number of parameters (type ''help <a href="matlab:help DBListFigures">DBListFigures</a>'' for details).');
+	query = '';
 end
 
 DBDisplay(DBGetFigures(query,'output','keys'));
