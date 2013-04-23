@@ -2,7 +2,7 @@
                           MatchUpIndices.c  -  description
                              -------------------
     copyright            : (C) 2012 by Michaël Zugaro
-    email                : mzugaro@andromeda.rutgers.edu
+    email                : michael.zugaro@college-de-france.fr
  ***************************************************************************/
 
 /***************************************************************************

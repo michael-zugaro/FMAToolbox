@@ -1,12 +1,17 @@
-function amplitudes = GetSpikeAmplitudes(unit,varargin)
+function amplitudes = GetSpikeAmplitudes(units,varargin)
 
 %GetSpikeAmplitudes - Get spike amplitudes.
 %
 %  USAGE
 %
-%    amplitudes = GetSpikeAmplitudes(unit,<options>)
+%    amplitudes = GetSpikeAmplitudes(units,<options>)
 %
-%    unit           [electrode group,cluster] pair
+%    units          list of [electrode group,cluster] pairs
+%                   special conventions:
+%                     cluster = -1   all clusters except artefacts and MUA
+%                     cluster = -2   all clusters except artefacts
+%                     cluster = -3   all clusters
+%                   (artefacts are assumed to be in cluster 0, and MUA in 1)
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================
@@ -19,7 +24,7 @@ function amplitudes = GetSpikeAmplitudes(unit,varargin)
 %
 %    See also GetSpikeTimes, GetSpikeWaveforms.
 
-% Copyright (C) 2004-2012 by Michaël Zugaro
+% Copyright (C) 2004-2013 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -38,40 +43,72 @@ if nargin < 1,
 	error('Incorrect number of parameters (type ''help <a href="matlab:help GetSpikeAmplitudes">GetSpikeAmplitudes</a>'' for details).');
 end
 
-if ~isivector(unit,'#2','>=0'),
-	error('Incorrect unit (type ''help <a href="matlab:help GetSpikeAmplitudes">GetSpikeAmplitudes</a>'' for details).');
+if ~isimatrix(units,'>=-3') || size(units,2) ~= 2,
+	error('Incorrect unit list (type ''help <a href="matlab:help GetSpikeAmplitudes">GetSpikeAmplitudes</a>'' for details).');
 end
-group = unit(1);
-cluster = unit(2);
 
 % Parse parameter list
 for i = 1:2:length(varargin),
-  if ~ischar(varargin{i}),
-    error(['Parameter ' num2str(i+1) ' is not a property (type ''help <a href="matlab:help GetSpikeAmplitudes">GetSpikeAmplitudes</a>'' for details).']);
-  end
-  switch(lower(varargin{i})),
-    case 'restrict',
-      intervals = varargin{i+1};
-      if ~isdmatrix(intervals) || size(intervals,2) ~= 2,
+	if ~ischar(varargin{i}),
+		error(['Parameter ' num2str(i+1) ' is not a property (type ''help <a href="matlab:help GetSpikeAmplitudes">GetSpikeAmplitudes</a>'' for details).']);
+	end
+	switch(lower(varargin{i})),
+		case 'restrict',
+		intervals = varargin{i+1};
+		if ~isdmatrix(intervals) || size(intervals,2) ~= 2,
 			error('Incorrect value for property ''restrict'' (type ''help <a href="matlab:help GetSpikeAmplitudes">GetSpikeAmplitudes</a>'' for details).');
-      end
-    otherwise,
+		end
+		otherwise,
 		error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help GetSpikeAmplitudes">GetSpikeAmplitudes</a>'' for details).']);
-  end
+	end
 end
 
-% Load all waveforms for this group
-filename = [DATA.session.path '/' DATA.session.basename '.spk.' int2str(group)];
-nChannels = length(DATA.spikeGroups.groups{group});
-nSamplesPerWaveform = DATA.spikeGroups.nSamples(group);
-peak = DATA.spikeGroups.peakSamples(group);
-amplitudes = LoadSpikeAmplitudes(filename,nChannels,nSamplesPerWaveform,peak,DATA.rates.wideband);
+groups = unique(units(:,1));
 
-% Select appropriate cluster
-keep = amplitudes(:,2)==group&amplitudes(:,3)==cluster;
-amplitudes = amplitudes(keep,:);
-
-% Select timeframes
-if ~isempty(intervals),
-	amplitudes = Restrict(amplitudes,intervals);
+% Check for incompatible list items
+for i = 1:length(groups),
+	group = groups(i);
+	clusters = units(units(:,1)==group,2);
+	if	(ismember(-1,clusters) && ~all(clusters==-1)) || (ismember(-2,clusters) && ~all(clusters==-2)) || (ismember(-3,clusters) && ~all(clusters==-3)),
+		error('Incompatible list items (type ''help <a href="matlab:help GetSpikeAmplitudes">GetSpikeAmplitudes</a>'' for details).');
+	end
 end
+
+amplitudes = [];
+for i = 1:length(groups),
+
+	% Clusters for this group
+	group = groups(i);
+	clusters = units(units(:,1)==group,2);
+	
+	% Load all waveforms for this group
+	filename = [DATA.session.path '/' DATA.session.basename '.spk.' int2str(group)];
+	nChannels = length(DATA.spikeGroups.groups{group});
+	nSamplesPerWaveform = DATA.spikeGroups.nSamples(group);
+	peak = DATA.spikeGroups.peakSamples(group);
+	a = LoadSpikeAmplitudes(filename,nChannels,nSamplesPerWaveform,peak,DATA.rates.wideband);
+
+	% Select appropriate clusters
+	if ismember(-1,clusters),
+		keep = a(:,3) ~= 0 & a(:,3) ~= 1;
+	elseif ismember(-2,clusters),
+		keep = a(:,3) ~= 0;
+	elseif ismember(-3,clusters),
+		keep = logical(ones(size(a,1),1));
+	else
+		keep = ismember(a(:,3),clusters);
+	end
+	a = a(keep,:);
+
+	% Select timeframes
+	if ~isempty(intervals),
+		a = Restrict(a,intervals);
+	end
+	
+	% Add to growing list
+	amplitudes = [amplitudes;a];
+	
+end
+
+% Sort list by time
+amplitudes = sortrows(amplitudes);

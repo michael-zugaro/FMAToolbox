@@ -25,4 +25,5 @@ end
 
 if any(size(x)==1), x = x(:); end
 
-s = nanstd(x)/sqrt(size(x,1));
+n = sum(~isnan(x));
+s = nanstd(x)./sqrt(n);

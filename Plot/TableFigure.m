@@ -30,7 +30,11 @@ if nargin < 2,
 	error('Incorrect number of parameters (type ''help <a href="matlab:help TableFigure">TableFigure</a>'' for details).');
 end
 if nargin < 3,
-	columns = cell(1,size(data,1));
+	columns = cell(1,size(data,2));
+end
+
+if size(columns,2) ~= size(data,2),
+	error('Incompatible data and column sizes (type ''help <a href="matlab:help TableFigure">TableFigure</a>'' for details).');
 end
 
 titleHeight = 20;
@@ -39,7 +43,7 @@ f = figure;
 pos = get(f,'position');
 uicontrol('style','text','position',[0 pos(4)-titleHeight pos(3) titleHeight],'string',title);
 p = uipanel('position',[0 0 pos(3) pos(4)-titleHeight]);
-t = uitable('ColumnName',columns,'position',[0 0 pos(3) pos(4)-titleHeight],'enable','inactive','data',data,'parent',p);
+t = uitable('ColumnName',columns,'position',[0 0 pos(3) pos(4)-titleHeight],'data',data,'parent',p);
 
 % Adjust column widths to contents
 

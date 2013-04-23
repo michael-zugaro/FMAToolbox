@@ -101,8 +101,8 @@ for i = 1:2:length(varargin),
 			end
 		case 'groups',
 			groups = varargin{i+1};
-			if ~isdvector(groups) && length(times) ~= length(groups)
-				error('Incorrect value for property ''smooth'' (type ''help <a href="matlab:help CCG">CCG</a>'' for details).');
+			if ~isempty(groups) && ~isdvector(groups) && length(times) ~= length(groups)
+				error('Incorrect value for property ''groups'' (type ''help <a href="matlab:help CCG">CCG</a>'' for details).');
 			end
 	end
 end
@@ -125,7 +125,7 @@ end
 % Sort events in time and compute CCGs
 [times,i] = sort(times);
 id = id(i);
-counts = double(CCGHeart(times,uint32(id),binSize,uint32(halfBins)));
+counts = CCGEngine(times,id,binSize,halfBins);
 
 % Reshape the results
 n = max(id);

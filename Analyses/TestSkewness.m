@@ -19,6 +19,8 @@ function [h,p,stats] = TestSkewness(control,repeat,test,varargin)
 %     'alpha'       significance level (default = 0.05)
 %     'iterations'  number of iterations for bootstrap (default = 150)
 %     'show'        plot results (default = 'off')
+%     'style'       'hist' for histograms (default) or 'curves' for smooth
+%                   curves
 %    =========================================================================
 %
 %  OUTPUT
@@ -43,6 +45,9 @@ function [h,p,stats] = TestSkewness(control,repeat,test,varargin)
 show = 'off';
 nBootstrap = 150;
 alpha = 0.05;
+style = 'hist';
+
+style = 'curves';
 
 % Check number of parameters
 if nargin < 3 | mod(length(varargin),2) ~= 0,
@@ -74,6 +79,11 @@ for i = 1:2:length(varargin),
 			show = varargin{i+1};
 			if ~isstring(show,'on','off'),
 				error('Incorrect value for property ''show'' (type ''help <a href="matlab:help TestSkewness">TestSkewness</a>'' for details).');
+			end
+		case 'style',
+			style = varargin{i+1};
+			if ~isstring(style,'hist','curves'),
+				error('Incorrect value for property ''style'' (type ''help <a href="matlab:help TestSkewness">TestSkewness</a>'' for details).');
 			end
 		otherwise,
 			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help TestSkewness">TestSkewness</a>'' for details).']);
@@ -107,6 +117,17 @@ stats.test.s = semedian(skewnessTest);
 
 % Plot results
 if strcmp(show,'on'),
+
+	% Number of bins differ for smooth curves vs histograms
+	nBinsHist = 20;
+	nBinsCurve = 200;
+	smooth = 10;
+	if strcmp(style,'hist'),
+		nBins = nBinsHist;
+	else
+		nBins = nBinsCurve;
+	end
+
 	figure;hold on;
 	% Test results
 	if hc,
@@ -119,16 +140,22 @@ if strcmp(show,'on'),
 	else
 		st = 'NS';
 	end
+	
 	% Histograms
-	x = linspace(-1,1,20);
+	x = linspace(-1,1,nBins);
 	dx = x(2)-x(1);
 	hControl = hist(skewnessControl,x)/mc;
 	hRepeat = hist(skewnessRepeat,x)/mr;
 	hTest = hist(skewnessTest,x)/mt;
 	% Plot control and repeat
 	subplot(2,1,1);hold on;
-	bar(x,hControl,0.5,'b');
-	bar(x+dx/2,hRepeat,0.5,'k');
+	if strcmp(style,'hist'),
+		bar(x,hControl,0.5,'b');
+		bar(x+dx/2,hRepeat,0.5,'k');
+	else
+		plot(x,Smooth(hControl,smooth),'b','linewidth',2);
+		plot(x+dx/2,Smooth(hRepeat,smooth),'k','linewidth',2);
+	end
 	PlotHVLines(stats.control.m,'v','b');
 	PlotHVLines(stats.repeat.m,'v','k');
 	PlotHVLines(0,'v','k--');
@@ -138,8 +165,13 @@ if strcmp(show,'on'),
 	ylabel('Probability');
 	% Plot control and test
 	subplot(2,1,2);hold on;
-	bar(x,hControl,0.5,'b');
-	bar(x+dx/2,hTest,0.5,'r');
+	if strcmp(style,'hist'),
+		bar(x,hControl,0.5,'b');
+		bar(x+dx/2,hTest,0.5,'r');
+	else
+		plot(x,Smooth(hControl,smooth),'b','linewidth',2);
+		plot(x+dx/2,Smooth(hTest,smooth),'r','linewidth',2);
+	end
 	PlotHVLines(stats.control.m,'v','b');
 	PlotHVLines(stats.test.m,'v','r');
 	PlotHVLines(0,'v','k--');
@@ -147,6 +179,7 @@ if strcmp(show,'on'),
 	title(['Control vs Test (KS test: ' st ')']);
 	xlabel('Skewness');
 	ylabel('Probability');
+	
 end
 
 function s = UnbiasedSkewness(distributions)

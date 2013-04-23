@@ -195,7 +195,7 @@ if strcmp(show,'on'),
 	bar(xh,hi/nBootstrap);
 	PlotHVLines(cr,'v','k--');
 	PlotHVLines(mean(s),'v','r','linewidth',2);
-	xlabel('Mean Relative Shift');
+	xlabel('Relative Shift');
 	ylabel('Probability');
 	title(['N = ' num2str(nBootstrap)]);
 	xLim = xlim;
@@ -235,7 +235,7 @@ if strcmp(show,'on'),
 	text(meanUnsignedRelativeShift*1.25,Y*0.85,['p = ' sprintf('%.3f',p)]);
 	xlim([0 1]);
 	title(['N = ' num2str(nBootstrap)]);
-	xlabel('Shift (proportion of field size)');
+	xlabel('Mean Unsigned Shift (proportion of field size)');
 	ylabel('Probability');
 	
 	figure;
@@ -260,7 +260,7 @@ if strcmp(show,'on'),
 	bar(0.05+(0:0.1:0.9),m);
 	plot(peakControl,relativeShiftTest,'.r');
 	xlabel('Peak Position');
-	ylabel('Shift Magnitude (proportion of field size)');
+	ylabel('Unsigned Shift (proportion of field size)');
 	pa = anova1(abs(relativeShiftTest),pc,'off');
 	yLim = ylim;
 	text(mean(xlim),yLim(2)*0.9,['p = ' num2str(pa)]);
@@ -271,7 +271,7 @@ if strcmp(show,'on'),
 	bar(0.05+(0:0.1:0.9),m);
 	plot(peakControl,absoluteShiftTest,'.r');
 	xlabel('Peak Position');
-	ylabel('Shift');
+	ylabel('Shift (proportion of field size)');
 	pa = anova1(absoluteShiftTest,pc,'off');
 	yLim = ylim;
 	text(mean(xlim),yLim(2)*0.9,['p = ' num2str(pa)]);
@@ -282,7 +282,7 @@ if strcmp(show,'on'),
 	bar(0.05+(0:0.1:0.9),m);
 	plot(peakControl,absoluteShiftTest,'.r');
 	xlabel('Peak Position');
-	ylabel('Shift Magnitude');
+	ylabel('Unsigned Shift (proportion of field size)');
 	pa = anova1(abs(absoluteShiftTest),pc,'off');
 	yLim = ylim;
 	text(mean(xlim),yLim(2)*0.9,['p = ' num2str(pa)]);
