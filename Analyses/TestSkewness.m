@@ -90,6 +90,14 @@ for i = 1:2:length(varargin),
 	end
 end
 
+% Discard NaNs
+bad = any(isnan(control),2);
+control(bad,:) = [];
+bad = any(isnan(repeat),2);
+repeat(bad,:) = [];
+bad = any(isnan(test),2);
+test(bad,:) = [];
+
 % Matrix sizes
 [mc,nc] = size(control);
 [mr,nr] = size(repeat);

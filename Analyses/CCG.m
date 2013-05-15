@@ -1,8 +1,10 @@
-%CCG - Compute multiple cross- and auto-correlograms
+function [ccg,t,varargout] = CCG(times,id,varargin)
+
+%CCG - Compute multiple cross- and auto-correlograms or cross-covariances
 %
 %  USAGE
 %
-%    [ccg,t] = CCG(times,id,<options>)
+%    [ccg,t,varargout] = CCG(times,id,<options>)
 %
 %    times          times of all events (sorted)
 %    id             ID for each event (e.g. unit ID)
@@ -17,7 +19,16 @@
 %     'groups'      group number (1 or 2) for each event, used to restrict
 %                   cross-correlograms to pairs across two groups of events
 %                   (see EXAMPLE #2 below)
+%     'mode'        'ccg' or 'ccv' (default = 'ccg')
+%     'alpha'       significance level to determine correlated pairs
 %    =========================================================================
+%
+%  OUTPUT
+%      ccg          value of cross-correlograms or cross-covariances
+%      t            time bins
+%    In case of mode 'ccv'
+%      tau          varargout{1} : peak lag time for a given cell pair
+%      C            varargout{2} : max of cross-covariance
 %
 %  EXAMPLES
 %
@@ -43,6 +54,9 @@
 %    d = sortrows(d);
 %    [ccg,t] = CCG(d(:,1),d(:,2));
 %
+%    % To compute cross-covariances
+%    [ccv,t,tau,C] = CCG(times,ids,'mode','ccv');
+%
 %  SEE
 %
 %    See also ShortTimeCCG.
@@ -54,13 +68,14 @@
 % the Free Software Foundation; either version 3 of the License, or
 % (at your option) any later version.
 
-function [ccg,t] = CCG(times,id,varargin)
 
 % Default values
 duration = 2;
 binSize = 0.01;
 smooth = 0;
 groups = [];
+mode = 'ccg';
+alpha = 0.05;
 
 % Check parameters
 if nargin < 2,
@@ -104,8 +119,30 @@ for i = 1:2:length(varargin),
 			if ~isempty(groups) && ~isdvector(groups) && length(times) ~= length(groups)
 				error('Incorrect value for property ''groups'' (type ''help <a href="matlab:help CCG">CCG</a>'' for details).');
 			end
+		case 'alpha',
+			alpha = varargin{i+1};
+			if ~isdscalar(alpha,'>0'),
+				error('Incorrect value for property ''alpha'' (type ''help <a href="matlab:help CCG">CCG</a>'' for details).');
+			end
+		case 'mode',
+			mode = varargin{i+1};
+			if ~isstring(mode,'ccg','ccv'),
+				error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help CCG">CCG</a>'' for details).');
+			end
 	end
 end
+
+% Check output arguments
+if strcmp(mode,'ccg'),
+	if nargout ~= 2,
+		error('Incorrect number of output arguments (type ''help <a href="matlab:help CCG">CCG</a>'' for details).');
+	end
+else
+	if nargout ~= 4,
+		error('Incorrect number of output arguments (type ''help <a href="matlab:help CCG">CCG</a>'' for details).');
+	end
+end
+
 
 % Number of id, number of bins, etc.
 if length(id) == 1,
@@ -125,6 +162,9 @@ end
 % Sort events in time and compute CCGs
 [times,i] = sort(times);
 id = id(i);
+if ~isempty(groups),
+	groups = groups(i);
+end
 counts = CCGEngine(times,id,binSize,halfBins);
 
 % Reshape the results
@@ -136,15 +176,15 @@ end
 
 % Restrict the results to inter-group CCGs if requested
 if ~isempty(groups),
-	group1 = unique(id(groups == 1));
-	group2 = unique(id(groups == 2));
-	nGroup1 = length(group1);
+	Group1 = unique(id(groups == 1));
+	Group2 = unique(id(groups == 2));
+	nGroup1 = length(Group1);
 
 	ccg = zeros(nBins,nGroup1,(nIDs-nGroup1));
 
 	for i = 1:nGroup1,
 		for j = 1:(nIDs-nGroup1),
-			  ccg(:,i,j) = Smooth(flipud(counts(:,group1(i),group2(j))),smooth);
+			  ccg(:,i,j) = Smooth(flipud(counts(:,Group1(i),Group2(j))),smooth);
 		end
 	end
 else
@@ -156,3 +196,71 @@ else
 		end
 	end
 end
+
+
+if strcmp(mode,'ccv'),
+	% Determine mean Firing Rate for each neuron
+	if ~isempty(groups),
+		nGroups = max(max(Group1),max(Group2));
+	end
+	FiringRate = zeros(nGroups,1);
+	TotalTime = max(times)-min(times);
+	for i = 1:nGroups,
+		FiringRate(i) = sum(id == i)/TotalTime;
+	end
+
+	% Determine standardized cross-covariances
+	ccv = zeros(size(ccg));
+	tau = zeros(size(ccg,2),size(ccg,3));
+	C = zeros(size(ccg,2),size(ccg,3));
+
+	nPairs = size(ccg,2)*size(ccg,3);
+	disp(['Number of pairs: ' num2str(nPairs) ' pairs.']);
+
+	threshold = sqrt(2)*erfinv(1-(alpha/length(t)));
+
+	for i = 1:size(ccg,2),
+		for j = 1:size(ccg,3),
+			% Compute and normalize CCVs from CCGs
+			if ~isempty(groups),
+				FR = FiringRate(Group1(i))*FiringRate(Group2(j));
+			else
+				FR = FiringRate(i)*FiringRate(j);
+			end
+
+			EstimateCCV = ccg(:,i,j)/(binSize*TotalTime)-FR;
+			ccv(:,i,j) = sqrt((binSize*TotalTime)/FR)*EstimateCCV;
+
+			% Smooth it with a 3-bin boxcar
+			data = ccv(:,i,j);
+			top = flipud(data(1:size(ccg,1),:));
+			bottom = flipud(data(end-size(ccg,1)+1:end,:));
+			data = [top;data;bottom];
+			tmp = filter([1 1 1],3,data);
+			n = size(tmp,1);
+			d = n - size(ccg,1);
+			start = d/2+1;
+			stop = start + size(ccg,1) - 1;
+			ccv(:,i,j) = tmp(start:stop);
+
+			% Find the peak lag time and the peak value
+			[maxValue,maxIndex] = max(ccv(:,i,j));
+			tau(i,j) = t(maxIndex);
+			C(i,j) = maxValue;
+
+			% Keep only the significantly correlated pairs
+			absCCV = abs(ccv(:,i,j));
+			if ~any(absCCV>threshold),
+				tau(i,j) = NaN;
+			end
+		end
+	end
+
+	nCorrelatedPairs = sum(~isnan(tau(:)));
+	disp(['Number of significantly correlated pairs: ' num2str(nCorrelatedPairs) ' pairs.']);
+
+	ccg = ccv;
+	varargout{1} = tau;
+	varargout{2} = C;
+end
+

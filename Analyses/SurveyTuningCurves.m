@@ -97,8 +97,9 @@ if ~isempty(minv),
 	end
 	x = GetPositions('coordinates','real','pixel',pixel);
 	v = LinearVelocity(x,30);
-	[~,in] = Threshold(v,'>',minv,'min',10,'max',10);
+	[~,in] = Threshold(v,'>',minv,'min',10,'max',2);
 	positions = positions(in,:);
+
 end
 
 % Get angles and normalize in [0,1]

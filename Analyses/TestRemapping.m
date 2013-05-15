@@ -203,7 +203,10 @@ if strcmp(show,'on'),
 	[~,pval] = ttest(relativeShiftTest);
 	prop1 = sum(abs(relativeShiftTest)<=1)/length(relativeShiftTest);
 	prop2 = sum(abs(relativeShiftTest)<=0.5)/length(relativeShiftTest);
-	text(xLim(1)+0.1*abs(xLim(1)),yLim(2)*0.9,{[num2str((1-alpha)*100) '% Confidence Interval [' sprintf('%.3f',cr(1)) ',' num2str(cr(2)) ']'],['t-test p = ' sprintf('%.3f',pval)],[sprintf('%.3f',prop1*100) '% |x|<=1'],[sprintf('%.3f',prop2*100) '% |x|<=0.5']});
+	m = mean(relativeShiftTest);
+	s = sem(relativeShiftTest);
+	l = length(relativeShiftTest);
+	text(xLim(1)+0.1*abs(xLim(1)),yLim(2)*0.9,{mean2str(m,s,l),[num2str((1-alpha)*100) '% Confidence Interval [' sprintf('%.3f',cr(1)) ',' num2str(cr(2)) ']'],['t-test p = ' sprintf('%.3f',pval)],[sprintf('%.3f',prop1*100) '% |x|<=1'],[sprintf('%.3f',prop2*100) '% |x|<=0.5']});
 
 	figure;
 	% Plot test vs control shifts (density plot)
@@ -243,9 +246,9 @@ if strcmp(show,'on'),
 	subplot(2,2,1);hold on;
 	pc = Bin(peakControl,[0 1],10);
 	[m,stdev] = Accumulate(pc,relativeShiftTest);
-	sem = stdev/sqrt(length(m));
+	s = stdev/sqrt(length(m));
 	%errorbar(0.05+(0:0.1:0.9),m,ci(:,1)-m,ci(:,2)-m,'k','LineStyle','none');
-	errorbar(0.05+(0:0.1:0.9),m,sem,sem,'k','LineStyle','none');
+	errorbar(0.05+(0:0.1:0.9),m,s,s,'k','LineStyle','none');
 	bar(0.05+(0:0.1:0.9),m);
 	plot(peakControl,relativeShiftTest,'.r');
 	xlabel('Peak Position');
@@ -255,8 +258,8 @@ if strcmp(show,'on'),
 	text(mean(xlim),yLim(2)*0.9,['p = ' num2str(pa)]);
 	subplot(2,2,3);hold on;
 	[m,stdev] = Accumulate(pc,abs(relativeShiftTest));
-	sem = stdev/sqrt(length(m));
-	errorbar(0.05+(0:0.1:0.9),m,sem,sem,'k','LineStyle','none');
+	s = stdev/sqrt(length(m));
+	errorbar(0.05+(0:0.1:0.9),m,s,s,'k','LineStyle','none');
 	bar(0.05+(0:0.1:0.9),m);
 	plot(peakControl,relativeShiftTest,'.r');
 	xlabel('Peak Position');
@@ -266,8 +269,8 @@ if strcmp(show,'on'),
 	text(mean(xlim),yLim(2)*0.9,['p = ' num2str(pa)]);
 	subplot(2,2,2);hold on;
 	[m,stdev] = Accumulate(pc,absoluteShiftTest);
-	sem = stdev/sqrt(length(m));
-	errorbar(0.05+(0:0.1:0.9),m,sem,sem,'k','LineStyle','none');
+	s = stdev/sqrt(length(m));
+	errorbar(0.05+(0:0.1:0.9),m,s,s,'k','LineStyle','none');
 	bar(0.05+(0:0.1:0.9),m);
 	plot(peakControl,absoluteShiftTest,'.r');
 	xlabel('Peak Position');
@@ -277,8 +280,8 @@ if strcmp(show,'on'),
 	text(mean(xlim),yLim(2)*0.9,['p = ' num2str(pa)]);
 	subplot(2,2,4);hold on;
 	[m,stdev] = Accumulate(pc,abs(absoluteShiftTest));
-	sem = stdev/sqrt(length(m));
-	errorbar(0.05+(0:0.1:0.9),m,sem,sem,'k','LineStyle','none');
+	s = stdev/sqrt(length(m));
+	errorbar(0.05+(0:0.1:0.9),m,s,s,'k','LineStyle','none');
 	bar(0.05+(0:0.1:0.9),m);
 	plot(peakControl,absoluteShiftTest,'.r');
 	xlabel('Peak Position');

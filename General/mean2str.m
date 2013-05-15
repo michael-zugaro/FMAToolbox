@@ -1,13 +1,13 @@
 function str = mean2str(m,s,n,varargin)
 
-%mean2str - Convert mean and SEM to string.
+%mean2str - Convert mean or median and SEM (or confidence interval) to string.
 %
 %  USAGE
 %
 %    s = mean2str(m,s,n,<options>)
 %
-%    m              mean
-%    s              standard error of the mean (use <href="matlab:help sem">sem</a>)
+%    m              mean or median
+%    s              standard error (see <a href="matlab:help sem">sem</a> or <a href="matlab:help semedian">semedian</a>) or confidence interval
 %    n              optional number of observations
 %    <options>      optional list of property-value pairs (see table below)
 %
@@ -35,10 +35,10 @@ if nargin < 2,
   error('Incorrect number of parameters (type ''help <a href="matlab:help mean2str">mean2str</a>'' for details).');
 end
 if ~isdscalar(m),
-  error('Incorrect mean (type ''help <a href="matlab:help mean2str">mean2str</a>'' for details).');
+  error('Incorrect mean or median (type ''help <a href="matlab:help mean2str">mean2str</a>'' for details).');
 end
-if ~isdscalar(s),
-  error('Incorrect SEM (type ''help <a href="matlab:help mean2str">mean2str</a>'' for details).');
+if ~isdscalar(s) && ~isdvector(s,'<=','#2'),
+  error('Incorrect SEM or confidence interval (type ''help <a href="matlab:help mean2str">mean2str</a>'' for details).');
 end
 
 % Optional number of observations
@@ -73,7 +73,11 @@ for i = 1:2:length(varargin),
 end
 
 format = ['%.' int2str(precision) 'f'];
-str = [sprintf(format,m) ' +- '  sprintf(format,s)];
+if isdscalar(s),
+	str = [sprintf(format,m) ' +- '  sprintf(format,s)];
+else
+	str = [sprintf(format,m) ' [' sprintf(format,s(1)) ',' sprintf(format,s(2)) ']'];
+end
 if ~isempty(n),
 	if strcmp(split,'on'),
 		str = {str,['(N=' int2str(n) ')']};
