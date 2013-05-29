@@ -247,7 +247,7 @@ if ~(nDims == 1 && circX), return; end
 
 complex = map.z .* exp(j*map.x*2*pi) / sum(map.z);
 stats.m = angle(nanmean(complex));
-stats.r = abs(nanmean(complex));
+stats.r = abs(nansum(complex));
 %  [~,stats.mode] = max(map.z);
 [maxZ, iMax] = max(map.z);
 TMax = map.x(iMax);

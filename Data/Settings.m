@@ -1,10 +1,25 @@
-% SETTINGS
+%Settings - Initialize settings for FMAToolbox.
 %
-% This variable holds all settings for FMAToolbox.
+% The global variable SETTINGS holds a number of basic settings such as the
+% minimum and maximum distance allowed between LEDs. Modify this variable to
+% customize individual values. For instance, to change the maximum distance
+% between LEDs, add the following two lines to your startup.m file:
 %
-% Type 'SETTINGS' to display the default values, or 'edit Settings' to change them.
+%   global SETTINGS;
+%   SETTINGS.maxDistance = 100;
+%
+% To change the global settings, edit <a href="matlab:edit Settings.m">Settings.m</a>. Note that this
+% will affect all users of the FMAToolbox. User settings take precedence over
+% global settings.
+%
+% For some functions of the toolbox, default values can also be customized
+% (see <a href="matlab:help CustomDefaults.m">CustomDefaults.m</a> for details).
+%
+% SEE
+%
+%   See also CustomDefaults.
 
-% Copyright (C) 2004-2009 by Michaël Zugaro
+% Copyright (C) 2004-2013 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -13,10 +28,14 @@
 
 global SETTINGS;
 
-% Minimum and maximum allowed distance between LEDs (when there are exactly 2 LEDs)
-SETTINGS.minDistance = 0;
-SETTINGS.maxDistance = 1000;
+% Minimum and maximum allowed distance between LEDs (when there are 2 LEDs)
+if ~isfield(SETTINGS,'minDistance'),
+	SETTINGS.minDistance = 0;
+end
+if ~isfield(SETTINGS,'maxDistance'),
+	SETTINGS.maxDistance = 0;
+end
 
-SETTINGS.minFieldSize = 100;
-
-
+if ~isfield(SETTINGS,'minFieldSize'),
+	SETTINGS.minFieldSize = 100;
+end
