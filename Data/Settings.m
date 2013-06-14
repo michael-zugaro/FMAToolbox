@@ -33,7 +33,7 @@ if ~isfield(SETTINGS,'minDistance'),
 	SETTINGS.minDistance = 0;
 end
 if ~isfield(SETTINGS,'maxDistance'),
-	SETTINGS.maxDistance = 0;
+	SETTINGS.maxDistance = 1000;
 end
 
 if ~isfield(SETTINGS,'minFieldSize'),

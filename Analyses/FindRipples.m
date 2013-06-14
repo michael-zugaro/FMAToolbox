@@ -80,7 +80,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'thresholds',
 			thresholds = varargin{i+1};
-			if ~isivector(thresholds,'#2','>0'),
+			if ~isdvector(thresholds,'#2','>0'),
 				error('Incorrect value for property ''thresholds'' (type ''help <a href="matlab:help FindRipples">FindRipples</a>'' for details).');
 			end
 			lowThresholdFactor = thresholds(1);

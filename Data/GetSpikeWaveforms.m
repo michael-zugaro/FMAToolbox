@@ -24,7 +24,7 @@ function data = GetSpikeWaveforms(unit,varargin)
 %
 %    See also LoadSpikeWaveforms, PlotSpikeWaveforms.
 
-% Copyright (C) 2004-2012 by Michaël Zugaro
+% Copyright (C) 2004-2013 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -65,19 +65,20 @@ for i = 1:2:length(varargin),
   end
 end
 
-% Load all waveforms for this group
 filename = [DATA.session.path '/' DATA.session.basename '.spk.' int2str(group)];
 nChannels = length(DATA.spikeGroups.groups{group});
 nSamplesPerWaveform = DATA.spikeGroups.nSamples(group);
-data = LoadSpikeWaveforms(filename,nChannels,nSamplesPerWaveform);
 
-% Select appropriate cluster
-keep = DATA.spikes(:,2)==group&DATA.spikes(:,3)==cluster;
-data = data(keep,:,:);
-
-% Select timeframes
-if ~isempty(intervals),
-	s = GetSpikes([group cluster]);
-	keep = InIntervals(s,intervals);
-	data = data(keep,:,:);
+% Determine which spikes belong to this cluster
+t = GetSpikes([group -3],'output','full');
+c = t(:,3) == cluster;
+if isempty(intervals),
+	% List all spikes in this cluster
+	list = find(c);
+else
+	% List spikes that fall in the requested time intervals
+	in = InIntervals(t(:,1),intervals);
+	list = find(in&c);
 end
+
+data = LoadSpikeWaveforms(filename,nChannels,nSamplesPerWaveform,list);

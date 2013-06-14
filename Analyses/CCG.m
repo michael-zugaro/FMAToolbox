@@ -21,6 +21,8 @@ function [ccg,t,tau,c] = CCG(times,id,varargin)
 %                   (see EXAMPLE #2 below)
 %     'mode'        'ccg' or 'ccv' (default = 'ccg')
 %     'alpha'       significance level to determine correlated pairs
+%     'totaltime'   total recording duration in s (default suppose only one 
+%                   continuous recording block = max(times) - min(times))
 %    =========================================================================
 %
 %  OUTPUT
@@ -75,6 +77,7 @@ smooth = 0;
 groups = [];
 mode = 'ccg';
 alpha = 0.05;
+totalTime = max(times)-min(times);
 
 % Check parameters
 if nargin < 2,
@@ -127,6 +130,11 @@ for i = 1:2:length(varargin),
 			mode = varargin{i+1};
 			if ~isstring(mode,'ccg','ccv'),
 				error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help CCG">CCG</a>'' for details).');
+			end
+		case 'totaltime',
+			totalTime = varargin{i+1};
+			if ~isdscalar(totalTime,'>0'),
+				error('Incorrect value for property ''totaltime'' (type ''help <a href="matlab:help CCG">CCG</a>'' for details).');
 			end
 	end
 end
@@ -193,7 +201,6 @@ if strcmp(mode,'ccv'),
 
 	% Determine mean event rate for each ID
 	eventRate = zeros(nIDs,1);
-	totalTime = max(times)-min(times);
 	for i = 1:nIDs,
 		eventRate(i) = sum(id==i)/totalTime;
 	end

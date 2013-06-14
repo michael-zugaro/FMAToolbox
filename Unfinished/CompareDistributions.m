@@ -17,13 +17,13 @@
 %    [h,cross,prop] = CompareDistributions(group1,group2,<options>)
 %
 %    group1,group2  values for the two groups: lines are observations, columns
-%                   are dimensions (e.g. spatial bins).
+%                   are dimensions (e.g. spatial bins)
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================
 %     Properties    Values
 %    -------------------------------------------------------------------------
-%     'shuffles'    number of shuffles to estimate the distribution
+%     'nShuffles'   number of shuffles to estimate the distribution
 %                   (default = 5000)
 %     'alpha'       confidence level (default = 0.05)
 %     'max'         maximum number of iterations for global confidence
@@ -62,7 +62,8 @@
 %                       iteration
 %
 
-% Copyright (C) 2010-2011 by Erika Cerasti, 2011 by Michaël Zugaro
+
+% Copyright (C) 2010-2011 by Erika Cerasti, 2013 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -101,10 +102,10 @@ for i = 1:2:length(varargin),
 		error(['Parameter ' num2str(i+1) ' is not a property (type ''help <a href="matlab:help CompareDistributions">CompareDistributions</a>'' for details).']);
 	end
 	switch(lower(varargin{i})),
-		case 'shuffles',
+		case 'nshuffles',
 			nShuffles = lower(varargin{i+1});
 			if ~isdscalar(nShuffles,'>0'),
-				error('Incorrect value for property ''shuffles'' (type ''help <a href="matlab:help CompareDistributions">CompareDistributions</a>'' for details).');
+				error('Incorrect value for property ''nShuffles'' (type ''help <a href="matlab:help CompareDistributions">CompareDistributions</a>'' for details).');
 			end
 		case 'alpha',
 			alpha = varargin{i+1};
@@ -136,105 +137,89 @@ for i = 1:2:length(varargin),
 	end
 end
 
-disp('  Start SHUFFLING process');
-% Shuffle data and calculate surrogate differences in averages
+disp('Shuffling the data...');
+
 n1 = size(group1,1);
 n2 = size(group2,1);
 all = [group1;group2];
+
+differences = [];
 for i = 1:nShuffles,
+	
+   % Shuffle the data
 	shuffled = randperm(n1+n2);
+	g = [group1;group2];
+	g = g(shuffled,:);
+	shuffled1 = g(1:n1,:);
+	shuffled2 = g(n1+1:end,:);
 
-	g1 = group(group(:,2)==1,:);
-	indShuf = randperm(gnum);
-	Gtot = Gtot(indShuf,:);
+	% Compute the mean difference
+	m1 = mean(shuffled1);
+	m2 = mean(shuffled2);
+	differences(i,:) = m1 - m2;       %matrix of all differences distribution [nShuffles X n]
 
+	step = i - floor(i/1000)*1000;
+	if step == 0,
+		disp([' Iteration # ' int2str(i) '/' int2str(nShuffles)]);
+	end
 
-    G1shu = Gtot(1:trial1,:);
-    G2shu = Gtot(trial1+1:end, :);
+end
 
-    M1=mean(G1shu);
-    M2=mean(G2shu);
-    AllDiffDist(i,:)=M1-M2;       %matrix of all differences distribution [nShuffles X n]
+disp('Computing confidence intervals...');
 
-    step=i-floor(i/1000)*1000;
-    if(step==0)
-        disp(['  Shuffle #'  num2str(i) ' done']);
-    end
+nBins = size(group1,2);
+deviation = 100;
+iteration = 0;
+while deviation > tolerance,
 
-end   %end shuffling
+	% Check number of iterations
+	iteration = iteration + 1;
+	if iteration > iterations,
+		disp(['Reached maximum number of iterations (' int2str(iterations) ')']);
+		break
+	end
 
-disp(' End SHUFFLE process');
-disp(' Confidence Interval Computation...  ');
+	% Update quantiles based on the value of alpha computed during the previous iteration
+	if strcmp(tail,'one'),
+		quantiles = [1-alpha];
+	else
+		quantiles = [alpha/2 1-(alpha/2)];
+	end
 
-Nbin = size(group1,2);
-deviation=100;
-iter=0;
+	% Pointwise confidence intervals at alpha level, using the value of alpha computed during the previous iteration
+	confidenceIntervals = quantile(differences,quantiles);
 
-while (deviation>tolerance)
+	if nDimensional == 0,
+		pointwise = confidenceIntervals;
+		break
+	end
+	
+	% Global confidence intervals, using the pointwise intervals
+	significant = differences > repmat(confidenceIntervals(1,:),1,nBins) || differences < repmat(confidenceIntervals(2,:),1,nBins);
+	n = sum(any(significant,2));
 
-    clear distr
-    iter=iter+1;
-    if(iter > maxIterations)
-        disp(['STOP: More than ' num2str(maxIterations) ' iterations']);
-        break
-    end
+	perc=(n/nShuffles)*100;
+	alphaprc=alpha*100;
+	deviation = abs( perc - alphaprc );
 
-    qvect=[(alpha/2), 1-(alpha/2)];
-    if strcmp(tail,'one')
-        qvect=[1-alpha];
-    end
+	GlobPerc(iteration)=perc;
+	GlobAlfa(iteration)=alpha;
 
-    %---------STATISTICAL POINTWISE ANALYSIS------------
-    for n=1:Nbin
-
-        Distr= AllDiffDist(:,n);
-        if(Distr==0)
-            continue
-        end
-        CInt=quantile(Distr, qvect);
-        CIntBand(:,n)=flipdim(CInt',1);
-
-        clear CInt
-    end
-
-    if(nDimensional==0)
-        CIntPB = CIntBand;
-        break
-    end
-    %--------STATISTICAL GLOBALWISEANALYSIS--------------
-    for sh=1:nShuffles
-        cont=0;
-
-        ShufdLine= AllDiffDist(sh,:);
-        indsup = find(ShufdLine > CIntBand(1,:));
-        indinf = find(ShufdLine < CIntBand(2,:));
-        if(~isempty(indsup) || ~isempty(indinf))
-            cont=cont+1;
-        end
-    end
-
-    perc=(cont/nShuffles)*100;
-    alfaprc=alpha*100;
-    deviation = abs( perc - alfaprc );
-
-    GlobPerc(iter)=perc;
-    GlobAlfa(iter)=alpha;
-
-    if(iter==1)
-        CIntPB = CIntBand;
-        alpha = 0.003;
-    else
-        ss=sign(perc - alfaprc);
-        if(deviation>5)
-            alpha = alpha - ss*deviation*0.0000075;
-        else
-            alpha = alpha - ss*deviation*0.00033;
-        end
-        if( alpha < 0.001 )
-            disp('STOP: new alpha is too small');
-            break
-        end
-    end
+	if(iteration==1)
+		pointwise = confidenceIntervals;
+		alpha = 0.003;
+	else
+		ss=sign(perc - alphaprc);
+		if(deviation>5)
+			alpha = alpha - ss*deviation*0.0000075;
+		else
+			alpha = alpha - ss*deviation*0.00033;
+		end
+		if( alpha < 0.001 )
+			disp('STOP: new alpha is too small');
+			break
+		end
+	end
 
 
 end
@@ -244,16 +229,16 @@ M2ori=mean(group2);
 OriginalDiff = M1ori-M2ori;
 
 prop.original = OriginalDiff;
-prop.mean = mean(AllDiffDist,1);
-prop.localCI = CIntPB;
+prop.mean = mean(differences,1);
+prop.localCI = pointwise;
 prop.globalCI = [];
-prop.galfa = [];
+prop.galpha = [];
 prop.gperc = [];
 
-if(iter > 1)
-    CIntGB = CIntBand;
-    prop.globalCI = CIntBand;
-    prop.galfa = GlobAlfa;
+if(iteration > 1)
+    CIntGB = confidenceIntervals;
+    prop.globalCI = confidenceIntervals;
+    prop.galpha = GlobAlfa;
     prop.gperc = GlobPerc;
 end
 
@@ -262,7 +247,7 @@ end
 %--------Find significant segments--------------
 if(nDimensional==0)
 
-    if( OriginalDiff > CIntPB(1) || OriginalDiff < CIntPB(2) )
+    if( OriginalDiff > pointwise(1) || OriginalDiff < pointwise(2) )
         h=1;
     else
         h=0;
@@ -272,16 +257,16 @@ if(nDimensional==0)
     cross.inf = [];
 
 else
-    cxsup = OriginalDiff > CIntPB(1,:);       %cxsup=crossing superior band
-    cxinf = OriginalDiff < CIntPB(2,:);       %cxinf=crossing inferior band
+    cxsup = OriginalDiff > pointwise(1,:);       %cxsup=crossing superior band
+    cxinf = OriginalDiff < pointwise(2,:);       %cxinf=crossing inferior band
     cxGsup = OriginalDiff > CIntGB(1,:);
     cxGinf = OriginalDiff < CIntGB(2,:);
 
     Psup = (cxsup & cxGsup);
     PsupInd = find(cxsup & cxGsup);
-
+    
     if(~isempty(PsupInd))
-        induni = logical([1, (diff(PsupInd)~=1)]);
+        induni = logical([1 (diff(PsupInd)~=1)]);
         PsupStart = PsupInd(induni);
 
         for t=1: length(PsupStart)
@@ -298,12 +283,12 @@ else
             end
         end
     end
-
-
+    
+    
     Pinf = (cxinf & cxGinf);
     PinfInd = find(cxinf & cxGinf);
     if(~isempty(PinfInd))
-        induni = logical([1, (diff(PinfInd)~=1)]);
+        induni = logical([1 (diff(PinfInd)~=1)]);
         PinfStart = PinfInd(induni);
 
         for t=1: length(PinfStart)
@@ -331,27 +316,27 @@ else
     end
 end
 
-if (nDimensional) && strcmp(show,'on'),
+if (nDimensional) && (show_display)
 
     orange = [1 0.4 0];
     brigthblue = [0.3 0.5 0.9];
     green=[0.6 0.9 0.2];
     darkgreen = [0.15 0.35 0.15];
-
+    
     Xaxes = [1:length(OriginalDiff)];
     Yaxes = zeros(1,length(OriginalDiff));
-    figure
+    showure
     hold on
-    plot(Xaxes, prop.globalCI, 'o-', 'MarkerSize', 4, 'Color', darkgreen, 'MarkerFaceColor', darkgreen, 'MarkerEdgeColor', darkgreen)
-    plot(Xaxes, prop.localCI, 'o-', 'MarkerSize', 4, 'Color', green, 'MarkerFaceColor', green, 'MarkerEdgeColor', green)
-    plot(Xaxes, OriginalDiff, 'Color', orange,'linewidth',2)
-    plot(Xaxes, Yaxes, '--','Color', 'k')
+    plot(Xaxes,prop.globalCI,'o-','MarkerSize',4,'Color',darkgreen,'MarkerFaceColor',darkgreen,'MarkerEdgeColor',darkgreen)
+    plot(Xaxes,prop.localCI,'o-','MarkerSize',4,'Color',green,'MarkerFaceColor',green,'MarkerEdgeColor',green)  
+    plot(Xaxes,OriginalDiff,'Color',orange,'linewidth',2)
+    plot(Xaxes,Yaxes,'--','Color','k')
     ylabel('\bf Mean Differences','FontSize',14)
     xlabel('\bf # bin','FontSize',14)
-
+    
 %     ylim([-20 20]);
 %     info = ['\bf Global alpha p<' num2str(alpha) 'Local alpha p<' num2str(alpha)];
-%     text(x, y, info,'FontSize',12, 'Color', 'k')
+%     text(x,y,info,'FontSize',12,'Color','k')
 
     supInt = diff(cross.sup);
     infInt = diff(cross.inf);
@@ -359,25 +344,25 @@ if (nDimensional) && strcmp(show,'on'),
     StartInf = find(infInt==1);
     EndSup = find(supInt==-1);
     EndInf = find(infInt==-1);
-
+    
     if(cross.sup(1) == 1)
-        StartSup = [1, StartSup];
+        StartSup = [1 StartSup];
     elseif(cross.sup(end) == 1)
-        EndSup = [EndSup, length(cross.sup)];
+        EndSup = [EndSup length(cross.sup)];
     end
 
     if(cross.inf(1) == 1)
-        StartInf = [1, StartInf];
+        StartInf = [1 StartInf];
     elseif(cross.inf(end) == 1)
-        EndInf = [EndInf, length(cross.inf)];
+        EndInf = [EndInf length(cross.inf)];
     end
-
-
-    PairsInf = [StartInf' , EndInf'];
-    PairsSup = [StartSup' , EndSup'];
+    
+    
+    PairsInf = [StartInf' EndInf'];
+    PairsSup = [StartSup' EndSup'];
     IntervalsPairs = sort([PairsSup; PairsInf]);
-
-    PlotIntervals(IntervalsPairs, 'rectangles')
+    
+    PlotIntervals(IntervalsPairs,'rectangles')
 end
 
 %    vedi
@@ -385,7 +370,7 @@ end
 %    else
 %        supGB=supPB;
 %        infGB=infPB;
-%        GlobAlfa((ind+1),sig)=alfa_new;
+%        GlobAlfa((ind+1),sig)=alpha_new;
 %    end
 
 end

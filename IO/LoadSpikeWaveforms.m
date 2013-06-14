@@ -1,14 +1,15 @@
-function waveforms = LoadSpikeWaveforms(filename,nChannels,nSamples)
+function waveforms = LoadSpikeWaveforms(filename,nChannels,nSamples,list)
 
 %LoadSpikeWaveforms - Read spike waveforms from disk.
 %
 %  USAGE
 %
-%    waveforms = LoadSpikeWaveforms(filename,nChannels,nSamples)
+%    waveforms = LoadSpikeWaveforms(filename,nChannels,nSamples,list)
 %
 %    filename            spike waveform file name
 %    nChannels           number of channels in electrode group
 %    nSamples            number of samples per waveform
+%    list                optional list of spikes (from 1 to N) to load
 %
 %  OUTPUT
 %
@@ -18,7 +19,7 @@ function waveforms = LoadSpikeWaveforms(filename,nChannels,nSamples)
 %
 %    See also GetSpikeWaveforms, PlotSpikeWaveforms.
 
-% Copyright (C) 2004-2011 by Michaël Zugaro
+% Copyright (C) 2004-2013 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -41,6 +42,10 @@ filename = [path '/' basename '.spk.' electrodeGroupStr];
 if ~exist(filename),
 	error(['File ''' filename ''' not found.']);
 end
-waveforms = LoadBinary(filename);
-waveforms = reshape(waveforms,nChannels,nSamples,[]);
+if nargin < 4,
+	waveforms = LoadBinary(filename,'nChannels',nChannels);
+else
+	waveforms = LoadBinary(filename,'nChannels',nChannels,'nRecords',nSamples*ones(size(list)),'offset',nSamples*(list-1));	
+end
+waveforms = reshape(waveforms',nChannels,nSamples,[]);
 waveforms = permute(waveforms,[3 1 2]); % rearrange: spike #, channel, sample

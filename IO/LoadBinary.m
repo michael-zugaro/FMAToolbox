@@ -8,6 +8,9 @@ function data = LoadBinary(filename,varargin)
 %  accurate) - a 'record' is a chunk of data containing one sample for each
 %  channel.
 %
+%  LoadBinary can also deal with lists of start times and durations (or
+%  offsets and number of records).
+%
 %  USAGE
 %
 %    data = LoadBinary(filename,<options>)
@@ -31,7 +34,7 @@ function data = LoadBinary(filename,varargin)
 %                   (default = 0)
 %    =========================================================================
 
-% Copyright (C) 2004-2011 by Michaël Zugaro
+% Copyright (C) 2004-2013 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -68,27 +71,30 @@ for i = 1:2:length(varargin),
 			end
 		case 'start',
 			start = varargin{i+1};
-			if ~isdscalar(start),
+			if ~isdvector(start),
 				error('Incorrect value for property ''start'' (type ''help <a href="matlab:help LoadBinary">LoadBinary</a>'' for details).');
 			end
 			if start < 0, start = 0; end
 			time = true;
 		case 'duration',
 			duration = varargin{i+1};
-			if ~isdscalar(duration,'>=0'),
+			if ~isdvector(duration,'>=0'),
 				error('Incorrect value for property ''duration'' (type ''help <a href="matlab:help LoadBinary">LoadBinary</a>'' for details).');
 			end
 			time = true;
 		case 'offset',
 			offset = varargin{i+1};
-			if ~isiscalar(offset),
+			if ~isivector(offset),
 				error('Incorrect value for property ''offset'' (type ''help <a href="matlab:help LoadBinary">LoadBinary</a>'' for details).');
 			end
 			if offset < 0, offset = 0; end
 			records = true;
 		case {'nrecords','samples'},
 			nRecords = varargin{i+1};
-			if ~isdscalar(nRecords,'>=0'),
+			if ~isivector(nRecords,'>=0'),
+				error('Incorrect value for property ''nRecords'' (type ''help <a href="matlab:help LoadBinary">LoadBinary</a>'' for details).');
+			end
+			if length(nRecords) > 1 && any(isinf(nRecords(1:end-1))),
 				error('Incorrect value for property ''nRecords'' (type ''help <a href="matlab:help LoadBinary">LoadBinary</a>'' for details).');
 			end
 			records = true;
@@ -156,9 +162,19 @@ end
 
 % Position and number of records of the data subset
 if time,
+	if length(duration) == 1,
+		duration = repmat(duration,size(start,1),1);
+	elseif length(duration) ~= length(start),
+		error('Start and duration lists have different lengths (type ''help <a href="matlab:help LoadBinary">LoadBinary</a>'' for details).');
+	end
 	dataOffset = floor(start*frequency)*nChannels*sampleSize;
 	nRecords = floor(duration*frequency);
 else
+	if length(nRecords) == 1,
+		nRecords = repmat(nRecords,size(offset,1),1);
+	elseif length(nRecords) ~= length(offset),
+		error('Offset and number of records lists have different lengths (type ''help <a href="matlab:help LoadBinary">LoadBinary</a>'' for details).');
+	end
 	dataOffset = offset*nChannels*sampleSize;
 end
 
@@ -171,53 +187,66 @@ if status ~= 0,
 end
 fileStop = ftell(f);
 
-% Position file index for reading
-status = fseek(f,dataOffset,'bof');
-if status ~= 0,
-	fclose(f);
-	error('Could not start reading (possible reasons include trying to read past the end of the file).');
+% Last number of records may be infinite, compute explicit value
+if isinf(nRecords(end)),
+	status = fseek(f,dataOffset(end),'bof');
+	if status ~= 0,
+		fclose(f);
+		error('Error reading the data file (possible reasons include trying to read past the end of the file).');
+	end
+	lastOffset = ftell(f);
+	lastNRecords = floor((fileStop-lastOffset)/nChannels/sampleSize);
+	nRecords(end) = lastNRecords;
 end
 
-% (floor in case all channels do not have the same number of samples)
-maxNRecords = floor((fileStop-fileStart)/nChannels/sampleSize);
-frewind(f);
-status = fseek(f,dataOffset,'bof');
-if status ~= 0,
-	fclose(f);
-	error('Could not start reading (possible reasons include trying to read past the end of the file).');
-end
+% Preallocate memory
+data = zeros(sum(nRecords)/(skip+1),length(channels));
 
-if isinf(nRecords) || nRecords > maxNRecords,
-	nRecords = maxNRecords;
-end
+% Loop through list of start+duration or offset+nRecords
+i = 1;
+for k = 1:length(dataOffset),
 
-% For large amounts of data, read chunk by chunk
-maxSamplesPerChunk = 10000;
-nSamples = nRecords*nChannels;
-if nSamples <= maxSamplesPerChunk,
-	data = LoadChunk(f,nChannels,channels,nRecords,precision,skip*sampleSize);
-else
-	% Determine chunk duration and number of chunks
-	nSamplesPerChunk = floor(maxSamplesPerChunk/nChannels)*nChannels;
-	nChunks = floor(nSamples/nSamplesPerChunk)/(skip+1);
-	% Preallocate memory
-	data = zeros(nRecords/(skip+1),length(channels));
-	% Read all chunks
-	i = 1;
-	for j = 1:nChunks,
-		d = LoadChunk(f,nChannels,channels,nSamplesPerChunk/nChannels,precision,skip*sampleSize);
+	% Position file index for reading
+	status = fseek(f,dataOffset(k),'bof');
+	fileOffset = ftell(f);
+	if status ~= 0,
+		fclose(f);
+		error('Could not start reading (possible reasons include trying to read past the end of the file).');
+	end
+
+	% (floor in case all channels do not have the same number of samples)
+	maxNRecords = floor((fileStop-fileOffset)/nChannels/sampleSize);
+	if nRecords(k) > maxNRecords, nRecords(k) = maxNRecords; end
+
+	% For large amounts of data, read chunk by chunk
+	maxSamplesPerChunk = 10000;
+	nSamples = nRecords(k)*nChannels;
+	if nSamples <= maxSamplesPerChunk,
+		d = LoadChunk(f,nChannels,channels,nRecords(k),precision,skip*sampleSize);
 		[m,n] = size(d);
 		if m == 0, break; end
 		data(i:i+m-1,:) = d;
 		i = i+m;
-	end
-	% If the data size is not a multiple of the chunk size, read the remainder
-	remainder = nSamples - nChunks*nSamplesPerChunk;
-	if remainder ~= 0,
-		d = LoadChunk(f,nChannels,channels,remainder/nChannels,precision,skip*sampleSize);
-		[m,n] = size(d);
-		if m ~= 0,
+	else
+		% Determine chunk duration and number of chunks
+		nSamplesPerChunk = floor(maxSamplesPerChunk/nChannels)*nChannels;
+		nChunks = floor(nSamples/nSamplesPerChunk)/(skip+1);
+		% Read all chunks
+		for j = 1:nChunks,
+			d = LoadChunk(f,nChannels,channels,nSamplesPerChunk/nChannels,precision,skip*sampleSize);
+			[m,n] = size(d);
+			if m == 0, break; end
 			data(i:i+m-1,:) = d;
+			i = i+m;
+		end
+		% If the data size is not a multiple of the chunk size, read the remainder
+		remainder = nSamples - nChunks*nSamplesPerChunk;
+		if remainder ~= 0,
+			d = LoadChunk(f,nChannels,channels,remainder/nChannels,precision,skip*sampleSize);
+			[m,n] = size(d);
+			if m == 0, break; end
+			data(i:i+m-1,:) = d;
+			i = i+m;
 		end
 	end
 end
