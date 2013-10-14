@@ -27,6 +27,8 @@ bool     	circX,circY,*visited;
 
 void ProcessBin(int x,int y)
 {
+	int i;
+    
 	#ifdef DEBUG
 	mexPrintf("  (%d,%d)",x,y);
 	#endif
@@ -70,7 +72,7 @@ void ProcessBin(int x,int y)
 		}
 
 	/* Have we already visited this bin? */
-	int i = (int) (x-1)*yMax+(y-1);
+	i = (int) (x-1)*yMax+(y-1);
 	if ( visited[i] )
 	{
 		#ifdef DEBUG

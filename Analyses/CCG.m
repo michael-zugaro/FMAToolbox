@@ -239,9 +239,13 @@ if strcmp(mode,'ccv'),
 			ccv(:,i,j) = data(start:stop);
 
 			% Find the peak lag time and value
-			[maxValue,maxIndex] = max(ccv(:,i,j));
-			tau(i,j) = t(maxIndex);
-			c(i,j) = maxValue;
+			[~,maxIndex] = max(ccv(:,i,j));
+			tau(i,j) = median(t(maxIndex));
+			c(i,j) = median(ccv(maxIndex,i,j));
+			% Previous version of the code (discard?)
+			% [~,maxIndex] = max(ccv(:,i,j));
+			% tau(i,j) = t(maxIndex);
+			% c(i,j) = median(ccv(max(1,maxIndex-3):min(end,maxIndex+3),i,j));
 
 			% Keep only significantly correlated pairs
 			if ~any(abs(ccv(:,i,j))>threshold),

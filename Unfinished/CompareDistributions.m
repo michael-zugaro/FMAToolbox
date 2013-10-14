@@ -1,3 +1,5 @@
+function [h,cross,prop] = CompareDistributions(group1,group2,varargin)
+
 %CompareDistributions - Non-parametric comparison of two N-dimensional distributions.
 %
 %  This test determines in which dimensions the two distributions are
@@ -69,8 +71,6 @@
 % it under the terms of the GNU General Public License as published by
 % the Free Software Foundation; either version 3 of the License, or
 % (at your option) any later version.
-
-function [h,cross,prop] = CompareDistributions(group1,group2,varargin)
 
 % Default values
 nShuffles = 5000;
@@ -144,14 +144,13 @@ n2 = size(group2,1);
 all = [group1;group2];
 
 differences = [];
+g = [group1;group2];
 for i = 1:nShuffles,
 	
    % Shuffle the data
 	shuffled = randperm(n1+n2);
-	g = [group1;group2];
-	g = g(shuffled,:);
-	shuffled1 = g(1:n1,:);
-	shuffled2 = g(n1+1:end,:);
+	shuffled1 = g(shuffled(1:n1),:);
+	shuffled2 = g(shuffled(n1+1:end),:);
 
 	% Compute the mean difference
 	m1 = mean(shuffled1);
@@ -168,9 +167,9 @@ end
 disp('Computing confidence intervals...');
 
 nBins = size(group1,2);
-deviation = 100;
+deviation = 1;
 iteration = 0;
-while deviation > tolerance,
+while deviation*100 > tolerance,
 
 	% Check number of iterations
 	iteration = iteration + 1;
@@ -198,22 +197,21 @@ while deviation > tolerance,
 	significant = differences > repmat(confidenceIntervals(1,:),1,nBins) || differences < repmat(confidenceIntervals(2,:),1,nBins);
 	n = sum(any(significant,2));
 
-	perc=(n/nShuffles)*100;
-	alphaprc=alpha*100;
-	deviation = abs( perc - alphaprc );
+	p = n/nShuffles;
+	deviation = abs(p-alpha);
 
-	GlobPerc(iteration)=perc;
+	pGlobal(iteration)=p*100;
 	GlobAlfa(iteration)=alpha;
 
 	if(iteration==1)
 		pointwise = confidenceIntervals;
 		alpha = 0.003;
 	else
-		ss=sign(perc - alphaprc);
-		if(deviation>5)
-			alpha = alpha - ss*deviation*0.0000075;
+		s = sign(p-alpha);
+		if deviation > 0.05,
+			alpha = alpha - s*deviation*0.00075;
 		else
-			alpha = alpha - ss*deviation*0.00033;
+			alpha = alpha - s*deviation*0.033;
 		end
 		if( alpha < 0.001 )
 			disp('STOP: new alpha is too small');
@@ -239,7 +237,7 @@ if(iteration > 1)
     CIntGB = confidenceIntervals;
     prop.globalCI = confidenceIntervals;
     prop.galpha = GlobAlfa;
-    prop.gperc = GlobPerc;
+    prop.gperc = pGlobal*100;
 end
 
 

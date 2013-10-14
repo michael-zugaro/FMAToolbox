@@ -23,7 +23,7 @@ bool     circX,circY;
 
 void FindField(double x,double y,bool *firingField,bool *visited)
 {
-	/*mexPrintf("before x %f y %f\n",x,y);*/
+	int i;
 
 	if ( x < 1 )
 		if ( circX ) x = xMax;
@@ -38,7 +38,7 @@ void FindField(double x,double y,bool *firingField,bool *visited)
 		if ( circY ) y = 1;
 		else return;
 
-	int i = (int) (x-1)*yMax+(y-1);
+	i = (int) (x-1)*yMax+(y-1);
 
 	if ( visited[i] ) return;
 

@@ -53,7 +53,7 @@ function [map,stats] = FiringMap(positions,spikes,varargin)
 %    This function is provided for convenience. It simply calls <a href="matlab:help Map">Map</a> and <a href="matlab:help MapStats">MapStats</a>
 %    using the same parameters. The outputs are the same except for map.z which
 %    is replaced by map.rate.
-
+%
 %  SEE
 %
 %    See also Map, MapStats, FiringCurve, PlotColorMap.

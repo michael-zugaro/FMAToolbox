@@ -64,8 +64,18 @@ if strcmp(filename,'same'),
 else
 	% Parse file name
 	[path,basename] = fileparts(filename);
-	if isempty(path)|path(1)~=separator, path = [pwd separator path]; end
-	path = strrep(path,[separator '.' separator],separator);
+	if isempty(path),
+        path = pwd;
+	else
+		if ~exist(path),
+			error(['Directory ''' path ''' does not exist.']);
+		end
+		% Clean path (e.g. simplify ../ or ./ substrings) and make it absolute
+		here = pwd;
+		cd(path);
+		path = pwd;
+		cd(here);
+	end
 end
 
 disp(['Loading session files for ' basename]);
@@ -146,4 +156,3 @@ DATA.session.basename = basename;
 DATA.session.path = path;
 
 disp('Done');
-
