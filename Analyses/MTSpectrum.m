@@ -24,7 +24,7 @@ function [spectrum,f,s] = MTSpectrum(lfp,varargin)
 %                   (default = [3 5])
 %     'pad'         FFT padding (see help for <a href="matlab:help mtspecgramc">mtspectrumc</a>) (default = 0)
 %     'error'       error type (see help for <a href="matlab:help mtspecgramc">mtspectrumc</a>) (default = [1 0.95])
-%     'show'        plot spectrum (default = 'off')
+%     'show'        plot log spectrum (default = 'off')
 %    =========================================================================
 %
 %  NOTES
@@ -140,13 +140,22 @@ for i = 1:2:length(varargin),
 	if ~strcmp(varargin{i},'show'), v = {v{:},varargin{i:i+1}}; end
 end
 
-% Compute spectrogram
+% Compute spectrogram and moments
 [spectrogram,t,f] = MTSpectrogram(lfp,v{:});
-% Compute spectrum
 spectrogram = spectrogram';
-spectrum = mean(spectrogram);
-s = std(spectrogram);
+mu = mean(spectrogram);
+v = var(spectrogram);
+
+% Compute spectrum
+spectrum = mu;
+s = sqrt(v);
+
+% Plot log, i.e. mean E[log(spectrogram)] and stdev sqrt(Var[log(spectrogram)])
+% (see http://en.wikipedia.org/wiki/Taylor_expansions_for_the_moments_of_functions_of_random_variables)
 if strcmp(lower(show),'on'),
 	figure;
-	PlotMean(f,log(spectrum),real(log(spectrum-s)),log(spectrum+s),':');
+	logSpectrum = log(spectrum);         % classic value
+	logSpectrum = log(mu)-v/(2*mu.*mu);  % corrected value, valid for mu/s > 1.5
+	logS = sqrt(v/mu.*mu);               % valid for mu/s > 2.5
+	PlotMean(f,logSpectrum,logSpectrum-logS,logSpectrum+logS,':');
 end
