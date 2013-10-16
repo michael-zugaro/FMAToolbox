@@ -6,7 +6,7 @@ function [ccg,t,tau,c] = CCG(times,id,varargin)
 %
 %    [ccg,t,tau,c] = CCG(times,id,<options>)
 %
-%    times          times of all events (sorted)
+%    times          times of all events (see NOTE below)
 %    id             ID for each event (e.g. unit ID) from 1 to n
 %    <options>      optional list of property-value pairs (see table below)
 %
@@ -27,9 +27,21 @@ function [ccg,t,tau,c] = CCG(times,id,varargin)
 %
 %  OUTPUT
 %      ccg          value of cross-correlograms or cross-covariances
+%                   dimensions are (nbins,m,n) where m is the number of
+%                   reference time series (e.g. reference units) and n the
+%                   number of referenced time series (in general m = n,
+%                   except when using option 'groups')
 %      t            time bins
 %      tau          lag times for a each pair (mode 'ccv' only)
 %      c            maximum cross-covariance for a each pair (mode 'ccv' only)
+%
+%
+%  NOTE
+%
+%    Parameters 'times', 'id' and 'group' can be obtained using <a href="matlab:help CCGParameters">CCGParameters</a>.
+%    As a special case, when computing the correlograms of spike trains, one
+%    can use the output of <a href="matlab:help GetSpikes">GetSpikes</a> either directly or in combination with
+%    <a href="matlab:help CCGParameters">CCGParameters</a>. See EXAMPLES below.
 %
 %  EXAMPLES
 %
@@ -40,12 +52,7 @@ function [ccg,t,tau,c] = CCG(times,id,varargin)
 %    % Only tetrode #1 vs tetrode #2 (e.g. mPFC vs HPC neurons)
 %    pfc = GetSpikes([1 -1],'output','numbered');
 %    hpc = GetSpikes([2 -1],'output','numbered');
-%    m = max(pfc(:,2));
-%    [spikes,i] = sortrows([pfc(:,1);hpc(:,1)]);
-%    ids = [pfc(:,2);hpc(:,2)+m];
-%    ids = ids(i);
-%    groups = [ones(size(pfc,1));2*ones(size(hpc,1))];
-%    groups = groups(i);
+%    [s,ids,groups] = CCGParameters(pfc,hpc,2);
 %    [ccg,t] = CCG(s,ids,'groups',groups);
 %
 %    % Between stimulations and MUA spikes
@@ -60,7 +67,7 @@ function [ccg,t,tau,c] = CCG(times,id,varargin)
 %
 %  SEE
 %
-%    See also ShortTimeCCG.
+%    See also CCGParameters, ShortTimeCCG.
 
 % Copyright (C) 2012-2013 by Michaël Zugaro, Marie Goutierre
 %
@@ -136,6 +143,8 @@ for i = 1:2:length(varargin),
 			if ~isdscalar(totalTime,'>0'),
 				error('Incorrect value for property ''totaltime'' (type ''help <a href="matlab:help CCG">CCG</a>'' for details).');
 			end
+		otherwise,
+			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help CCG">CCG</a>'' for details).']);
 	end
 end
 
@@ -189,9 +198,16 @@ if ~isempty(groups),
 	end
 else
 	ccg = zeros(nBins,nIDs,nIDs);
+	% Compute corr(A,B) for each unique unordered pair (A,B)
 	for g1 = 1:nIDs,
 		for g2 = g1:nIDs,
 			ccg(:,g1,g2) = Smooth(flipud(counts(:,g1,g2)),smooth);
+		end
+	end
+	% corr(B,A) and corr(B,A) symmetric
+	for g1 = 1:nIDs,
+		for g2 = 1:g1-1,
+			ccg(:,g1,g2) = flipud(squeeze(ccg(:,g2,g1)));
 		end
 	end
 end
@@ -262,3 +278,16 @@ if strcmp(mode,'ccv'),
 	
 end
 
+
+
+
+%    % Only tetrode #1 vs tetrode #2 (e.g. mPFC vs HPC neurons)
+%    pfc = GetSpikes([1 -1],'output','numbered');
+%    hpc = GetSpikes([2 -1],'output','numbered');
+%    m = max(pfc(:,2));
+%    [spikes,i] = sortrows([pfc(:,1);hpc(:,1)]);
+%    ids = [pfc(:,2);hpc(:,2)+m];
+%    ids = ids(i);
+%    groups = [ones(size(pfc(:,1)));2*ones(size(hpc(:,1)))];
+%    groups = groups(i);
+%    [ccg,t] = CCG(s,ids,'groups',groups);
