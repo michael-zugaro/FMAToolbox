@@ -130,6 +130,12 @@ for i = 1:length(f.code),
 end
 f.code = code;
 
+% Correct eids and names: replace / with _ to avoid conflicts with filesystem
+for i = 1:nFigures,
+	f.eid{i} = strrep(f.eid{i},'/','_');
+        f.name{i} = strrep(f.name{i},'/','_');
+end
+
 % Create root directory
 try
 	mkdir(name);
