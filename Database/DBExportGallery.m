@@ -131,6 +131,7 @@ end
 f.code = code;
 
 % Correct eids and names: replace / with _ to avoid conflicts with filesystem
+nFigures = length(f.png);
 for i = 1:nFigures,
 	f.eid{i} = strrep(f.eid{i},'/','_');
         f.name{i} = strrep(f.name{i},'/','_');
@@ -148,8 +149,6 @@ catch
 	error('Cannot create gallery (check file access permissions).');
 end
 [path,name] = fileparts(name);
-
-nFigures = length(f.png);
 
 % Export png images + thumbnails (and code pages if required)
 for i = 1:nFigures,
