@@ -190,8 +190,8 @@ if strcmp(method,'k'),
 
 	% Compute p-value
 	n = length(phi);
-	lambda_02 = 1/n*sum(prob.*sin(phi-phi_bar).^2);
-	lambda_20 = 1/n*sum(prob.*sin(theta-theta_bar).^2);
+	lambda_02 = 1/n*sum(prob.*sin(theta-theta_bar).^2);
+	lambda_20 = 1/n*sum(prob.*sin(phi-phi_bar).^2);
 	lambda_22 = 1/n*sum(prob.*sin(phi-phi_bar).^2.*prob.*sin(theta-theta_bar).^2);
 	z = rho*sqrt(n*lambda_20*lambda_02/lambda_22);
 	p = 1-erf(abs(z)/sqrt(2));

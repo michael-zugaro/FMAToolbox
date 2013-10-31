@@ -154,8 +154,8 @@ s = sqrt(v);
 % (see http://en.wikipedia.org/wiki/Taylor_expansions_for_the_moments_of_functions_of_random_variables)
 if strcmp(lower(show),'on'),
 	figure;
-	logSpectrum = log(spectrum);         % classic value
-	logSpectrum = log(mu)-v/(2*mu.*mu);  % corrected value, valid for mu/s > 1.5
-	logS = sqrt(v/mu.*mu);               % valid for mu/s > 2.5
+	%logSpectrum = log(spectrum);         % classic value
+	logSpectrum = log(mu)-v./(2*mu.*mu);  % corrected value, valid for mu/s > 1.5
+	logS = sqrt(v./mu.^2);               % valid for mu/s > 2.5
 	PlotMean(f,logSpectrum,logSpectrum-logS,logSpectrum+logS,':');
 end

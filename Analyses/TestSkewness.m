@@ -114,8 +114,8 @@ skewnessRepeat = UnbiasedSkewness(repeat);
 skewnessTest = UnbiasedSkewness(test);
 
 % Test distribution differences and compute medians
-[hc,pc] = kstest2(skewnessControl,skewnessRepeat,alpha);
-[h,p] = kstest2(skewnessControl,skewnessTest,alpha);
+[hc,pc,ksc] = kstest2(skewnessControl,skewnessRepeat,alpha);
+[h,p,ks] = kstest2(skewnessControl,skewnessTest,alpha);
 stats.control.m = median(skewnessControl);
 stats.repeat.m = median(skewnessRepeat);
 stats.test.m = median(skewnessTest);
@@ -138,16 +138,18 @@ if strcmp(show,'on'),
 
 	figure;hold on;
 	% Test results
-	if hc,
-		sc = ['p < ' num2str(alpha)];
-	else
-		sc = 'NS';
-	end
-	if h,
-		st = ['p < ' num2str(alpha)];
-	else
-		st = 'NS';
-	end
+	sc = ['KS(' int2str(mc) ',' int2str(mr) ')=' sprintf('%.3f',ksc) ', p = ' num2str(pc)];
+	st = ['KS(' int2str(mt) ',' int2str(mc) ')=' sprintf('%.3f',ks) ', p = ' num2str(p)];
+%  	if hc,
+%  		sc = ['p < ' num2str(alpha)];
+%  	else
+%  		sc = 'NS';
+%  	end
+%  	if h,
+%  		st = ['p < ' num2str(alpha)];
+%  	else
+%  		st = 'NS';
+%  	end
 	
 	% Histograms
 	x = linspace(-1,1,nBins);

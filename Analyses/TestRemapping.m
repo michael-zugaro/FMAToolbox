@@ -122,7 +122,7 @@ global RemappingTest_control RemappingTest_shiftControl RemappingTest_type;
 RemappingTest_control = control;
 RemappingTest_shiftControl = relativeShiftControl;
 RemappingTest_type = type;
-bRelativeShift = bootstrp(nBootstrap,@RemappingShift,test); % see RemappingShift below
+bRelativeShift = bootstrp(nBootstrap,@RemappingShift,control); % see RemappingShift below
 [bPDF,x] = hist(bRelativeShift,100);
 bPDF = bPDF / nBootstrap;
 bCDF = cumsum(bPDF);
