@@ -32,6 +32,6 @@ end
 f = fopen(bfile,'r');
 if f == -1, error(['Could not open file ''' bfile '''.']); end
 
-b = InitBatch(bfile);
+b = ParseBatch(bfile);
 b.field
 

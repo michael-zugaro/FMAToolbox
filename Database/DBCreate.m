@@ -29,7 +29,7 @@ function database = DBCreate(database)
 %
 %  SEE
 %
-%    See also DBCreateTables.
+%    See also DBCreateTables, DBRemove.
 %
 
 % Copyright (C) 2007-2013 by Michaël Zugaro

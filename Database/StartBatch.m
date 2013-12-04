@@ -212,8 +212,8 @@ end
 f = fopen(bfile,'r');
 if f == -1, error(['Could not open file ''' bfile '''.']); end
 
-% Initialize (read batch file)
-b = InitBatch(bfile);
+% Parse batch file
+b = ParseBatch(bfile);
 
 % Open log file
 b.log = -1;

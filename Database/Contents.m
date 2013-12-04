@@ -40,6 +40,7 @@
 %   BatchInfo            - Get batch job information.
 %   CancelBatch          - Cancel batch job.
 %   CleanBatches         - Delete completed batch jobs from memory.
+%   DebugBatch           - Assign variables to help debug a batch job.
 %   Store                - Store variable in memory to avoid redundant computations.
 %   Recall               - Recall variable from memory to avoid redundant computations.
 %
@@ -52,7 +53,7 @@
 %   DBList               - List existing databases
 %   DBDuplicate          - Duplicate database.
 %   DBMerge              - Merge databases.
-%
+%   DBRemove             - Remove database.
 %
 % Storing data/figures.
 %

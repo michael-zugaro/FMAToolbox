@@ -1,16 +1,16 @@
-function b = InitBatch(bfile)
+function b = ParseBatch(bfile)
 
-%InitBatch - Initialize a new batch job.
+%ParseBatch - Parse batch file.
 %
 %  USAGE
 %
-%    b = InitBatch(bfile)
+%    b = ParseBatch(bfile)
 %
 %    bfile          batch file listing the parameters for each iteration
 %
 %  SEE
 %
-%    See also StartBatch, ShowBatch
+%    See also StartBatch, ShowBatch, InitBatch.
 %
 
 % Copyright (C) 2007-2013 by Michaël Zugaro
@@ -22,7 +22,7 @@ function b = InitBatch(bfile)
 
 % Check number of parameters
 if nargin < 1,
-	error('Incorrect number of parameters (type ''help <a href="matlab:help InitBatch">InitBatch</a>'' for details).');
+	error('Incorrect number of parameters (type ''help <a href="matlab:help ParseBatch">ParseBatch</a>'' for details).');
 end
 
 % Make sure batch file is valid
@@ -38,6 +38,7 @@ if f == -1, error(['Could not open file ''' bfile '''.']); end
 item = 1;
 l = 1;
 nFields = 0;
+b.field = {};
 % Read batch file
 while ~feof(f),
 	field = 0;
