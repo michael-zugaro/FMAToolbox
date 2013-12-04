@@ -28,6 +28,8 @@ function smoothed = Smooth(data,smooth,varargin)
 % the Free Software Foundation; either version 3 of the License, or
 % (at your option) any later version.
 
+maxSize = 10001;
+
 if nargin < 2,
 	error('Incorrect number of parameters (type ''help <a href="matlab:help Smooth">Smooth</a>'' for details).');
 end
@@ -81,13 +83,15 @@ end
 % Build Gaussian kernels
 [vSize,hSize] = size(data);
 % 1) Vertical kernel
-vKernelSize = min([vSize 1001]);
+if vSize > maxSize, warning(['Kernel too large; using ' int2str(maxSize) ' points.']); end
+vKernelSize = min([vSize maxSize]);
 r = (-vKernelSize:vKernelSize)'/vKernelSize;
 vKernelStdev = smooth(1)/vKernelSize;
 vKernel = exp(-r.^2/(vKernelStdev+eps)^2/2);
 vKernel = vKernel/sum(vKernel);
 % 2) Horizontal kernel
-hKernelSize = min([hSize 1001]);
+if hSize > maxSize, warning(['Kernel too large; using ' int2str(maxSize) ' points.']); end
+hKernelSize = min([hSize maxSize]);
 r = (-hKernelSize:hKernelSize)/hKernelSize;
 hKernelStdev = smooth(2)/hKernelSize;
 hKernel = exp(-r.^2/(hKernelStdev+eps)^2/2);
@@ -97,8 +101,8 @@ if vector,
 	% Prepend/append data to limit edge effects
 	if strcmp(type,'l'),
 		% For linear data, flip edge data
-		top = flipud(data(1:vKernelSize));
-		bottom = flipud(data(end-vKernelSize+1:end));
+		top = 2*data(1)-flipud(data(1:vKernelSize));
+		bottom = 2*data(end)-flipud(data(end-vKernelSize+1:end));
 	else
 		% For circular data, wrap edge data
 		top = data(end-vKernelSize+1:end);
@@ -120,8 +124,8 @@ else
 		% Prepend/append data to limit edge effects
 		if strcmp(type(1),'l'),
 			% For linear data, flip edge data
-			left = fliplr(data(:,1:hKernelSize));
-			right = fliplr(data(:,end-hKernelSize+1:end));
+			left = 2*data(:,1)-fliplr(data(:,1:hKernelSize));
+			right = 2*data(:,end)-fliplr(data(:,end-hKernelSize+1:end));
 		else
 			% For circular data, wrap edge data
 			left = data(:,end-hKernelSize+1:end);
@@ -141,8 +145,8 @@ else
 		% Prepend/append data to limit edge effects
 		if strcmp(type(2),'l'),
 			% For linear data, flip edge data
-			top = flipud(data(1:vKernelSize,:));
-			bottom = flipud(data(end-vKernelSize+1:end,:));
+			top = repmat(2*data(1,:),vKernelSize,1)-flipud(data(1:vKernelSize,:));
+			bottom = repmat(2*data(end,:),vKernelSize,1)-flipud(data(end-vKernelSize+1:end,:));
 		else
 			% For circular data, wrap edge data
 			bottom = data(1:vKernelSize,:);
@@ -162,8 +166,8 @@ else
 		% Prepend/append data to limit edge effects
 		if strcmp(type(2),'l'),
 			% For linear data, flip edge data
-			top = flipud(data(1:vKernelSize,:));
-			bottom = flipud(data(end-vKernelSize+1:end,:));
+			top = repmat(2*data(1,:),vKernelSize,1)-flipud(data(1:vKernelSize,:));
+			bottom = repmat(2*data(end,:),vKernelSize,1)-flipud(data(end-vKernelSize+1:end,:));
 		else
 			% For circular data, wrap edge data
 			bottom = data(1:vKernelSize,:);
@@ -172,8 +176,8 @@ else
 		data = [top;data;bottom];
 		if strcmp(type(1),'l'),
 			% For linear data, flip edge data
-			left = fliplr(data(:,1:hKernelSize));
-			right = fliplr(data(:,end-hKernelSize+1:end));
+			left = repmat(2*data(:,1),1,hKernelSize)-fliplr(data(:,1:hKernelSize));
+			right = repmat(2*data(:,end),1,hKernelSize)-fliplr(data(:,end-hKernelSize+1:end));
 		else
 			% For circular data, wrap edge data
 			left = data(:,end-hKernelSize+1:end);

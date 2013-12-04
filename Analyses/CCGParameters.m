@@ -7,7 +7,7 @@ function [times,id,group] = CCGParameters(varargin)
 %    [times,id,group] = CCGParameters(series1,group1,series2,group2,...)
 %
 %    series1...     time series (one column) with optional IDs (in the second
-%                   column, such as obtained from <a href="matlab:help GetSpikes">GetSpikes</a>, see below)
+%                   column, such as obtained from <a href="matlab:help GetSpikes">GetSpikes</a>, see <a href="matlab:help CCG">CCG</a>)
 %    group1...      optional group number for each series
 %
 %  SEE
