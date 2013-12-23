@@ -78,6 +78,19 @@ while true,
 			end
 		end
 	end
+
+	% Progress information
+	t = toc;
+	proportion = item / length(b.field);
+	left = t*(1/proportion-1);
+	if left > 24*3600,
+		left = strrep(datestr(datenum(0,0,0,0,0,left),'dd-HH:MM:SS'),'-','d ');
+	else
+		left = datestr(datenum(0,0,0,0,0,left),'HH:MM:SS');
+	end
+	progress = sprintf(['########## %.2f%% done [' left ' left] ##########'],100*proportion);
+	disp(progress);
+	
 end
 
 % Elapsed time
