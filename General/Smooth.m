@@ -7,9 +7,10 @@ function smoothed = Smooth(data,smooth,varargin)
 %    smoothed = Smooth(data,smooth,<options>)
 %
 %    data           data to smooth
-%    smooth         vertical and horizontal standard deviations [Sv Sh]
-%                   for Gaussian kernel, measured in number of samples
-%                   (0 = no smoothing)
+%    smooth         vertical and horizontal kernel size:
+%                    - gaussian: standard deviations [Sv Sh]
+%                    - rect/triangular: window half size [Nv Nh]
+%                   (in number of samples, 0 = no smoothing)
 %    <options>      optional list of property-value pairs (see table below))
 %
 %    =========================================================================
@@ -18,10 +19,12 @@ function smoothed = Smooth(data,smooth,varargin)
 %     'type'        two letters (one for X and one for Y) indicating which
 %                   coordinates are linear ('l') and which are circular ('c')
 %                   - for 1D data, only one letter is used (default 'll')
+%  	'kernel'		  either 'gaussian' (default), 'rect' (running average), 
+%  					  or 'triangular' (weighted running average)
 %    =========================================================================
 %
 
-% Copyright (C) 2004-2012 by Michaël Zugaro
+% Copyright (C) 2004-2012 by Michaël Zugaro, 2013 Nicolas Maingret
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -46,6 +49,7 @@ if size(data,1) == 1,
 end
 
 % Default values
+kernel = 'gaussian';
 if vector, type = 'l'; else type = 'll'; end
 
 if ~isdvector(smooth,'>=0') | (matrix & length(smooth) > 2) | (vector & length(smooth) ~= 1),
@@ -74,28 +78,70 @@ for i = 1:2:length(varargin),
 			if (vector && ~isstring(type,'c','l')) || (~vector && ~isstring(type,'cc','cl','lc','ll')),
 				error('Incorrect value for property ''type'' (type ''help <a href="matlab:help Smooth">Smooth</a>'' for details).');
 			end
+		case 'kernel',
+			kernel = lower(varargin{i+1});
+			if ~isstring(kernel,'gaussian','rectangular','triangular'),
+				error('Incorrect value for property ''kernel'' (type ''help <a href="matlab:help Smooth">Smooth</a>'' for details).');
+			end
 		otherwise,
 			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help Smooth">Smooth</a>'' for details).']);
 
   end
 end
 
-% Build Gaussian kernels
+% Build kernels
 [vSize,hSize] = size(data);
-% 1) Vertical kernel
-if vSize > maxSize, warning(['Kernel too large; using ' int2str(maxSize) ' points.']); end
-vKernelSize = min([vSize maxSize]);
-r = (-vKernelSize:vKernelSize)'/vKernelSize;
-vKernelStdev = smooth(1)/vKernelSize;
-vKernel = exp(-r.^2/(vKernelStdev+eps)^2/2);
-vKernel = vKernel/sum(vKernel);
-% 2) Horizontal kernel
-if hSize > maxSize, warning(['Kernel too large; using ' int2str(maxSize) ' points.']); end
-hKernelSize = min([hSize maxSize]);
-r = (-hKernelSize:hKernelSize)/hKernelSize;
-hKernelStdev = smooth(2)/hKernelSize;
-hKernel = exp(-r.^2/(hKernelStdev+eps)^2/2);
-hKernel = hKernel/sum(hKernel);
+
+if strcmp(kernel,'rectangular'),
+
+	% Rectangular kernel (running average)
+	% 1) Vertical kernel
+	vKernelSize = 2*smooth(1)+1;
+	vKernel = ones(vKernelSize,1);
+	vKernel = vKernel/sum(vKernel);
+	% 2) Horizontal kernel
+	if ~vector,
+		hKernelSize = 2*smooth(2)+1;
+		hKernel = ones(hKernelSize,1);
+		hKernel = hKernel/sum(hKernel);
+	end
+
+elseif strcmp(kernel,'triangular'),
+
+	% Triangular kernel
+	% 1) Vertical kernel
+	vKernelSize = 2*smooth(1)+1;
+	vKernel = triang(vKernelSize);
+	vKernel = vKernel/sum(vKernel);
+	% 2) Horizontal kernel
+	if ~vector,
+		hKernelSize = 2*smooth(2)+1;
+		hKernel = ones(hKernelSize,1);
+		hKernel = hKernel/sum(hKernel);
+	end
+
+else
+
+	% Gaussian kernel
+	% 1) Vertical kernel
+	if vSize > maxSize, warning(['Kernel too large; using ' int2str(maxSize) ' points.']); end
+	vKernelSize = min([vSize maxSize]);
+	r = (-vKernelSize:vKernelSize)'/vKernelSize;
+	vKernelStdev = smooth(1)/vKernelSize;
+	vKernel = exp(-r.^2/(vKernelStdev+eps)^2/2);
+	vKernel = vKernel/sum(vKernel);
+	% 2) Horizontal kernel
+	if ~vector,
+		if hSize > maxSize, warning(['Kernel too large; using ' int2str(maxSize) ' points.']); end
+		hKernelSize = min([hSize maxSize]);
+		r = (-hKernelSize:hKernelSize)/hKernelSize;
+		hKernelStdev = smooth(2)/hKernelSize;
+		hKernel = exp(-r.^2/(hKernelStdev+eps)^2/2);
+		hKernel = hKernel/sum(hKernel);
+	end
+	
+end
+
 if vector,
 	% Vector smoothing
 	% Prepend/append data to limit edge effects
