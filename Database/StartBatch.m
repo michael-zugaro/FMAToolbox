@@ -23,6 +23,13 @@ function batch = StartBatch(mfile,bfile,varargin)
 % stored in a central database. The latter is the recommended solution, as it
 % is far more powerful and reliable. See EXAMPLES below.
 %
+% During batch processing, figures are typically hidden so they do not keep
+% popping up as the user is performing other tasks as the batch is running in
+% the background (although this is configurable). In order to keep figures
+% hidden, batch functions should not use figure(h) or axes(a) which make the
+% figure visible. Two helper functions, scf(h) and sca(h), can be used instead
+% to set the current figure or axes without making the figure visible.
+%
 %  USAGE
 %
 %    batch = StartBatch(mfile,bfile,<options>)
@@ -135,7 +142,8 @@ function batch = StartBatch(mfile,bfile,varargin)
 %
 %  SEE
 %
-%    See also Database, GetBatch, BatchInfo, CancelBatch, CleanBatches, Store, Recall.
+%    See also Database, GetBatch, BatchInfo, CancelBatch, CleanBatches, Store,
+%    Recall, Hide, sca, scf.
 %
 
 % Copyright (C) 2007-2013 by Michaël Zugaro

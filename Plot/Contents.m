@@ -7,6 +7,12 @@
 %   UIInPolygon              - Find points in interactively defined polygon zone.
 %   UISelect                 - Interactively select polygon zone in an existing plot.
 %
+% Figure visibility (for batch processing)
+%
+%   Hide                     - Hide (or show) existing or future figures, e.g. to speed up batch processing.
+%   sca                      - Set current axes, without making the figure visible.
+%   scf                      - Set current figure, without making it visible.
+%
 % General plotting functions
 %
 %   PlotSamples              - Plot samples (multiple time series).
@@ -39,7 +45,6 @@
 %   AdjustColorMap           - Adjust colormap for current figure, i.e. change gamma.
 %   Bright                   - Bright colormap (similar to HSV or JET, but brighter).
 %   clim                     - Get or set color scaling limits for current axes.
-%   Hide                     - Hide (or show) existing or future figures, e.g. to speed up batch processing.
 %   hsl2hsv                  - Convert hue-saturation-luminance colors to hue-saturation-value.
 %   hsv2hsl                  - Convert hue-saturation-value colors to hue-saturation-luminance.
 %

@@ -23,7 +23,7 @@ function DebugBatch(mfile,bfile,item,varargin)
 %    =========================================================================
 %     Properties    Values
 %    -------------------------------------------------------------------------
-%     'mode'        run the batch function ('run', default) or simple set
+%     'mode'        run the batch function ('run', default) or simply set
 %                   variables in matlab's workspace ('set')
 %    =========================================================================
 %
@@ -51,6 +51,25 @@ mode = 'run';
 if nargin < 3,
 	error(['Incorrect number of parameters (type ''help <a href="matlab:help DebugBatch">DebugBatch</a>'' for details).']);
 end
+
+% Batch function name
+if isa(mfile,'function_handle'),
+	mfile = func2str(mfile);
+end
+
+% Check batch file and function are valid
+if ~isstring(bfile) || ~exist(bfile,'file'),
+	error(['Batch file not found (type ''help <a href="matlab:help DebugBatch">DebugBatch</a>'' for details).']);
+end
+if isempty(which(mfile)),
+	error(['Batch function not found (type ''help <a href="matlab:help DebugBatch">DebugBatch</a>'' for details).']);
+end
+
+% Item
+if ~isiscalar(item),
+	error(['Incorrect item (type ''help <a href="matlab:help DebugBatch">DebugBatch</a>'' for details).']);
+end
+
 % Parse parameter list
 for i = 1:2:length(varargin),
   if ~ischar(varargin{i}),
@@ -65,19 +84,6 @@ for i = 1:2:length(varargin),
     otherwise,
       error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help DebugBatch">DebugBatch</a>'' for details).']);
   end
-end
-
-% Batch function name
-if isa(mfile,'function_handle'),
-	mfile = func2str(mfile);
-end
-
-% Check batch file and function are valid
-if ~isstring(bfile) || ~exist(bfile,'file'),
-	error(['Batch file not found (type ''help <a href="matlab:help DebugBatch">DebugBatch</a>'' for details).']);
-end
-if isempty(which(mfile)),
-	error(['Batch function not found (type ''help <a href="matlab:help DebugBatch">DebugBatch</a>'' for details).']);
 end
 
 % Open batch file

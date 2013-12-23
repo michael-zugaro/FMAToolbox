@@ -15,6 +15,10 @@ function status = Hide(parameter1,parameter2)
 %    Hide                 % same as Hide(gcf,'on')
 %    Hide('status')       % returns the current default behavior ('on' or 'off')
 %
+%  SEE ALSO
+%
+%    See also sca, scf, StartBatch.
+%
 
 % Copyright (C) 2011-2013 by Michaël Zugaro
 %
