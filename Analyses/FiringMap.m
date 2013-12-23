@@ -28,6 +28,13 @@ function [map,stats] = FiringMap(positions,spikes,varargin)
 %     'type'        two letters (one for X and one for Y) indicating which
 %                   coordinates are linear ('l') and which are circular ('c')
 %                   (default 'll')
+%     'threshold'   values above threshold*peak belong to the field
+%                   (default = 0.2)
+%     'minSize'     fields smaller than this size are considered spurious
+%                   and ignored (default = 100)
+%     'minPeak'     peaks smaller than this size are considered spurious
+%                   and ignored (default = 1)
+%     'debug'       display processing information (default = 'off')
 %    =========================================================================
 %
 %  OUTPUT

@@ -28,6 +28,13 @@ function [curve,stats] = FiringCurve(samples,spikes,varargin)
 %                   (default = 0.100 s)
 %     'type'        'linear' for linear data, 'circular' for angular data
 %                   (default 'linear')
+%     'threshold'   values above threshold*peak belong to the field
+%                   (default = 0.2)
+%     'minSize'     fields smaller than this size are considered spurious
+%                   and ignored (default = 10)
+%     'minPeak'     peaks smaller than this size are considered spurious
+%                   and ignored (default = 1)
+%     'debug'       display processing information (default = 'off')
 %    =========================================================================
 %
 %  OUTPUT

@@ -11,7 +11,7 @@
 %
 %  SEE ALSO
 %
-%    See also glinspace.
+%    See also linspace.
 %
 
 % Copyright (C) 2013 by Michaël Zugaro
