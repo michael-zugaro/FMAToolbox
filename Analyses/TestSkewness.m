@@ -21,6 +21,8 @@ function [h,p,stats] = TestSkewness(control,repeat,test,varargin)
 %     'show'        plot results (default = 'off')
 %     'style'       'hist' for histograms (default) or 'curves' for smooth
 %                   curves
+%     'bins'        [m M n], lower and upper bounds, and number of bins,
+%                   respectively (default [min max 100])
 %    =========================================================================
 %
 %  OUTPUT
@@ -46,8 +48,7 @@ show = 'off';
 nBootstrap = 150;
 alpha = 0.05;
 style = 'hist';
-
-style = 'curves';
+bins = [];
 
 % Check number of parameters
 if nargin < 3 | mod(length(varargin),2) ~= 0,
@@ -85,8 +86,31 @@ for i = 1:2:length(varargin),
 			if ~isstring(style,'hist','curves'),
 				error('Incorrect value for property ''style'' (type ''help <a href="matlab:help TestSkewness">TestSkewness</a>'' for details).');
 			end
+		case 'bins',
+			bins = varargin{i+1};
+			if ~isdvector(bins,'#3') | bins(1) > bins(2) | ~isiscalar(bins(3),'>0'),
+				error('Incorrect value for property ''bins'' (type ''help <a href="matlab:help TestSkewness">TestSkewness</a>'' for details).');
+			end
 		otherwise,
 			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help TestSkewness">TestSkewness</a>'' for details).']);
+	end
+end
+
+% Smooth and bins
+smooth = 10;
+if ~isempty(bins),
+	xMin = bins(1);
+	xMax = bins(2);
+	nBins = bins(3);
+else
+	% Default values
+	xMin = -1;
+	xMax = 1;
+	% (number of bins differ for smooth curves vs histograms)
+	if strcmp(style,'hist'),
+		nBins = 20;
+	else
+		nBins = 200;
 	end
 end
 
@@ -126,16 +150,6 @@ stats.test.s = semedian(skewnessTest);
 % Plot results
 if strcmp(show,'on'),
 
-	% Number of bins differ for smooth curves vs histograms
-	nBinsHist = 20;
-	nBinsCurve = 200;
-	smooth = 10;
-	if strcmp(style,'hist'),
-		nBins = nBinsHist;
-	else
-		nBins = nBinsCurve;
-	end
-
 	figure;hold on;
 	% Test results
 	sc = ['KS(' int2str(mc) ',' int2str(mr) ')=' sprintf('%.3f',ksc) ', p = ' num2str(pc)];
@@ -152,7 +166,7 @@ if strcmp(show,'on'),
 %  	end
 	
 	% Histograms
-	x = linspace(-1,1,nBins);
+	x = linspace(xMin,xMax,nBins);
 	dx = x(2)-x(1);
 	hControl = hist(skewnessControl,x)/mc;
 	hRepeat = hist(skewnessRepeat,x)/mr;
