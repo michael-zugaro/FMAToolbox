@@ -65,7 +65,7 @@ h = mym(['use ' database]);
 % Create tables
 try
 	h = mym('create table figures (eid varchar(50),name varchar(100),comments varchar(255),parameters varchar(50),mfiles mediumblob,code mediumblob,date varchar(50),user varchar(15),md5 varchar(32),gid smallint unsigned,fig mediumblob,png mediumblob,primary key (eid,name));');
-	h = mym('create table variables (eid varchar(50),name varchar(100),comments varchar(255),parameters varchar(50),mfiles mediumblob,code mediumblob,date varchar(50),user varchar(15),md5 varchar(32),gid smallint unsigned,v mediumblob,primary key (eid,name));');
+	h = mym('create table variables (eid varchar(50),name varchar(100),comments varchar(255),parameters varchar(50),mfiles mediumblob,code mediumblob,date varchar(50),user varchar(15),md5 varchar(32),gid smallint unsigned,v longblob,primary key (eid,name));');
 catch
    error(['Could not create tables in ''' database '''.']);
 end
