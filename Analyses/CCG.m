@@ -1,6 +1,6 @@
 function [ccg,t,tau,c] = CCG(times,id,varargin)
 
-%CCG - Compute multiple cross- and auto-correlograms or cross-covariances
+%CCG - Compute multiple cross- and auto-correlograms, or cross-covariances
 %
 %  USAGE
 %
@@ -21,8 +21,8 @@ function [ccg,t,tau,c] = CCG(times,id,varargin)
 %                   (see EXAMPLE #2 below)
 %     'mode'        'ccg' or 'ccv' (default = 'ccg')
 %     'alpha'       significance level to determine correlated pairs
-%     'totaltime'   total recording duration in s (default suppose only one 
-%                   continuous recording block = max(times) - min(times))
+%     'totaltime'   total recording duration in s (if different from the
+%                   default = max(times) - min(times))
 %    =========================================================================
 %
 %  OUTPUT
@@ -84,7 +84,6 @@ smooth = 0;
 groups = [];
 mode = 'ccg';
 alpha = 0.05;
-totalTime = max(times)-min(times);
 
 % Check parameters
 if nargin < 2,
@@ -101,6 +100,7 @@ if ~isdscalar(id) && length(times) ~= length(id),
 end
 id = id(:);
 times = times(:);
+totalTime = max(times)-min(times);
 
 % Parse parameter list
 for i = 1:2:length(varargin),
@@ -277,17 +277,3 @@ if strcmp(mode,'ccv'),
 	ccg = ccv;
 	
 end
-
-
-
-
-%    % Only tetrode #1 vs tetrode #2 (e.g. mPFC vs HPC neurons)
-%    pfc = GetSpikes([1 -1],'output','numbered');
-%    hpc = GetSpikes([2 -1],'output','numbered');
-%    m = max(pfc(:,2));
-%    [spikes,i] = sortrows([pfc(:,1);hpc(:,1)]);
-%    ids = [pfc(:,2);hpc(:,2)+m];
-%    ids = ids(i);
-%    groups = [ones(size(pfc(:,1)));2*ones(size(hpc(:,1)))];
-%    groups = groups(i);
-%    [ccg,t] = CCG(s,ids,'groups',groups);
