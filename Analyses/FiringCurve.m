@@ -34,7 +34,7 @@ function [curve,stats] = FiringCurve(samples,spikes,varargin)
 %                   and ignored (default = 10)
 %     'minPeak'     peaks smaller than this size are considered spurious
 %                   and ignored (default = 1)
-%     'debug'       display processing information (default = 'off')
+%     'verbose'     display processing information (default = 'off')
 %    =========================================================================
 %
 %  OUTPUT
@@ -103,7 +103,7 @@ for i = 1:2:length(varargin),
 			argsm{im} = 'type';
 			argsm{im+1} = [varargin{i+1}(1) 'l'];
 			im = im+2;
-		case {'threshold','minsize','minpeak','debug'},
+		case {'threshold','minsize','minpeak','verbose','debug'},
 			argss{is} = varargin{i};
 			argss{is+1} = varargin{i+1};
 			is = is+2;

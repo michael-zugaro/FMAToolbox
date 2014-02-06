@@ -16,7 +16,6 @@ function [lfp,indices] = GetLFP(channels,varargin)
 %     Properties    Values
 %    -------------------------------------------------------------------------
 %     'restrict'    list of time intervals to read from the LFP file
-%     'intervals'   same as 'restrict' (for backwards compatibility)
 %     'select'      select channel by ID ('id', counted from 0 a la NeuroScope)
 %                   or by number ('number', counted from 1 a la Matlab)
 %                   (default = 'id')

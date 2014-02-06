@@ -40,6 +40,7 @@
 %   CountInIntervals               - Count samples that fall in each of a list of intervals.
 %   ToIntervals                    - Convert logical vector to a list of intervals.
 %   IsExtremum                     - Identify local maxima or minima.
+%   ZeroCrossings                  - Test zero crossings in a given time series.
 %   IsFirstAfter                   - Identify first item after each of a list of timestamps.
 %   IsLastBefore                   - Identify last item before each of a list of timestamps.
 %   Threshold                      - Find periods above/below threshold.
@@ -50,9 +51,7 @@
 %   Diff                           - Differentiate samples.
 %   Filter                         - Filter samples.
 %   Interpolate                    - Interpolate samples (positions, spikes, LFP, etc.) at given timestamps.
-%   Smooth                         - Smooth using a Gaussian kernel.
 %   AdaptiveSmooth                 - Smooth using an adaptive kernel.
-%   ZeroCrossings                  - Test zero crossings in a given time series.
 %
 % General-purpose.
 %
@@ -67,6 +66,7 @@
 %   MatchPairs                     - Pair nearest values in two lists.
 %   RunningAverage                 - Compute running linear or angular average.
 %   SineWavePeaks                  - Find peaks (or troughs) in a sine wave.
+%   Smooth                         - Smooth using a Gaussian kernel.
 %   XCorr1                         - Compute cross-correlograms and their modes for pairs of curves.
 %   ZeroToOne                      - Normalize values in [0,1].
 %

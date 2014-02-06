@@ -30,7 +30,7 @@ function stats = MapStats(map,varargin)
 %                   linear, 'lc' if X is linear and Y circular, or 'cc' if X
 %                   and Y are circular - for 1D data, a single letter is used
 %                   (default = 'll')
-%     'debug'       display processing information (default = 'off')
+%     'verbose'     display processing information (default = 'off')
 %    =========================================================================
 %
 %  OUTPUT
@@ -77,7 +77,7 @@ end
 threshold = 0.2;
 minPeak = 1;
 type = 'll';
-debug = 0;
+verbose = 0;
 
 nDims = sum(size(map.z)>=2);
 if nDims == 2,
@@ -117,12 +117,12 @@ for i = 1:2:length(varargin),
 				error('Incorrect value for property ''type'' (type ''help <a href="matlab:help MapStats">MapStats</a>'' for details).');
 			end
 
-		case 'debug',
-			debug = lower(varargin{i+1});
-			if ~isstring(debug,'on','off'),
-				error('Incorrect value for property ''debug'' (type ''help <a href="matlab:help MapStats">MapStats</a>'' for details).');
+		case {'verbose','debug'},
+			verbose = lower(varargin{i+1});
+			if ~isstring(verbose,'on','off'),
+				error('Incorrect value for property ''verbose'' (type ''help <a href="matlab:help MapStats">MapStats</a>'' for details).');
 			end
-			debug = strcmp(debug,'on');
+			verbose = strcmp(verbose,'on');
 
 		otherwise,
 			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help MapStats">MapStats</a>'' for details).']);
@@ -206,7 +206,7 @@ while true,
 		tc = '*';sc = ' '; % for debugging messages
 	end
 	% Display debugging info
-	if debug,
+	if verbose,
 		disp([int2zstr(i,2) ') peak  ' num2str(peak) ' @ (' int2str(x) ',' int2str(y) ')']);
 		disp([' ' tc ' field size       ' int2str(size1)]);
 		disp([' ' sc ' subfield size    ' int2str(size2)]);
