@@ -14,6 +14,7 @@
 %   ReconstructPosition    - Bayesian reconstruction of positions from spike trains.
 %   TestRemapping          - Test if firing fields remap (or shift) between two conditions.
 %   TestSkewness           - Test if firing field skewness changes between two conditions.
+%   CompareDistributions   - Compare two N-dimensional distributions (e.g. prospective place fields).
 %
 % General purpose mapping.
 %
