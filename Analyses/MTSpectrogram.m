@@ -58,7 +58,7 @@ function [spectrogram,t,f] = MTSpectrogram(lfp,varargin)
 % (at your option) any later version.
 
 % Make sure chronux is installed and functional
-CheckChronux;
+CheckChronux('mtspecgramc');
 
 % Defaults
 f = 1250;
@@ -71,11 +71,6 @@ show = 'off';
 cutoffs = [0 13];
 tapers = [3 5];
 pad = 0;
-
-% Check dependencies
-if isempty(which('mtspecgramc')),
-	error('This function requires the <a href="http://www.chronux.org">chronux</a> toolbox by P. Mitra, which does not appear to be installed on this system.');
-end
 
 % Check number of parameters
 if nargin < 1 | mod(length(varargin),2) ~= 0,

@@ -22,8 +22,7 @@ function [spectrum,f,s] = MTSpectrum(lfp,varargin)
 %     'step'        step between successive windows (default = window/2)
 %     'tapers'      relative resolution and order of the tapers [NW K]
 %                   (default = [3 5])
-%     'pad'         FFT padding (see help for <a href="matlab:help mtspecgramc">mtspectrumc</a>) (default = 0)
-%     'error'       error type (see help for <a href="matlab:help mtspecgramc">mtspectrumc</a>) (default = [1 0.95])
+%     'pad'         FFT padding (see help for <a href="matlab:help mtspecgramc">mtspecgramc</a>) (default = 0)
 %     'show'        plot log spectrum (default = 'off')
 %    =========================================================================
 %
@@ -50,7 +49,7 @@ function [spectrum,f,s] = MTSpectrum(lfp,varargin)
 %
 %    See also MTSpectrogram, SpectrogramBands.
 
-% Copyright (C) 2010-2012 by Michaël Zugaro
+% Copyright (C) 2010-2014 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -58,7 +57,7 @@ function [spectrum,f,s] = MTSpectrum(lfp,varargin)
 % (at your option) any later version.
 
 % Make sure chronux is installed and functional
-CheckChronux;
+CheckChronux('mtspecgramc');
 
 % Defaults
 f = 1250;
@@ -71,11 +70,6 @@ show = 'off';
 tapers = [3 5];
 pad = 0;
 err = [1 0.95];
-
-% Check dependencies
-if isempty(which('mtspecgramc')),
-	error('This function requires the <a href="http://www.chronux.org">chronux</a> toolbox by P. Mitra, which does not appear to be installed on this system.');
-end
 
 % Check number of parameters
 if nargin < 1 | mod(length(varargin),2) ~= 0,
