@@ -38,8 +38,8 @@ function [spectrum,f,s] = MTSpectrum(lfp,varargin)
 %  OUTPUT
 %
 %    spectrum       spectrum
-%    s              error
 %    f              frequency bins
+%    s              error
 %
 %  DEPENDENCIES
 %
