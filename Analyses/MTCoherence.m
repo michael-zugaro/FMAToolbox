@@ -45,7 +45,7 @@ function [coherence,phase,f,sc,sp] = MTCoherence(lfp1,lfp2,varargin)
 %
 %  SEE
 %
-%    See also MTCoherogram.
+%    See also MTCoherogram, MTSpectrum, MTSpectrogram, PlotMean.
 
 % Copyright (C) 2010-2014 by Michaël Zugaro
 %

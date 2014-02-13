@@ -48,9 +48,9 @@ function [spectrogram,t,f] = MTSpectrogram(lfp,varargin)
 %
 %  SEE
 %
-%    See also SpectrogramBands, PlotColorMap.
+%    See also MTSpectrum, SpectrogramBands, MTCoherence, MTCoherogram, PlotColorMap.
 
-% Copyright (C) 2004-2012 by Michaël Zugaro
+% Copyright (C) 2004-2014 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by

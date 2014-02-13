@@ -43,7 +43,7 @@ function [coherogram,phase,t,f] = MTCoherogram(lfp1,lfp2,varargin)
 %
 %  SEE
 %
-%    See also MTSpectrum, MTCoherogram.
+%    See also MTCoherence, MTSpectrum, MTSpectrogram, PlotColorMap.
 
 % Copyright (C) 2010-2014 by Michaël Zugaro
 %

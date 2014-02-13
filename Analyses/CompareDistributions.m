@@ -48,7 +48,7 @@ function [h,stats] = CompareDistributions(group1,group2,varargin)
 %    stats.above        logical vector indicating where the null hypothesis can
 %                       be rejected because the observed difference exceeds the
 %                       upper confidence limits
-%    stats.above        logical vector indicating where the null hypothesis can
+%    stats.below        logical vector indicating where the null hypothesis can
 %                       be rejected because the observed difference lies below
 %                       the lower confidence limits
 %    stats.alpha        successive pointwise alpha values used to target

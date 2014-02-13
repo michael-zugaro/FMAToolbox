@@ -47,7 +47,7 @@ function [spectrum,f,s] = MTSpectrum(lfp,varargin)
 %
 %  SEE
 %
-%    See also MTSpectrogram, SpectrogramBands.
+%    See also MTSpectrogram, SpectrogramBands, MTCoherence, MTCoherogram, PlotMean.
 
 % Copyright (C) 2010-2014 by Michaël Zugaro
 %
