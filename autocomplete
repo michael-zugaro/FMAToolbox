@@ -139,7 +139,7 @@ TC.XML
 <binding name="FiringCurve">
 	<arg argn="1 2" ctype="VAR"/>
 	<!-- the following args are inherited from Map -->
-	<arg argn="3:2:31" ctype="VAR" value="smooth nBins minTime maxGap type"/>
+	<arg argn="3:2:31" ctype="VAR" value="smooth nBins minTime maxGap type mode maxDistance"/>
 	<arg argn="4:2:32" ctype="VAR" previous="type" value="linear circular"/>
 	<!-- the following args are inherited from MapStats -->
 	<arg argn="3:2:31" ctype="VAR" value="center threshold minSize type"/>
@@ -149,7 +149,7 @@ TC.XML
 <binding name="FiringMap">
 	<arg argn="1 2" ctype="VAR"/>
 	<!-- the following args are inherited from Map -->
-	<arg argn="3:2:31" ctype="VAR" value="smooth nBins minTime maxGap type"/>
+	<arg argn="3:2:31" ctype="VAR" value="smooth nBins minTime maxGap type mode maxDistance"/>
 	<arg argn="4:2:32" ctype="VAR" previous="type" value="linear circular"/>
 	<!-- the following args are inherited from MapStats -->
 	<arg argn="3:2:31" ctype="VAR" value="center threshold minSize type"/>
@@ -177,7 +177,7 @@ TC.XML
 
 <binding name="Map">
 	<arg argn="1 2" ctype="VAR"/>
-	<arg argn="3:2:31" ctype="VAR" value="smooth nBins minTime maxGap type"/>
+	<arg argn="3:2:31" ctype="VAR" value="smooth nBins minTime maxGap type mode maxDistance"/>
 	<arg argn="4:2:32" ctype="VAR" previous="type" value="linear circular"/>
 </binding>
 

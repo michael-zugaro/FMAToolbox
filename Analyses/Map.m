@@ -30,8 +30,7 @@ function [map,stats] = Map(v,z,varargin)
 %     'minTime'     minimum time spent in each bin (in s, default = 0)
 %     'mode'        'interpolate' to interpolate missing points (< minTime),
 %                   or 'discard' to discard them (default)
-%     'maxSize'     maximal size of missing point patches for interpolation
-%                   (default = 5)
+%     'maxDistance' maximal distance for interpolation (default = 5)
 %     'maxGap'      z values recorded during time gaps between successive (x,y)
 %                   samples exceeding this threshold (e.g. undetects) will not
 %                   be interpolated; also, such long gaps in (x,y) sampling
@@ -61,7 +60,7 @@ function [map,stats] = Map(v,z,varargin)
 %
 %    See also MapStats, FiringMap, PlotColorMap, Accumulate.
 
-% Copyright (C) 2002-2013 by Michaël Zugaro
+% Copyright (C) 2002-2014 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -93,7 +92,7 @@ nBins = 50;
 minTime = 0;
 type = 'lll';
 mode = 'discard';
-maxSize = 5;
+maxDistance = 5;
 
 if isempty(v) || size(v,1) < 2, return; end
 
@@ -138,10 +137,10 @@ for i = 1:2:length(varargin),
 			error('Incorrect value for property ''maxGap'' (type ''help <a href="matlab:help Map">Map</a>'' for details).');
 			end
 
-		case 'maxsize',
-			maxSize = varargin{i+1};
-			if ~isdscalar(maxSize,'>=0'),
-			error('Incorrect value for property ''maxSize'' (type ''help <a href="matlab:help Map">Map</a>'' for details).');
+		case 'maxdistance',
+			maxDistance = varargin{i+1};
+			if ~isdscalar(maxDistance,'>=0'),
+			error('Incorrect value for property ''maxDistance'' (type ''help <a href="matlab:help Map">Map</a>'' for details).');
 			end
 
 		case 'mode',
@@ -213,13 +212,13 @@ if isempty(y),
 	map.count = Accumulate(x,n,nBinsX);
 	map.time = Accumulate(x,dt,nBinsX);
 	valid = map.time > minTime;
-	map.count = Smooth(Interpolate1(map.x,map.count,valid,mode,maxSize),smooth,'type',type(1))';
-	map.time = Smooth(Interpolate1(map.x,map.time,valid,mode,maxSize),smooth,'type',type(1))';
+	map.count = Smooth(Interpolate1(map.x,map.count,valid,mode,maxDistance),smooth,'type',type(1))';
+	map.time = Smooth(Interpolate1(map.x,map.time,valid,mode,maxDistance),smooth,'type',type(1))';
 	if pointProcess,
 		map.z = map.count./(map.time+eps);
 	else
 		map.z = Accumulate(x,z(:,2),nBinsX);
-		map.z = Smooth(Interpolate1(map.x,map.z,valid,mode,maxSize),smooth,'type',type(1))';
+		map.z = Smooth(Interpolate1(map.x,map.z,valid,mode,maxDistance),smooth,'type',type(1))';
 		map.z = map.z./(map.count+eps);
 	end
 else
@@ -229,13 +228,13 @@ else
 	map.count = Accumulate([x y],n,nBins);
 	map.time = Accumulate([x y],dt,nBins);
 	valid = map.time > minTime;
-	map.count = Smooth(Interpolate2(map.x,map.y,map.count,valid,mode,maxSize),smooth,'type',type(1:2))';
-	map.time = Smooth(Interpolate2(map.x,map.y,map.time,valid,mode,maxSize),smooth,'type',type(1:2))';
+	map.count = Smooth(Interpolate2(map.x,map.y,map.count,valid,mode,maxDistance),smooth,'type',type(1:2))';
+	map.time = Smooth(Interpolate2(map.x,map.y,map.time,valid,mode,maxDistance),smooth,'type',type(1:2))';
 	if pointProcess,
 		map.z = map.count./(map.time+eps);
 	else
 		map.z = Accumulate([x y],z(:,2),nBins);
-		map.z = Smooth(Interpolate2(map.x,map.y,map.z,valid,mode,maxSize),smooth,'type',type(1:2)).';
+		map.z = Smooth(Interpolate2(map.x,map.y,map.z,valid,mode,maxDistance),smooth,'type',type(1:2)).';
 		map.z = map.z./(map.count+eps);
 	end
 end
@@ -252,7 +251,7 @@ end
 % ------------------------------- Helper functions -------------------------------
 
 % Interpolate if required (1D)
-function yint = Interpolate1(x,y,valid,mode,maxSize)
+function yint = Interpolate1(x,y,valid,mode,maxDistance)
 
 if strcmp(mode,'discard'),
 	yint = y;
@@ -261,57 +260,81 @@ else
 end
 
 % Interpolate if required (2D)
-function zint = Interpolate2(x,y,z,valid,mode,maxSize)
+function zint = Interpolate2(x,y,z,valid,mode,maxDistance)
 
 if strcmp(mode,'discard'),
 	% In discard mode, do nothing
 	zint = z;
 else
 	% In interpolation mode, interpolate missing points (where time < minTime) using other points
-	% Do this only for small patches of missing points
-	patches = FindPatches(valid,maxSize);
+	d = DistanceTransform(valid);
 	xx = repmat(x,length(y),1);
 	yy = repmat(y',1,length(x));
 	if exist('scatteredInterpolant') == 2,
-		F = scatteredInterpolant(xx(patches==0),yy(patches==0),z(patches==0));
+		F = scatteredInterpolant(xx(d==0),yy(d==0),z(d==0));
 	else
-		F = TriScatteredInterp(xx(patches==0),yy(patches==0),z(patches==0));
+		F = TriScatteredInterp(xx(d==0),yy(d==0),z(d==0));
 	end
 	zint = F(xx,yy);
-	% (do not interpolate large patches of missing points)
-	zint(patches==2) = z(patches==2);
+	% (do not interpolate missing points too distant from valid points)
+	zint(d>maxDistance) = z(d>maxDistance);
+	zint(isnan(zint)) = z(isnan(zint));
 end
 
-% Find patches of missing points
-% Output: patches(i,j) = 0 if (i,j) is not missing
-%         patches(i,j) = 1 if (i,j) is missing and in small patch
-%         patches(i,j) = 2 if (i,j) is missing and in large patch
-function patches = FindPatches(valid,maxSize)
 
-patches = double(~valid);
 
-% Loop through missing points, and update patch matrix so that:
-%  patches(i,j) = 0 if (i,j) is not missing
-%  patches(i,j) = 1 if (i,j) is missing and not yet examined
-%  patches(i,j) = 2 if (i,j) is missing and in patch of undetermined size
-%  patches(i,j) = 3 if (i,j) is missing and in small patch
-%  patches(i,j) = 4 if (i,j) is missing and in large patch
-while true,
-	% Find missing point(s)
-	[i,j] = find(patches==1);
-	if isempty(i), break; end
-	% Find first patch of contiguous missing points
-	patches = Contiguous(patches,i(1),j(1));
-	% Depending on size...
-	if sum(patches(:)==2) <= maxSize,
-		% ... this is a 'small' patch, set to 3
-		patches(patches==2) = 3;
-	else
-		% ... this is a 'large' patch, set to 4
-		patches(patches==2) = 4;
-	end
-end
-
-% Set small patches to 1, and large patches to 2
-patches(patches==3) = 1;
-patches(patches==4) = 2;
+%  % Interpolate if required (2D)
+%  function zint = Interpolate2(x,y,z,valid,mode,maxSize)
+%  
+%  if strcmp(mode,'discard'),
+%  	% In discard mode, do nothing
+%  	zint = z;
+%  else
+%  	% In interpolation mode, interpolate missing points (where time < minTime) using other points
+%  	% Do this only for small patches of missing points
+%  	patches = FindPatches(valid,maxSize);
+%  	xx = repmat(x,length(y),1);
+%  	yy = repmat(y',1,length(x));
+%  	if exist('scatteredInterpolant') == 2,
+%  		F = scatteredInterpolant(xx(patches==0),yy(patches==0),z(patches==0));
+%  	else
+%  		F = TriScatteredInterp(xx(patches==0),yy(patches==0),z(patches==0));
+%  	end
+%  	zint = F(xx,yy);
+%  	% (do not interpolate large patches of missing points)
+%  	zint(patches==2) = z(patches==2);
+%  end
+%  
+%  % Find patches of missing points
+%  % Output: patches(i,j) = 0 if (i,j) is not missing
+%  %         patches(i,j) = 1 if (i,j) is missing and in small patch
+%  %         patches(i,j) = 2 if (i,j) is missing and in large patch
+%  function patches = FindPatches(valid,maxSize)
+%  
+%  patches = double(~valid);
+%  
+%  % Loop through missing points, and update patch matrix so that:
+%  %  patches(i,j) = 0 if (i,j) is not missing
+%  %  patches(i,j) = 1 if (i,j) is missing and not yet examined
+%  %  patches(i,j) = 2 if (i,j) is missing and in patch of undetermined size
+%  %  patches(i,j) = 3 if (i,j) is missing and in small patch
+%  %  patches(i,j) = 4 if (i,j) is missing and in large patch
+%  while true,
+%  	% Find missing point(s)
+%  	[i,j] = find(patches==1);
+%  	if isempty(i), break; end
+%  	% Find first patch of contiguous missing points
+%  	patches = Contiguous(patches,i(1),j(1));
+%  	% Depending on size...
+%  	if sum(patches(:)==2) <= maxSize,
+%  		% ... this is a 'small' patch, set to 3
+%  		patches(patches==2) = 3;
+%  	else
+%  		% ... this is a 'large' patch, set to 4
+%  		patches(patches==2) = 4;
+%  	end
+%  end
+%  
+%  % Set small patches to 1, and large patches to 2
+%  patches(patches==3) = 1;
+%  patches(patches==4) = 2;

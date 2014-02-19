@@ -20,6 +20,9 @@ function [map,stats] = FiringMap(positions,spikes,varargin)
 %     'smooth'      smoothing size in bins (0 = no smoothing, default = 2)
 %     'nBins'       number of horizontal and vertical bins (default = [50 50])
 %     'minTime'     minimum time spent in each bin (in s, default = 0)
+%     'mode'        'interpolate' to interpolate missing points (< minTime),
+%                   or 'discard' to discard them (default)
+%     'maxDistance' maximal distance for interpolation (default = 5)
 %     'maxGap'      z values recorded during time gaps between successive (x,y)
 %                   samples exceeding this threshold (e.g. undetects) will not
 %                   be interpolated; also, such long gaps in (x,y) sampling

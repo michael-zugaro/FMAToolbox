@@ -60,6 +60,7 @@
 %   CircularShift                  - Shift matrix rows or columns circularly.
 %   Clip                           - Clip values.
 %   CumSum                         - Cumulative sum of elements. Partial sums can also be computed.
+%   DistanceTransform              - Compute distance transform of a binary matrix (distance to nearest 1 value).
 %   ExtendArray                    - Extend existing array to a given (larger) size.
 %   Insert                         - Insert lines in a matrix.
 %   Match                          - Replace values in one list with closest values in a second list.
