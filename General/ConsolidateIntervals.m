@@ -73,6 +73,7 @@ for i = 1:2:length(varargin),
 end
 
 original = intervals;
+
 % Mark already consolidated intervals to avoid retesting them
 done = logical(zeros(size(intervals(:,1))));
 
@@ -138,6 +139,13 @@ target = target';
 
 consolidated = unique(intervals,'rows');
 
-% Empty intervals belong to none
+% Remove empty intervals from output...
+empty = diff(consolidated,1,2) < 0;
+consolidated(empty,:) = [];
+% ... and update target IDs
 empty = diff(original,1,2) < 0;
+[t,i] = sortrows([target empty]);
+target(i) = t(:,1)-cumsum(t(:,2));
+
+% Empty intervals belong to none
 target(empty) = NaN;
