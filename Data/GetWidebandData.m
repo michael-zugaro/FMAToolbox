@@ -16,7 +16,6 @@ function [data,indices] = GetWidebandData(channels,varargin)
 %     Properties    Values
 %    -------------------------------------------------------------------------
 %     'restrict'    list of time intervals to read from the data file
-%     'intervals'   same as 'restrict' (for backwards compatibility)
 %     'select'      select channel by ID ('id', counted from 0 a la NeuroScope)
 %                   or by number ('number', counted from 1 a la Matlab)
 %                   (default = 'id')
@@ -38,7 +37,7 @@ function [data,indices] = GetWidebandData(channels,varargin)
 %    % channel # 3 (= ID 2), from 0 to 120 seconds
 %    data = GetWidebandData(3,'intervals',[0 120],'select','number');
 
-% Copyright (C) 2004-2011 by Michaël Zugaro
+% Copyright (C) 2004-2014 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by

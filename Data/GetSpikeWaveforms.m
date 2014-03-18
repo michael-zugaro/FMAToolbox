@@ -13,7 +13,6 @@ function data = GetSpikeWaveforms(unit,varargin)
 %     Properties    Values
 %    -------------------------------------------------------------------------
 %     'restrict'    list of time intervals to read from the data file
-%     'intervals'   same as 'restrict' (for backwards compatibility)
 %    =========================================================================
 %
 %  OUTPUT
@@ -24,7 +23,7 @@ function data = GetSpikeWaveforms(unit,varargin)
 %
 %    See also LoadSpikeWaveforms, PlotSpikeWaveforms.
 
-% Copyright (C) 2004-2013 by Michaël Zugaro
+% Copyright (C) 2004-2014 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
