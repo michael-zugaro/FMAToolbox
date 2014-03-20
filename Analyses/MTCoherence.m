@@ -1,6 +1,6 @@
 function [coherence,phase,f,sc,sp] = MTCoherence(lfp1,lfp2,varargin)
 
-%MTCoherence - Compute coherence of LFPs by multi-taper estimation.
+%MTCoherence - Compute LFP coherence by multi-taper estimation.
 %
 %  The coherence is computed as the average coherogram, using the <a href="http://www.chronux.org">chronux</a> toolbox.
 %

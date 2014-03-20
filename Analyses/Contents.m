@@ -32,8 +32,10 @@
 %
 %   FilterLFP              - Filter the local field potentials, e.g. in the theta band.
 %   Phase                  - Compute instantaneous phase in LFP.
-%   MTSpectrogram          - Compute LFP spectrogram by multi-taper estimation (chronux version).
+%   MTCoherence            - Compute LFP coherence by multi-taper estimation.
+%   MTCoherogram           - Compute LFP coherogram by multi-taper estimation.
 %   MTSpectrum             - Compute LFP spectrum by multi-taper estimation.
+%   MTSpectrogram          - Compute LFP spectrogram by multi-taper estimation.
 %   SpectrogramBands       - Determine running power in physiological bands.
 %   CSD                    - Compute current source density.
 %   FindRipples            - Find hippocampal ripples (100~200Hz oscillations).
