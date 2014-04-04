@@ -171,6 +171,7 @@ parameters.pad = pad;
 t = t'+lfp1(1,1);
 f = f';
 coherogram = coherogram';
+% coherogram = permute(coherogram,[2 1 3]);  % Previous code by Gabrielle Girardeau, keep it around just in case
 phase = phase';
 if strcmp(lower(show),'on'),
 	figure;
