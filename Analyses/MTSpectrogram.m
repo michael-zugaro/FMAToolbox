@@ -126,7 +126,7 @@ for i = 1:2:length(varargin),
 		case 'show',
 			show = varargin{i+1};
 			if ~isstring(show,'on','off'),
-				error('Incorrect value for property ''show'' (type ''help <a href="matlab:help FindRipples">FindRipples</a>'' for details).');
+				error('Incorrect value for property ''show'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
 			end
 		case 'cutoffs',
 			cutoffs = varargin{i+1};
@@ -173,4 +173,7 @@ if strcmp(lower(show),'on'),
 	figure;
 	logTransformed = log(spectrogram);
 	PlotColorMap(logTransformed,1,'x',t,'y',f,'cutoffs',cutoffs);
+	xlabel('Time (s)');
+	ylabel('Frequency (Hz)');
+	title('Power Spectrogram');
 end

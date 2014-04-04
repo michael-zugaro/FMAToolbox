@@ -30,6 +30,10 @@ function [coherogram,phase,t,f] = MTCoherogram(lfp1,lfp2,varargin)
 %    The LFP can be provided either as a time stamped matrix (list of time-voltage
 %    pairs), or as a voltage vector - in which case the frequency must be specified.
 %
+%    The time displacement between successive short time coherences can be supplied
+%    either as a 'step' (explicit time difference) or as an 'overlap' (between
+%    successive time windows).
+%
 %  OUTPUT
 %
 %    coherogram     coherogram magnitude
@@ -172,6 +176,12 @@ if strcmp(lower(show),'on'),
 	figure;
 	subplot(2,1,1);
 	PlotColorMap(coherogram,'x',t,'y',f,'cutoffs',cutoffs);
+	xlabel('Time (s)');
+	ylabel('Frequency (Hz)');
+	title('Coherogram Amplitude');
 	subplot(2,1,2);
 	PlotColorMap(phase,'x',t,'y',f,'cutoffs',[-pi pi]);
+	xlabel('Time (s)');
+	ylabel('Frequency (Hz)');
+	title('Coherogram Phase');
 end

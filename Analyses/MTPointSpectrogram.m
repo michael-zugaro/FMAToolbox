@@ -168,4 +168,7 @@ if strcmp(lower(show),'on'),
 	if isempty(parent), parent = figure; end
 	logTransformed = log(spectrogram);
 	PlotColorMap(logTransformed,1,'x',t,'y',f,'cutoffs',cutoffs);
+	xlabel('Time (s)');
+	ylabel('Frequency (Hz)');
+	title('Power Spectrogram');
 end

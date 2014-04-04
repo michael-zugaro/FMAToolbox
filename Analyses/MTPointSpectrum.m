@@ -65,6 +65,7 @@ if size(times,2) ~= 1 && size(times,2) ~= 2,
 end
 
 % Parse parameter list
+v = {};
 for i = 1:2:length(varargin),
 	if ~ischar(varargin{i}),
 		error(['Parameter ' num2str(i+2) ' is not a property (type ''help <a href="matlab:help MTPointSpectrum">MTPointSpectrum</a>'' for details).']);
@@ -98,16 +99,24 @@ for i = 1:2:length(varargin),
 		otherwise,
 			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help MTPointSpectrum">MTPointSpectrum</a>'' for details).']);
 	end
+	if ~strcmp(varargin{i},'show'), v = {v{:},varargin{i:i+1}}; end
 end
 
-% Compute and plot spectrum
-parameters.Fs = frequency;
-if ~isempty(range), parameters.fpass = range; end
-parameters.tapers = tapers;
-parameters.pad = pad;
-parameters.err = err;
-[spectrum,f,rate,s] = mtspectrumpt(times,parameters);
-s = s';
+% Compute point spectrogram and moments
+[spectrogram,~,f] = MTPointSpectrogram(lfp,v{:});
+spectrogram = spectrogram';
+spectrum = mean(spectrogram);
+s = var(spectrogram);
+
+% Plot log, i.e. mean E[log(spectrogram)] and stdev sqrt(Var[log(spectrogram)])
+% (see http://en.wikipedia.org/wiki/Taylor_expansions_for_the_moments_of_functions_of_random_variables)
 if strcmp(lower(show),'on'),
-	PlotMean(f,log(spectrum),log(s(:,1)),log(s(:,2)),':');
+	figure;
+	%logSpectrum = log(spectrum);         % classic value
+	logSpectrum = log(mu)-v./(2*mu.*mu);  % corrected value, valid for mu/s > 1.5
+	logS = sqrt(v./mu.^2);               % valid for mu/s > 2.5
+	PlotMean(f,logSpectrum,logSpectrum-logS,logSpectrum+logS,':');
+	xlabel('Frequency (Hz)');
+	ylabel('Power');
+	title('Power Spectrum');
 end

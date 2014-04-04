@@ -35,9 +35,9 @@ function [coherence,phase,f,sc,sp] = MTCoherence(lfp1,lfp2,varargin)
 %
 %    coherence      coherence magnitude
 %    phase          coherence phase
+%    f              frequency bins
 %    sc             error on magnitude
 %    sp             error on phase
-%    f              frequency bins
 %
 %  DEPENDENCIES
 %
@@ -119,9 +119,8 @@ for i = 1:2:length(varargin),
 	if ~strcmp(varargin{i},'show'), v = {v{:},varargin{i:i+1}}; end
 end
 
-% Compute spectrogram and moments
-[coherogram,phase,t,f] = MTCoherogram(lfp1,lfp2,v{:});
-
+% Compute spectrogram
+[coherogram,phase,~,f] = MTCoherogram(lfp1,lfp2,v{:});
 
 % Compute coherence
 coherogram = coherogram';
@@ -137,8 +136,10 @@ if strcmp(lower(show),'on'),
 	PlotMean(f,coherence,coherence-sc,coherence+sc,':');
 	xlabel('Frequency (Hz)');
 	ylabel('Coherence');
+	title('Coherogram Amplitude');
 	subplot(2,1,2);
 	PlotMean(f,phase*180/pi,sp(1,:)*180/pi,sp(2,:)*180/pi,':');
 	xlabel('Frequency (Hz)');
 	ylabel('Phase (°)');
+	title('Coherogram Phase');
 end

@@ -69,7 +69,6 @@ step = [];
 show = 'off';
 tapers = [3 5];
 pad = 0;
-err = [1 0.95];
 
 % Check number of parameters
 if nargin < 1 | mod(length(varargin),2) ~= 0,
@@ -152,4 +151,7 @@ if strcmp(lower(show),'on'),
 	logSpectrum = log(mu)-v./(2*mu.*mu);  % corrected value, valid for mu/s > 1.5
 	logS = sqrt(v./mu.^2);               % valid for mu/s > 2.5
 	PlotMean(f,logSpectrum,logSpectrum-logS,logSpectrum+logS,':');
+	xlabel('Frequency (Hz)');
+	ylabel('Power');
+	title('Power Spectrum');
 end
