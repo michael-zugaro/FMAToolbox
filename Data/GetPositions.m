@@ -48,12 +48,12 @@ if isempty(DATA),
 	error('No session defined (did you forget to call SetCurrentSession? Type ''help <a href="matlab:help Data">Data</a>'' for details).');
 end
 
-% Default values
-mode = GetCustomDefaults('mode','clean');
-coordinates = GetCustomDefaults('coordinates','normalized');
-pixel = GetCustomDefaults('pixel',[]);
+% Default values (customizable defaults must be empty at this point)
+mode = '';
+coordinates = '';
+pixel = [];
+distances = [];
 discard = 'partial';
-distances = GetCustomDefaults('distances',[0 Inf]);
 
 if mod(length(varargin),2) ~= 0,
 	error('Incorrect number of parameters (type ''help <a href="matlab:help GetPositions">GetPositions</a>'' for details).');
@@ -94,6 +94,12 @@ for i = 1:2:length(varargin),
 			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help GetPositions">GetPositions</a>'' for details).']);
 	end
 end
+
+% Customizable defaults (if not already set)
+mode = GetCustomDefaults(mode,'mode','clean');
+coordinates = GetCustomDefaults(coordinates,'coordinates','normalized');
+pixel = GetCustomDefaults(pixel,'pixel',[]);
+distances = GetCustomDefaults(distances,'distances',[0 Inf]);
 
 minDistance = distances(1);
 maxDistance = distances(2);
