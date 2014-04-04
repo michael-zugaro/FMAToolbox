@@ -28,14 +28,6 @@
 
 global SETTINGS;
 
-% Minimum and maximum allowed distance between LEDs (when there are 2 LEDs)
-if ~isfield(SETTINGS,'minDistance'),
-	SETTINGS.minDistance = 0;
-end
-if ~isfield(SETTINGS,'maxDistance'),
-	SETTINGS.maxDistance = 1000;
-end
-
 if ~isfield(SETTINGS,'minFieldSize'),
 	SETTINGS.minFieldSize = 100;
 end
