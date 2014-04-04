@@ -1,4 +1,4 @@
-function SetCurrentSession(filename)
+function SetCurrentSession(varargin)
 
 %SetCurrentSession - Load all data for a given recording session.
 %
@@ -7,21 +7,62 @@ function SetCurrentSession(filename)
 %
 %  USAGE
 %
-%    SetCurrentSession(filename)
+%    SetCurrentSession(filename,varargin)
 %
-%    filename            optional parameter file name; use 'same' to force reload
+%    filename       optional parameter file name; use 'same' to force reload
+%    <options>      optional list of property-value pairs (see table below)
+%
+%    =========================================================================
+%     Properties    Values
+%    -------------------------------------------------------------------------
+%     'spikes'      load or skip spike files (default = 'on')
+%    =========================================================================
 %
 %  NOTE
 %
 %    If no parameter file name is specified, an interactive file selection
 %    dialog is displayed.
 
-% Copyright (C) 2004-2012 by Michaël Zugaro
+% Copyright (C) 2004-2014 by Michaël Zugaro, 2014 by Gabrielle Girardeau
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
 % the Free Software Foundation; either version 3 of the License, or
 % (at your option) any later version.
+
+% Default values
+spikes = 'on';
+filename = '';
+
+% Filename?
+if nargin ~= 0,
+	if ~isstring(varargin{1},'spikes'),
+		filename = varargin{1};
+		varargin = {varargin{2:end}};
+	end
+end
+
+% Check number of parameters
+if mod(length(varargin),2) ~= 0,
+  error('Incorrect number of parameters (type ''help <a href="matlab:help SetCurrentSession">SetCurrentSession</a>'' for details).');
+end
+
+% Parse parameter list
+for i = 1:2:length(varargin),
+	if ~ischar(varargin{i}),
+		error(['Parameter ' num2str(i+2) ' is not a property (type ''help <a href="matlab:help SetCurrentSession">SetCurrentSession</a>'' for details).']);
+	end
+	switch(lower(varargin{i})),
+		case 'spikes',
+			spikes = lower(varargin{i+1});
+			if ~isstring(spikes,'on','off'),
+				error('Incorrect value for property ''spikes'' (type ''help <a href="matlab:help SetCurrentSession">SetCurrentSession</a>'' for details).');
+			end
+		otherwise,
+			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help SetCurrentSession">SetCurrentSession</a>'' for details).']);
+
+  end
+end
 
 global DATA;
 separator = filesep;
@@ -50,7 +91,7 @@ if isempty(DATA) || ~isfield(DATA,'session') || ~isfield(DATA.session,'path') ||
 	Settings;
 end
 
-if nargin == 0 || (strcmp(filename,'same') && isempty(DATA.session.basename)),
+if isempty(filename) || (strcmp(filename,'same') && isempty(DATA.session.basename)),
 	% Interactive mode
 	[filename,path] = uigetfile('*.xml','Please select a parameter file for this session');
 	if filename == 0,return; end
@@ -125,30 +166,34 @@ else
 end
 
 % Spike files
-DATA.spikes = [];
-for i = 1:DATA.spikeGroups.nGroups,
-	filename = [path separator basename '.' int2str(i) '.clu'];
-	if exist(filename,'file'),
-		try
-			DATA.spikes = [DATA.spikes;LoadSpikeTimes(filename,DATA.rates.wideband)];
-			disp(['... loaded spike files ''' basename '.' int2str(i) '.clu''']);
-		catch
-			disp(['... (could not load spike files ''' basename '.' int2str(i) '.clu'')']);
-		end
-	else
-		filename = [path separator basename '.clu.' int2str(i)];
+if strcmp(spikes,'on'),
+	DATA.spikes = [];
+	for i = 1:DATA.spikeGroups.nGroups,
+		filename = [path separator basename '.' int2str(i) '.clu'];
 		if exist(filename,'file'),
 			try
 				DATA.spikes = [DATA.spikes;LoadSpikeTimes(filename,DATA.rates.wideband)];
-				disp(['... loaded spike files ''' basename '.clu.' int2str(i) '''']);
+				disp(['... loaded spike files ''' basename '.' int2str(i) '.clu''']);
 			catch
-				disp(['... (could not load spike files ''' basename '.clu.' int2str(i) ''')']);
+				disp(['... (could not load spike files ''' basename '.' int2str(i) '.clu'')']);
+			end
+		else
+			filename = [path separator basename '.clu.' int2str(i)];
+			if exist(filename,'file'),
+				try
+					DATA.spikes = [DATA.spikes;LoadSpikeTimes(filename,DATA.rates.wideband)];
+					disp(['... loaded spike files ''' basename '.clu.' int2str(i) '''']);
+				catch
+					disp(['... (could not load spike files ''' basename '.clu.' int2str(i) ''')']);
+				end
 			end
 		end
 	end
-end
-if isempty(DATA.spikes),
-	disp('... (no spike files found)');
+	if isempty(DATA.spikes),
+		disp('... (no spike files found)');
+	end
+else
+	disp('... (skipping spike files)');
 end
 
 % This is updated only once the files have been properly loaded
