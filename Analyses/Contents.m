@@ -37,6 +37,7 @@
 %   MTSpectrum             - Compute LFP spectrum by multi-taper estimation.
 %   MTSpectrogram          - Compute LFP spectrogram by multi-taper estimation.
 %   SpectrogramBands       - Determine running power in physiological bands.
+%   CoherenceBands         - Determine running coherence in physiological bands.
 %   CSD                    - Compute current source density.
 %   FindRipples            - Find hippocampal ripples (100~200Hz oscillations).
 %   RippleStats            - Compute descriptive stats for ripples (100~200Hz oscillations).

@@ -1,6 +1,6 @@
 function bands = CoherenceBands(coherogram,frequencies,varargin)
 
-%CoherenceBands - Determine running power coherence in physiological bands.
+%CoherenceBands - Determine running coherence in physiological bands.
 %
 %  USAGE
 %
@@ -82,7 +82,7 @@ for i = 1:2:length(varargin),
 			custom = varargin{i+1};
 			if ~isdvector(delta,'>=0','<','#2'),
 				error('Incorrect value for property ''delta'' (type ''help <a href="matlab:help SpectrogramBands">SpectrogramBands</a>'' for details).');
-			end	
+			end
 		case 'delta',
 			delta = varargin{i+1};
 			if ~isdvector(delta,'>=0','<','#2'),
