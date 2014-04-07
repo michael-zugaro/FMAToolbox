@@ -17,9 +17,6 @@ function [coherence,phase,f,sc,sp] = MTCoherence(lfp1,lfp2,varargin)
 %     'frequency'   sampling rate (in Hz) (default = from timestamps if
 %                   available, otherwise 1250Hz)
 %     'range'       frequency range (in Hz) (default = all)
-%     'window'      duration (in s) of the time window (default = 5)
-%     'overlap'     overlap between successive windows (default = window/2)
-%     'step'        step between successive windows (default = window/2)
 %     'tapers'      relative resolution and order of the tapers [NW K]
 %                   (default = [3 5])
 %     'pad'         FFT padding (see help for <a href="matlab:help coherencyc">coherencyc</a>) (default = 0)
@@ -60,9 +57,6 @@ CheckChronux('coherencyc');
 % Defaults
 f = 1250;
 frequency = [];
-window = 5;
-overlap = [];
-step = [];
 range = [];
 show = 'off';
 tapers = [3 5];
