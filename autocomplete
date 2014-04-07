@@ -187,9 +187,21 @@ TC.XML
 	<arg argn="3:2:31" ctype="VAR" previous="type" value="ll cl lc cc"/>
 </binding>
 
+<binding name="MTCoherence">
+	<arg argn="1" ctype="VAR"/>
+	<arg argn="2:2:30" ctype="VAR" value="frequency range window overlap step cutoffs tapers pad show"/>
+	<arg argn="3:2:31" ctype="VAR" previous="show" value="on off"/>
+</binding>
+
+<binding name="MTCoherogram">
+	<arg argn="1" ctype="VAR"/>
+	<arg argn="2:2:30" ctype="VAR" value="frequency range tapers pad show"/>
+	<arg argn="3:2:31" ctype="VAR" previous="show" value="on off"/>
+</binding>
+
 <binding name="MTPointSpectrum">
 	<arg argn="1" ctype="VAR"/>
-	<arg argn="2:2:30" ctype="VAR" value="frequency range tapers pad error show"/>
+	<arg argn="2:2:30" ctype="VAR" value="frequency range tapers pad show"/>
 	<arg argn="3:2:31" ctype="VAR" previous="show" value="on off"/>
 </binding>
 
@@ -201,7 +213,7 @@ TC.XML
 
 <binding name="MTSpectrum">
 	<arg argn="1" ctype="VAR"/>
-	<arg argn="2:2:30" ctype="VAR" value="frequency range tapers pad error show"/>
+	<arg argn="2:2:30" ctype="VAR" value="frequency range tapers pad show"/>
 	<arg argn="3:2:31" ctype="VAR" previous="show" value="on off"/>
 </binding>
 
