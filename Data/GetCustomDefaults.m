@@ -17,7 +17,7 @@ function output = GetCustomDefaults(current,property,value)
 %
 %  USAGE
 %
-%    output = GetCustomDefaults(current,property,value,<options>)
+%    output = GetCustomDefaults(current,property,value)
 %
 %    current        current value
 %    property       property name
@@ -69,10 +69,17 @@ function output = GetCustomDefaults(current,property,value)
 % the Free Software Foundation; either version 3 of the License, or
 % (at your option) any later version.
 
-% Non-empty inputs
-if ~isempty(current),
-	output = current;
-	return
+if nargin == 2,
+	% Backward compatibility for former usage: output = GetCustomDefaults(property,value)
+	value = property;
+	property = current;
+	warning('Deprecated usage (type ''help <a href="matlab:help GetCustomDefaults">GetCustomDefaults</a>'' for details).');
+else
+	% Non-empty input
+	if ~isempty(current),
+		output = current;
+		return
+	end
 end
 
 % Default value
@@ -105,6 +112,5 @@ elseif isstring(output),
 else
 	d = '';
 end
-
 warning(['Using custom default value ' d 'for ''' property ''' in function ''' functionName '''.']);
 
