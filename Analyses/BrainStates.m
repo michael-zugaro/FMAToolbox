@@ -177,11 +177,11 @@ cluster = kmeans(features,nClusters);
 sws = logical(zeros(size(t)));
 rem = logical(zeros(size(t)));
 % 1) Measure mean ratio for each state
-if switch(method),
-	case 'amygdala',
-		ratio = bands.ratios.amygdala(sleep);
-	otherwise,
-		ratio = bands.ratios.hippocampus(sleep);
+switch(method),
+    case 'amygdala',
+        ratio = bands.ratios.amygdala(sleep);
+    otherwise,
+        ratio = bands.ratios.hippocampus(sleep);
 end
 for i = 1:nClusters,
 	meanRatio(i) = mean(ratio(cluster==i));

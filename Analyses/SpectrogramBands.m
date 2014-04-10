@@ -178,5 +178,5 @@ bands.ratios.cortex(:,2) = Smooth(band1./(band2+eps),smooth);
 bands.ratio2 = bands.ratios.cortex(:,2);
 
 % Amygdala ratio
-bands.ratios.amygdala = Smooth(bands.amyGamma./(bands.broadlow+eps),smooth);
+bands.ratios.amygdala = Smooth(bands.amyGamma./(bands.broadLow+eps),smooth);
 bands.ratio3 = bands.ratios.amygdala;
