@@ -130,10 +130,10 @@ if strcmp(lower(show),'on'),
 	PlotMean(f,coherence,coherence-sc,coherence+sc,':');
 	xlabel('Frequency (Hz)');
 	ylabel('Coherence');
-	title('Coherogram Amplitude');
+	title('Coherence Amplitude');
 	subplot(2,1,2);
 	PlotMean(f,phase*180/pi,sp(1,:)*180/pi,sp(2,:)*180/pi,':');
 	xlabel('Frequency (Hz)');
 	ylabel('Phase (°)');
-	title('Coherogram Phase');
+	title('Coherence Phase');
 end

@@ -88,7 +88,9 @@ end
 
 nSync = length(sync);
 
-disp([num2str(nSync) ' synchronizing events to process...']) ;
+if verbose,
+	disp([num2str(nSync) ' synchronizing events to process...']) ;
+end
 
 % Output matrices will be allocated in arbitrarily large blocks (and will be trimmed down later)
 % This will be much faster than increasing matrix size by the exact appropriate amount for each synchronizing event

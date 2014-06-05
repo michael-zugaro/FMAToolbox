@@ -98,7 +98,7 @@ for i = 1:2:length(varargin),
 			end
 		case 'cutoffs',
 			cutoffs = varargin{i+1};
-			if ~isdvector(cutoffs,'#2','<'),
+			if ~isdvector(cutoffs,'#2','<') & ~isempty(cutoffs),
 				error('Incorrect value for property ''cutoffs'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
 			end
 		case 'hgamma',

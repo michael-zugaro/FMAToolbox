@@ -63,7 +63,7 @@ if nBootstrap == 0
 	else
 		err = pi;
 	end
-	boundaries = repmat(m,2,1) + [-err;err];
+	boundaries = [m-err; m+err];
 else
 	m = CircularMean(angles);
 	b = bootstrp(nBootstrap,'CircularMean',angles);
