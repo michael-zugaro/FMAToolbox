@@ -151,28 +151,24 @@ stats.k = nan;
 
 if isempty(map.z), return; end
 
-% Compute the spatial specificity of the map, based on the formula proposed by Skaggs et al. (1993).
-T = sum(sum(map.time));
-if T == 0,
-  stats.specificity = 0;
+% Compute the spatial specificity of the map, based on the formula proposed by Skaggs et al. (1993):
+%  specificity = SUM { p(i) . lambda(i)/lambda . log2(lambda(i)/lambda) }
+T = sum(map.time(:));
+p_i = map.time/(T+eps);
+lambda_i = map.rate;
+lambda = mean(lambda_i(:));
+if T == 0 || lambda == 0,
+	stats.specificity = 0;
 else
-  occupancy = map.time/(T+eps);
-  m = sum(sum(map.count))/(sum(sum(map.time)+eps));
-  if m == 0,
-    stats.specificity = 0;
-  else
-    logArg = map.count/m;
-    logArg(logArg <= 1) = 1;
-    stats.specificity = sum(sum(map.count.*log2(logArg).*occupancy))/m;
-  end
+	stats.specificity = sum(sum(p_i.*lambda_i/lambda.*log2(lambda_i/lambda)));
 end
 
 % Determine the field as the connex area around the peak where the value or rate is > threshold*peak
 % There can be two or more fields
 
 if max(max(map.z)) == 0,
-  stats.field = logical(zeros(size(map.z)));
-  return;
+	stats.field = logical(zeros(size(map.z)));
+	return;
 end
 
 nBinsX = max([1 length(map.x)]);	% minimum number of bins is 1
