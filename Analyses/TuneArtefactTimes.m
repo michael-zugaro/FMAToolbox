@@ -16,8 +16,8 @@ function tuned = TuneArtefactTimes(x,times,varargin)
 %    % in memory, so it will have to be read piecewise from disk)
 %    times = TuneArtefactTimes(channel,artefacts,<options>)
 %
-%    lfp            local field potentials
-%    channel        recording channel (wideband data)
+%    lfp            local field potential <a href="matlab:help samples">samples</a>
+%    channel        recording channel ID (wideband data)
 %    artefacts      approximate artefact times
 %    <options>      optional list of property-value pairs (see table below)
 %

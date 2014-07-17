@@ -8,7 +8,7 @@ function V = LinearVelocity(X,smooth)
 %
 %    V = LinearVelocity(X,smooth)
 %
-%    X              the time-varying vector given as a list of triplets [t x y]
+%    X              position <a href="matlab:help samples">samples</a>
 %    smooth         optional standard deviation for Gaussian kernel used for
 %                   differentiating, measured in number of samples
 %                   (default = no smoothing)

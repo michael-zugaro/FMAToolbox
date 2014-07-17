@@ -10,7 +10,7 @@ function [map,stats] = FiringMap(positions,spikes,varargin)
 %
 %    [map,stats] = FiringMap(positions,spikes,<options>)
 %
-%    positions      position samples
+%    positions      position <a href="matlab:help samples">samples</a>
 %    spikes         spike timestamps
 %    <options>      optional list of property-value pairs (see table below)
 %

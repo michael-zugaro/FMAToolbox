@@ -8,7 +8,7 @@ function [spectrogram,t,f] = MTPointSpectrogram(times,varargin)
 %
 %    [spectrogram,t,f] = MTPointSpectrogram(times,<options>)
 %
-%    times          spike times
+%    times          event times, e.g. spike times
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================

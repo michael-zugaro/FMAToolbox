@@ -11,7 +11,7 @@ function [map,timeBins] = SyncMap(synchronized,indices,varargin)
 %
 %    [map,timeBins] = SyncMap(synchronized,indices,<options>)
 %
-%    synchronized   event-synchronized samples
+%    synchronized   event-synchronized <a href="matlab:help samples">samples</a>
 %    indices        list of synchronizing event indices for each sample
 %    <options>      optional list of property-value pairs (see table below)
 %

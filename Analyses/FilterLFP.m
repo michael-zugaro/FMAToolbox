@@ -8,7 +8,7 @@ function filtered = FilterLFP(lfp,varargin)
 %
 %    filtered = FilterLFP(lfp,<options>)
 %
-%    lfp            local field potentials, list of (t,v1,v2,v3...) tuples
+%    lfp            local field potentials <a href="matlab:help samples">samples</a>
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================

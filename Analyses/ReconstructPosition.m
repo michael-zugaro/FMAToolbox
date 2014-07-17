@@ -12,10 +12,10 @@ function stats = ReconstructPosition(positions,spikes,phases,varargin)
 %
 %    stats = ReconstructPosition(positions,spikes,phases,<options>)
 %
-%    positions      linear or two-dimensional positions, in [0..1]
+%    positions      linear or two-dimensional positions <a href="matlab:help samples">samples</a>, in [0..1]
 %    spikes         list of (t,group,cluster) triplets (obtained via e.g.
 %                   <a href="matlab:help GetSpikes">GetSpikes</a>, using full output)
-%    phases         optional unwrapped phase of the LFP (see <a href="matlab:help Phase">Phase</a>)
+%    phases         optional unwrapped phase <a href="matlab:help samples">samples</a> of the LFP (see <a href="matlab:help Phase">Phase</a>)
 %
 %    =========================================================================
 %     Properties    Values
@@ -219,7 +219,7 @@ stats.estimations = nan(nBinsY,nBinsX,nWindows);
 stats.spikes = zeros(nUnits,nWindows);
 % Loop over data windows
 for i = 1:nWindows,
-    
+
 	% Get spikes for this window
 	s = Restrict(testSpikes,windows(i,:));
 
@@ -228,7 +228,7 @@ for i = 1:nWindows,
 		stats.estimations(:,:,i) = ones(nBinsY,nBinsX,1)/(nBinsX*nBinsY);
 		continue;
 	end
-    
+
 	% Population spike count vector
 	stats.spikes(:,i) = Accumulate(s(:,2),1,nUnits);
 	% To avoid 'for' loops, prepare for vector computation:
@@ -241,10 +241,10 @@ for i = 1:nWindows,
 	% Compute P(n|x) assuming independent probabilities across units (hmm...)
 	% i.e. P(n|x) = product over i of P(ni|x)
 	Pnx = prod(Pnix,3);
-            
+
 	% Compute P(n) = sum over x of P(n|x)*P(x)
 	Pn = sum(sum(Pnx.*Px));
-        
+
 	% Compute P(x|n) = P(n|x)*P(x)/P(n)
 	Pxn = Pnx .* Px / Pn;
 

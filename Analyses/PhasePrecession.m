@@ -10,9 +10,9 @@ function [data,stats] = PhasePrecession(positions,spikes,phases,varargin)
 %
 %    [data,stats] = PhasePrecession(positions,spikes,phases,<options>)
 %
-%    positions      linearized position samples (normalized to [0,1])
+%    positions      linearized position <a href="matlab:help samples">samples</a> (normalized to [0..1])
 %    spikes         spike timestamps
-%    phases         phase samples (see <a href="matlab:help Phase">Phase</a>)
+%    phases         phase <a href="matlab:help samples">samples</a> (see <a href="matlab:help Phase">Phase</a>)
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================

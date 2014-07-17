@@ -6,7 +6,7 @@ function distance = Distance(positions,reference,varargin)
 %
 %    distance = Distance(positions,reference,<options>)
 %
-%    positions      a list of position samples
+%    positions      position <a href="matlab:help samples">samples</a>
 %    reference      reference point (same coordinates as positions)
 %    <options>      optional list of property-value pairs (see table below)
 %

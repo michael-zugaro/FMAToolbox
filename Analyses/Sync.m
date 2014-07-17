@@ -10,9 +10,7 @@ function [synchronized,indices] = Sync(samples,sync,varargin)
 %
 %    [synchronized,indices] = Sync(samples,sync,<options>)
 %
-%    samples        either a vector of timestamps (for a point process) or
-%                   an Mx(N+1) matrix containing M (timestamp,values)
-%                   (N+1)-tuples (for N time-varying measures).
+%    samples        <a href="matlab:help samples">samples</a> to synchronize
 %    sync           timestamps to synchronize on (e.g., brain stimulations)
 %    <options>      optional list of property-value pairs (see table below)
 %

@@ -10,7 +10,7 @@ function [periods,quiescence] = QuietPeriods(v,velocity,duration,brief)
 %
 %    [periods,quiescence] = QuietPeriods(v,velocity,duration,brief)
 %
-%    v              linear velocity samples [t v]
+%    v              linear velocity <a href="matlab:help samples">samples</a> [t v]
 %    velocity       maximum velocity of a quiet period
 %    duration       minimum duration of a quiet period
 %    brief          optional maximum duration of a 'brief' movement

@@ -14,12 +14,13 @@ function [map,stats] = Map(v,z,varargin)
 %
 %  USAGE
 %
-%    map = Map([t x y],z,<options>)
+%    map = Map([t1 x y],[t2 z],<options>)
 %
-%    t              timestamps for x and y
+%    t1             timestamps for x and y
 %    x              x values in [0,1]
 %    y              optional y values in [0,1]
-%    z              list of timestamps or (timestamp,value) pairs
+%    t2             timestamps for z
+%    z              optional z values
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================
@@ -285,7 +286,7 @@ end
 
 %  % Interpolate if required (2D)
 %  function zint = Interpolate2(x,y,z,valid,mode,maxSize)
-%  
+%
 %  if strcmp(mode,'discard'),
 %  	% In discard mode, do nothing
 %  	zint = z;
@@ -304,15 +305,15 @@ end
 %  	% (do not interpolate large patches of missing points)
 %  	zint(patches==2) = z(patches==2);
 %  end
-%  
+%
 %  % Find patches of missing points
 %  % Output: patches(i,j) = 0 if (i,j) is not missing
 %  %         patches(i,j) = 1 if (i,j) is missing and in small patch
 %  %         patches(i,j) = 2 if (i,j) is missing and in large patch
 %  function patches = FindPatches(valid,maxSize)
-%  
+%
 %  patches = double(~valid);
-%  
+%
 %  % Loop through missing points, and update patch matrix so that:
 %  %  patches(i,j) = 0 if (i,j) is not missing
 %  %  patches(i,j) = 1 if (i,j) is missing and not yet examined
@@ -334,7 +335,7 @@ end
 %  		patches(patches==2) = 4;
 %  	end
 %  end
-%  
+%
 %  % Set small patches to 1, and large patches to 2
 %  patches(patches==3) = 1;
 %  patches(patches==4) = 2;

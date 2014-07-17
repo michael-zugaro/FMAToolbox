@@ -8,8 +8,8 @@ function map = PhaseCurve(samples,phases,varargin)
 %
 %    curve = PhaseCurve(samples,phases,<options>)
 %
-%    samples        e.g. angles or linear positions across time
-%    phases         phases in radians
+%    samples        <a href="matlab:help samples">samples</a>, e.g. angles or linear positions across time
+%    phases         phase <a href="matlab:help samples">samples</a> in radians
 %    <options>      optional list of property-value pairs (see NOTE below)
 %
 %  NOTE

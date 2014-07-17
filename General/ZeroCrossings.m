@@ -8,7 +8,7 @@ function [up,down] = ZeroCrossings(data,varargin)
 %
 %    [up,down] = ZeroCrossings(samples,<options>)
 %
-%    samples        an Nx2 matrix of (timestamp,value) pairs
+%    samples        the <a href="matlab:help samples">samples</a> to process
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================

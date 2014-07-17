@@ -9,7 +9,7 @@ function [phase,amplitude,unwrapped] = Phase(samples,times)
 %
 %    [phase,amplitude,unwrapped] = Phase(samples,times)
 %
-%    samples        signal, e.g. filtered local field potential samples
+%    samples        signal (e.g. filtered local field potential) <a href="matlab:help samples">samples</a>
 %    times          optional timestamps where phase should be interpolated
 %
 %  NOTE

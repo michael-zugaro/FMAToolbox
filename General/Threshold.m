@@ -9,7 +9,7 @@ function [periods,in] = Threshold(x,criterion,threshold,varargin)
 %
 %    [periods,in] = Threshold(x,criterion,threshold,<options>)
 %
-%    x              list of time-value pairs
+%    x              <a href="matlab:help samples">samples</a> to process
 %    criterion      one of '>', '>=', '<' or '<='
 %    threshold      threshold
 %    <options>      optional list of property-value pairs (see table below)

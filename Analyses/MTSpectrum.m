@@ -8,7 +8,7 @@ function [spectrum,f,s] = MTSpectrum(lfp,varargin)
 %
 %    [spectrum,f,s] = MTSpectrum(lfp,<options>)
 %
-%    lfp            wide-band LFP (one channel).
+%    lfp            unfiltered LFP <a href="matlab:help samples">samples</a> (one channel).
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================

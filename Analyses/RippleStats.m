@@ -6,7 +6,7 @@ function [maps,data,stats] = RippleStats(filtered,ripples,varargin)
 %
 %    [maps,data,stats] = RippleStats(filtered,ripples,<options>)
 %
-%    filtered       ripple-band filtered samples (one channel)
+%    filtered       ripple-band filtered <a href="matlab:help samples">samples</a> (one channel)
 %    ripples        ripple timing information (obtained using <a href="matlab:help FindRipples">FindRipples</a>)
 %    <options>      optional list of property-value pairs (see table below)
 %

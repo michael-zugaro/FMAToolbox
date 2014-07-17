@@ -8,7 +8,7 @@ function p = PlotSamples(X,varargin)
 %
 %    p = PlotSamples(X,<options>,<options2>)
 %
-%    X              list of (t,x1,x2...xN) data to plot (N variables)
+%    X              <a href="matlab:help samples">samples</a> to plot
 %    <options>      optional list of property-value pairs (see table below)
 %    <options2>     options for function <a href="matlab:help plot">plot</a>
 %

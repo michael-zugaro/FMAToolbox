@@ -13,7 +13,7 @@ function samples = Restrict(samples,intervals,varargin)
 %
 %    samples = Restrict(samples,intervals,<options>)
 %
-%    samples        samples to restrict
+%    samples        <a href="matlab:help samples">samples</a> to restrict
 %    intervals      list of (start,stop) pairs
 %    <options>      optional list of property-value pairs (see table below)
 %

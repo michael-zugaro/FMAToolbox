@@ -164,7 +164,7 @@ if strcmp(show,'on'),
 %  	else
 %  		st = 'NS';
 %  	end
-	
+
 	% Histograms
 	x = linspace(xMin,xMax,nBins);
 	dx = x(2)-x(1);
@@ -203,7 +203,7 @@ if strcmp(show,'on'),
 	title(['Control vs Test (KS test: ' st ')']);
 	xlabel('Skewness');
 	ylabel('Probability');
-	
+
 end
 
 function s = UnbiasedSkewness(distributions)

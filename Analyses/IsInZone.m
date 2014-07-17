@@ -9,7 +9,7 @@ function status = IsInZone(positions,zone)
 %
 %    status = IsInZone(positions,zone)
 %
-%    positions      position samples (normalized between 0 and 1)
+%    positions      position <a href="matlab:help samples">samples</a> (normalized in [0,1])
 %    zone           test area, obtained using e.g. <a href="matlab:help FiringMap">FiringMap</a> or <a href="matlab:help DefineZone">DefineZone</a>
 %
 %  OUTPUT

@@ -10,7 +10,7 @@ function [t,peaks] = SineWavePeaks(sineWave,varargin)
 %
 %    [t,peaks] = SineWavePeaks(sineWave,<options>)
 %
-%    sineWave       an Nx2 matrix of (timestamp,value) pairs
+%    sineWave       sinewave <a href="matlab:help samples">samples</a>
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================

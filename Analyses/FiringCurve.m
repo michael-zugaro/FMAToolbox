@@ -11,7 +11,7 @@ function [curve,stats] = FiringCurve(samples,spikes,varargin)
 %
 %    [curve,stats] = FiringCurve(samples,spikes,<options>)
 %
-%    samples        e.g. angles or linear samples across time
+%    samples        angular or linear <a href="matlab:help samples">samples</a>
 %    spikes         spike timestamps
 %    <options>      optional list of property-value pairs (see table below)
 %

@@ -6,7 +6,7 @@ function filtered = Filter(samples,varargin)
 %
 %    filtered = Filter(samples,<options>)
 %
-%    samples        samples given as a list of (t,v1,v2,v3...) tuples
+%    samples        <a href="matlab:help samples">samples</a> to filter
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================

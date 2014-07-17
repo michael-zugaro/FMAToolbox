@@ -72,9 +72,9 @@
 %
 %    where the first column is time (in seconds), the second is the X coordinate of the
 %    animal, and the third is its Y coordinate. Positions stored in such a matrix are
-%    referred to as position 'samples'.
+%    referred to as position <a href="matlab:help samples">'samples'</a>.
 %
-%    Many functions in FMAToolbox provide basic processing of 'samples', such as time
+%    Many functions in FMAToolbox provide basic processing of samples, such as time
 %    selection, interpolation or smoothing. These are grouped in the <a href="matlab:help General">General</a> category,
 %    together with statistical measures and tests, interval handling, binning, etc.
 %

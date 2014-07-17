@@ -10,7 +10,7 @@ function l = IsExtremum(samples,varargin)
 %
 %    status = IsExtremum(samples,<options>)
 %
-%    samples        an Nx(M+1) matrix of (timestamp,value1,...,valueM) t-uples
+%    samples        <a href="matlab:help samples">samples</a> to process
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================

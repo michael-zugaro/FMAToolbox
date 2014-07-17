@@ -10,8 +10,8 @@ function [interpolated,discarded] = Interpolate(samples,timestamps,varargin)
 %
 %    [interpolated,discarded] = Interpolate(samples,timestamps,<options>)
 %
-%    samples        a list of samples to interpolate
-%    timestamps     a list of timestamps
+%    samples        list of <a href="matlab:help samples">samples</a> to interpolate
+%    timestamps     timestamps where the samples should be interpolated
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================

@@ -155,7 +155,7 @@ if isempty(map.z), return; end
 %  specificity = SUM { p(i) . lambda(i)/lambda . log2(lambda(i)/lambda) }
 T = sum(map.time(:));
 p_i = map.time/(T+eps);
-lambda_i = map.rate;
+lambda_i = map.z;
 lambda = mean(lambda_i(:));
 if T == 0 || lambda == 0,
 	stats.specificity = 0;

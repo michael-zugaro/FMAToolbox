@@ -4,7 +4,7 @@
 %
 %    [detrended,model] = Detrend(samples,<options>)
 %
-%    samples        list of (t,v1...vn) samples
+%    samples        <a href="matlab:help samples">samples</a> to detrend
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================
@@ -92,7 +92,7 @@ else
 	windows = repmat([1 window],nWindows,1)+repmat([0:nWindows-1]'*window,1,2);
 	if nWindows*window > nSamples,
 		windows(end,2) = nSamples;
-	end   
+	end
 end
 
 % Process

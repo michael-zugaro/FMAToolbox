@@ -9,7 +9,7 @@ function PlotSync(synchronized,indices,varargin)
 %
 %    PlotSync(synchronized,indices,<options>)
 %
-%    synchronized   synchronized samples (obtained using <a href="matlab:help Sync">Sync</a>)
+%    synchronized   synchronized <a href="matlab:help samples">samples</a> (obtained using <a href="matlab:help Sync">Sync</a>)
 %    indices        synchronizing event indices (obtained using <a href="matlab:help Sync">Sync</a>)
 %    <options>      optional list of property-value pairs (see table below)
 %

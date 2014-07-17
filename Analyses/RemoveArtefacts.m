@@ -9,7 +9,7 @@ function cleaned = RemoveArtefacts(lfp,times,varargin)
 %
 %    cleaned = RemoveArtefacts(lfp,times,<options>)
 %
-%    lfp            local field potential given as (t,V) pairs
+%    lfp            local field potential <a href="matlab:help samples">samples</a>
 %    times          timestamps of the artefacts
 %    <options>      optional list of property-value pairs (see table below)
 %

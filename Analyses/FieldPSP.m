@@ -10,7 +10,7 @@ function stats = FieldPSP(stims,lfp,varargin)
 %    stats = FieldPSP(stims,lfp,<options>)
 %
 %    stims          stimulation timestamps
-%    lfp            local field potential samples
+%    lfp            local field potential <a href="matlab:help samples">samples</a>
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================

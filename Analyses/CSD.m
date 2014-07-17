@@ -6,7 +6,7 @@ function csd = CSD(lfp)
 %
 %    csd = CSD(lfp)
 %
-%    lfp            local field potential samples
+%    lfp            local field potential <a href="matlab:help samples">samples</a>
 %
 %  SEE
 %

@@ -10,7 +10,7 @@ function [count,cycles] = CountSpikesPerCycle(spikes,phases)
 %    [count,cycles] = CountSpikesPerCycle(spikes,phases)
 %
 %    spikes         list of spike timestamps
-%    phases         instantaneous phases in radians (see <a href="matlab:help Phase">Phase</a>)
+%    phases         phase <a href="matlab:help samples">samples</a> in radians (see <a href="matlab:help Phase">Phase</a>)
 %
 %  OUTPUT
 %

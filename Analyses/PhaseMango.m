@@ -11,7 +11,7 @@ function [map,data] = PhaseMango(spikes,phases,varargin)
 %    [map,data] = PhaseMango(spikes,phases,<options>)
 %
 %    spikes         spike timestamps
-%    phases         phase samples (see <a href="matlab:help Phase">Phase</a>)
+%    phases         phase <a href="matlab:help samples">samples</a> (see <a href="matlab:help Phase">Phase</a>)
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================

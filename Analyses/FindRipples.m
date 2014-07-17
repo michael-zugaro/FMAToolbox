@@ -13,7 +13,7 @@ function [ripples,sd,bad] = FindRipples(filtered,varargin)
 %    the NSS. Alternatively, one can use explicit values, typically obtained
 %    from a previous call.
 %
-%    filtered       ripple-band filtered LFP (one channel).
+%    filtered       ripple-band filtered LFP <a href="matlab:help samples">samples</a> (one channel).
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================

@@ -6,7 +6,7 @@ function spikes = ThresholdSpikes(amplitudes,factor,varargin)
 %
 %    spikes = ThresholdSpikes(amplitudes,factor,<options>)
 %
-%    amplitudes     [time, electrode group, cluster, amplitude] tuples
+%    amplitudes     [time, electrode group, cluster, amplitude] <a href="matlab:help samples">samples</a>
 %                   e.g. obtained using <a href="matlab:help GetSpikeAmplitudes">GetSpikeAmplitudes</a>
 %    factor         the new threshold will be computed as the former threshold
 %                   multiplied by this factor

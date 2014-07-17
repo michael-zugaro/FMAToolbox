@@ -6,13 +6,13 @@ function PlotCSD(csd,varargin)
 %
 %    PlotCSD(csd,<options>)
 %
-%    csd            current source density (see <a href="matlab:help CSD">CSD</a>)
+%    csd            current source density <a href="matlab:help samples">samples</a> (see <a href="matlab:help CSD">CSD</a>)
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================
 %     Properties    Values
 %    -------------------------------------------------------------------------
-%     'lfp'         local field potential
+%     'lfp'         local field potential <a href="matlab:help samples">samples</a>
 %     'scale'       scale (arbitrary units) for LFP traces (default = 1)
 %     'cutoffs'     cutoff values (default = [-M M] where M is the maximum
 %                   amplitude of the CSD)

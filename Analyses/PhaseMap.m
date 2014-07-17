@@ -8,8 +8,8 @@ function map = PhaseMap(positions,phases,varargin)
 %
 %    map = PhaseMap(positions,phases,<options>)
 %
-%    positions      position samples
-%    phases         phases in radians
+%    positions      position <a href="matlab:help samples">samples</a>
+%    phases         phase <a href="matlab:help samples">samples</a> in radians
 %    <options>      optional list of property-value pairs (see NOTE below)
 %
 %  NOTE
