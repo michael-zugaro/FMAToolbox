@@ -47,7 +47,7 @@ function [maps,data,stats] = RippleStats(filtered,ripples,varargin)
 % Default values
 samplingRate = 1250;
 durations = [-50 50]/1000;
-nCorrBins = 50;
+nCorrBins = 51;
 %  corrBinSize = 400;
 corrDuration = 20;
 corrBinSize = 0.1;
@@ -128,7 +128,7 @@ data.duration = ripples(:,3)-ripples(:,1);
 
 % Autocorrelogram and correlations
 if nargin >= 3,
-	[stats.acg.data,stats.acg.t] = CCG(ripples(:,2),1,'binSize',corrBinSize,'halfBins',nCorrBins/2);
+	[stats.acg.data,stats.acg.t] = CCG(ripples(:,2),1,'binSize',corrBinSize,'nBins',nCorrBins);
 	[stats.amplitudeFrequency.rho,stats.amplitudeFrequency.p] = corrcoef(data.peakAmplitude,data.peakFrequency);
 	[stats.durationFrequency.rho,stats.durationFrequency.p] = corrcoef(data.duration,data.peakFrequency);
 	[stats.durationAmplitude.rho,stats.durationAmplitude.p] = corrcoef(data.duration,data.peakAmplitude);

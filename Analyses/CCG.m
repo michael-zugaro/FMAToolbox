@@ -15,6 +15,7 @@ function [ccg,t,tau,c] = CCG(times,id,varargin)
 %    -------------------------------------------------------------------------
 %     'binSize'     bin size in s (default = 0.01)
 %     'duration'    duration in s of each xcorrelogram (default = 2)
+%     'nBins'       number of bins (default = duration/binSize)
 %     'smooth'      smoothing size in bins (0 = no smoothing, default)
 %     'groups'      group number (1 or 2) for each event, used to restrict
 %                   cross-correlograms to pairs across two groups of events
@@ -24,6 +25,11 @@ function [ccg,t,tau,c] = CCG(times,id,varargin)
 %     'totaltime'   total recording duration in s (if different from the
 %                   default = max(times) - min(times))
 %    =========================================================================
+%
+%  NOTES
+%
+%    The size of the cross-correlograms can be supplied either as a duration
+%    (property 'duration') or as an number of bins (property 'nBins').
 %
 %  OUTPUT
 %      ccg          value of cross-correlograms or cross-covariances
@@ -78,8 +84,10 @@ function [ccg,t,tau,c] = CCG(times,id,varargin)
 
 
 % Default values
-duration = 2;
+d = 2;
+duration = [];
 binSize = 0.01;
+nBins = [];
 smooth = 0;
 groups = [];
 mode = 'ccg';
@@ -113,6 +121,11 @@ for i = 1:2:length(varargin),
 			if ~isdscalar(binSize,'>0'),
 				error('Incorrect value for property ''binSize'' (type ''help <a href="matlab:help CCG">CCG</a>'' for details).');
 			end
+		case 'nbins',
+			nBins = varargin{i+1};
+			if ~isiscalar(nBins,'>0'),
+				error('Incorrect value for property ''nBins'' (type ''help <a href="matlab:help CCG">CCG</a>'' for details).');
+			end
 		case 'duration',
 			duration = varargin{i+1};
 			if ~isdscalar(duration,'>0'),
@@ -145,6 +158,19 @@ for i = 1:2:length(varargin),
 			end
 		otherwise,
 			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help CCG">CCG</a>'' for details).']);
+	end
+end
+
+% Determine binSize/duration
+if isempty(nBins),
+	if isempty(duration),
+		duration = d;
+	end
+else
+	if isempty(duration),
+		duration = nBins*binSize;
+	elseif duration ~= binSize*nBins,
+		error('Incompatible ''duration'' and ''nBins'' parameters (type ''help <a href="matlab:help CCG">CCG</a>'' for details).');
 	end
 end
 
