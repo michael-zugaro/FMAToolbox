@@ -100,7 +100,7 @@ TC.XML
 
 <binding name="CCG">
 	<arg argn="1:5" ctype="VAR"/>
-	<arg argn="2:2:30" ctype="VAR" value="binSize duration nBins"/>
+	<arg argn="3:2:30" ctype="VAR" value="binSize duration nBins"/>
 </binding>
 
 <binding name="CV">
