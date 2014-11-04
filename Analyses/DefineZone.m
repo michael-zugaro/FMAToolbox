@@ -47,7 +47,7 @@ points = round(points);
 width = s(1);
 height = s(2);
 
-zone = logical(zeros(width,height));
+zone = logical(zeros(height,width));
 
 if strcmp(lower(shape),'rectangle'),
 	if length(points) ~= 4,
@@ -74,3 +74,5 @@ elseif strcmp(lower(shape),'circle'),
 	end
 end
 
+% Make sure the environment does not increase in size if the zone exceeds its boundaries
+zone = zone(1:height,1:width);
