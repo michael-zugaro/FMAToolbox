@@ -131,3 +131,5 @@ elseif strcmp(output,'numbered'),
 	id = index(i)';
 	spikes = [spikes(:,1) id];
 end
+
+spikes = sortrows(spikes,1);
