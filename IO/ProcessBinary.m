@@ -25,8 +25,8 @@ function ProcessBinary(inputName,outputName,nChannels,f,varargin)
 %    =========================================================================
 %     Properties    Values
 %    -------------------------------------------------------------------------
-%     'overlap'     overlap in # samples (default = 0)
 %     'parameters'  additional parameters for f (cell array)
+%     'overlap'     overlap in # samples (default = 0)
 %     'segment'     segment length in # samples (default = 2^16)
 %    =========================================================================
 %

@@ -669,9 +669,17 @@ TC.XML
 	<arg argn="2 3" ctype="VAR"/>
 </binding>
 
+<binding name="ProcessBinary">
+	<arg argn="1" ctype="FILE"/>
+	<arg argn="2" ctype="FILE"/>
+	<arg argn="3 4" ctype="VAR"/>
+	<arg argn="5:2:31" ctype="VAR" value="parameters overlap segment"/>
+</binding>
+
 <binding name="ResampleBinary">
 	<arg argn="1" ctype="FILE"/>
-	<arg argn="2 3 4 5" ctype="VAR"/>
+	<arg argn="2" ctype="FILE"/>
+	<arg argn="3 4 5" ctype="VAR"/>
 </binding>
 
 <binding name="SaveBinary">
