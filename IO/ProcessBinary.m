@@ -1,4 +1,4 @@
-function ProcessBinary(inputName,outputName,nChannels,nOverlap,f,varargin)
+function ProcessBinary(inputName,outputName,nChannels,f,varargin)
 
 %ProcessBinary - Process binary data file.
 %
@@ -14,14 +14,21 @@ function ProcessBinary(inputName,outputName,nChannels,nOverlap,f,varargin)
 %
 %  USAGE
 %
-%    ProcessBinary(inputName,outputName,nChannels,nOverlap,f,p1,p2...)
+%    ProcessBinary(inputName,outputName,nChannels,f,<options>)
 %
 %    inputName      binary input file
 %    outputName     binary output file
 %    nChannels      number of channels in the input file
-%    nOverlap       nOverlap between successive reads (in # samples)
 %    f              function handle
-%    p1,p2...       optional additional parameters for f
+%    <options>      optional list of property-value pairs (see table below)
+%
+%    =========================================================================
+%     Properties    Values
+%    -------------------------------------------------------------------------
+%     'overlap'     overlap in # samples (default = 0)
+%     'parameters'  additional parameters for f (cell array)
+%     'segment'     segment length in # samples (default = 2^16)
+%    =========================================================================
 %
 
 % Copyright (C) 2004-2014 by Michaël Zugaro
@@ -31,14 +38,44 @@ function ProcessBinary(inputName,outputName,nChannels,nOverlap,f,varargin)
 % the Free Software Foundation; either version 3 of the License, or
 % (at your option) any later version.
 
+% Default values
+nOverlap = 0;
+segmentLength = 2^16;
+parameters = {};
+
+% Check parameters
 if nargin < 4,
 	error('Incorrect number of parameters (type ''help <a href="matlab:help ProcessBinary">ProcessBinary</a>'' for details).');
 end
-if rem(nOverlap,2) ~= 0,
-	error('Overlap must be even (type ''help <a href="matlab:help ProcessBinary">ProcessBinary</a>'' for details).');
+
+% Parse parameter list
+for i = 1:2:length(varargin),
+	if ~ischar(varargin{i}),
+		error(['Parameter ' num2str(i+1) ' is not a property (type ''help <a href="matlab:help ProcessBinary">ProcessBinary</a>'' for details).']);
+	end
+	switch(lower(varargin{i})),
+		case 'overlap',
+			nOverlap = varargin{i+1};
+			if ~isiscalar(nOverlap,'>0'),
+				error('Incorrect value for property ''overlap'' (type ''help <a href="matlab:help ProcessBinary">ProcessBinary</a>'' for details).');
+			end
+			if rem(nOverlap,2) ~= 0,
+				error('Overlap must be even (type ''help <a href="matlab:help ProcessBinary">ProcessBinary</a>'' for details).');
+			end
+		case 'segment',
+			segmentLength = varargin{i+1};
+			if ~isiscalar(segmentLength,'>0'),
+				error('Incorrect value for property ''segment'' (type ''help <a href="matlab:help ProcessBinary">ProcessBinary</a>'' for details).');
+			end
+		case 'parameters',
+			parameters = varargin{i+1};
+			if ~iscell(parameters),
+				error('Incorrect value for property ''parameters'' (type ''help <a href="matlab:help ProcessBinary">ProcessBinary</a>'' for details).');
+			end
+		otherwise,
+			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help ProcessBinary">ProcessBinary</a>'' for details).']);
+	end
 end
-segmentLength = 2^16;
-parameters = varargin;
 
 % Open input and output files
 inputFile = fopen(inputName,'r');
