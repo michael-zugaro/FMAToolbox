@@ -30,6 +30,16 @@ function ProcessBinary(inputName,outputName,nChannels,f,varargin)
 %     'segment'     segment length in # samples (default = 2^16)
 %    =========================================================================
 %
+%  EXAMPLES
+%
+%    % Change sign (using an anonymous function)
+%    ProcessBinary('input.dat','output.dat',1,@(x) -x);
+%
+%    % Low-pass filter and square using the following funtion:
+%    %   function y = CustomFilter(x,b,a)
+%    %     y = filtfilt(b,a,x).^2;
+%    %     y = y(251:end-250);
+%    ProcessBinary('input.dat','output.dat',1,@CustomFilter,'parameters',{b,a},'overlap',500);
 
 % Copyright (C) 2004-2014 by Michaël Zugaro
 %
