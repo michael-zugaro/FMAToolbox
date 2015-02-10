@@ -27,7 +27,7 @@ function batch = StartBatch(mfile,bfile,varargin)
 % popping up as the user is performing other tasks as the batch is running in
 % the background (although this is configurable). In order to keep figures
 % hidden, batch functions should not use figure(h) or axes(a) which make the
-% figure visible. Two helper functions, scf(h) and sca(h), can be used instead
+% figure visible. Two helper functions, <a href="matlab:help scf">scf</a> and <a href="matlab:help sca">sca</a>, can be used instead
 % to set the current figure or axes without making the figure visible.
 %
 %  USAGE
@@ -129,7 +129,7 @@ function batch = StartBatch(mfile,bfile,varargin)
 %        fil = FilterLFP(lfp,'bandpass','ripples');
 %        ripples = FindRipples(fil);
 %        n = size(ripples,1);
-%        eid = [session '-' channel];
+%        eid = [session '-' num2str(channel)];
 %        DBAddVariable(n,eid,'Ripple Count','','',{'CountRipples'});
 %
 %    This would store the number of ripples for each session, as well as useful

@@ -159,6 +159,8 @@ end
 f = gcf;
 a = gca;
 
+data = squeeze(data);
+dimm = squeeze(dimm);
 p = imagesc(x,y,data,[m M]);
 set(a,'color',[0 0 0]);
 if any(dimm~=1),

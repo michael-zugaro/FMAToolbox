@@ -37,7 +37,7 @@ function [synchronized,indices] = Sync(samples,sync,varargin)
 %
 %    See also SyncHist, SyncMap, PlotSync, PETHTransition.
 
-% Copyright (C) 2004-2011 by Michaël Zugaro
+% Copyright (C) 2004-2014 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -84,6 +84,9 @@ for i = 1:2:length(varargin),
 	end
 end
 
+% Make sure samples and sync events are sorted in time
+samples = sortrows(samples,1);
+sync = sortrows(sync,1);
 nSync = length(sync);
 
 if verbose,
