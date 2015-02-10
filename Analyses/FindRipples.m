@@ -133,6 +133,7 @@ end
 windowLength = round(frequency/1250*11);
 
 % Square and normalize signal
+time = filtered(:,1);
 signal = filtered(:,2);
 squaredSignal = signal.^2;
 window = ones(windowLength,1)/windowLength;
@@ -168,12 +169,12 @@ else
 	disp(['After detection by thresholding: ' num2str(length(firstPass)) ' events.']);
 end
 
-% Merge ripples if inter-ripple period is too short
+% Merge ripples if inter-ripple period is too short (unless this would yield too long a ripple)
 minInterRippleSamples = minInterRippleInterval/1000*frequency;
 secondPass = [];
 ripple = firstPass(1,:);
-for i = 2:size(firstPass,1)
-	if firstPass(i,1) - ripple(2) < minInterRippleSamples,
+for i = 2:size(firstPass,1),
+	if firstPass(i,1) - ripple(2) < minInterRippleSamples && time(firstPass(i,2)) - time(ripple(1)) < maxRippleDuration/1000,
 		% Merge
 		ripple = [ripple(1) firstPass(i,2)];
 	else
@@ -193,7 +194,7 @@ end
 thirdPass = [];
 peakNormalizedPower = [];
 for i = 1:size(secondPass,1)
-	[maxValue,maxIndex] = max(normalizedSquaredSignal([secondPass(i,1):secondPass(i,2)]));
+	maxValue = max(normalizedSquaredSignal([secondPass(i,1):secondPass(i,2)]));
 	if maxValue > highThresholdFactor,
 		thirdPass = [thirdPass ; secondPass(i,:)];
 		peakNormalizedPower = [peakNormalizedPower ; maxValue];
@@ -209,12 +210,11 @@ end
 % Detect negative peak position for each ripple
 peakPosition = zeros(size(thirdPass,1),1);
 for i=1:size(thirdPass,1),
-	[minValue,minIndex] = min(signal(thirdPass(i,1):thirdPass(i,2)));
+	[~,minIndex] = min(signal(thirdPass(i,1):thirdPass(i,2)));
 	peakPosition(i) = minIndex + thirdPass(i,1) - 1;
 end
 
 % Discard ripples that are way too short
-time = filtered(:,1);
 ripples = [time(thirdPass(:,1)) time(peakPosition) time(thirdPass(:,2)) peakNormalizedPower];
 duration = ripples(:,3)-ripples(:,1);
 ripples(duration<minRippleDuration/1000,:) = [];
