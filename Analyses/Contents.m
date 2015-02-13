@@ -51,6 +51,7 @@
 %   CCG                    - Compute multiple cross- and auto-correlograms.
 %   CCGParameters          - Reformat time series for CCG computation.
 %   FitCCG                 - Fit dampened sinewave to the cross-correlogram of a pair of theta-modulated cells.
+%   CofiringCoefficient    - Compute the cofiring coefficient between two sets of intervals.
 %   CountSpikesPerCycle    - Count number of spikes per LFP cycle.
 %   CV                     - Compute coefficient of variation for a point process.
 %   IsolationDistance      - Determine the isolation quality for one or more clusters.
