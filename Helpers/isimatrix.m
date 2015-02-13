@@ -9,11 +9,17 @@
 %
 %  EXAMPLES
 %
-%    % Test if x is a matrix of doubles
+%    % Test if x is a matrix of integers
 %    isimatrix(x)
 %
-%    % Test if x is a matrix of strictly positive doubles
+%    % Test if x is a matrix of strictly positive integers
 %    isimatrix(x,'>0')
+%
+%    % Special test: test if x is a 3-line matrix of integers
+%    isimatrix(x,'#3')
+%
+%    % Special test: test if x is a 2-column matrix of integers
+%    isimatrix(x,'@2')
 %
 %  NOTE
 %
@@ -26,7 +32,7 @@
 %    islscalar, islvector, islmatrix.
 %
 
-% Copyright (C) 2010 by Michaël Zugaro
+% Copyright (C) 2010-2015 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -43,16 +49,17 @@ end
 % Test: doubles, two dimensions, two or more columns?
 test = isa(x,'double') & length(size(x)) == 2 & size(x,2) >= 2;
 
-% Ignore NaNs (this reshapes the matrix, but it does not matter for the remaining tests)
-x = x(~isnan(x));
-
 % Test: integers?
-test = test & all(round(x)==x);
+test = test & all(round(x(:))==x(:));
 
 % Optional tests
 for i = 1:length(varargin),
 	try
-		if ~eval(['all(x(:)' varargin{i} ');']), test = false; return; end
+		if varargin{i}(1) == '#',
+			if size(x,1) ~= str2num(varargin{i}(2:end)), test = false; return; end
+		elseif varargin{i}(1) == '@',
+			if size(x,2) ~= str2num(varargin{i}(2:end)), test = false; return; end
+		elseif ~eval(['all(x(~isnan(x))' varargin{i} ');']), test = false; return; end
 	catch err
 		error(['Incorrect test ''' varargin{i} ''' (type ''help <a href="matlab:help isimatrix">isimatrix</a>'' for details).']);
 	end
