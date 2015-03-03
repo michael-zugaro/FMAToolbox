@@ -134,7 +134,7 @@ for i = 1:2:length(varargin),
 end
 
 % Compute spectrogram and moments
-[spectrogram,t,f] = MTSpectrogram(lfp,v{:});
+[spectrogram,~,f] = MTSpectrogram(lfp,v{:});
 spectrogram = spectrogram';
 mu = mean(spectrogram);
 v = var(spectrogram);

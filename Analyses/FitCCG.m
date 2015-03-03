@@ -1,10 +1,10 @@
-function [dt1,dt2,Travel,index] = FitCCG(t,ccg,varargin)
+function [dt1,dt2,travel,index] = FitCCG(t,ccg,varargin)
 
 %FitCCG - Fit dampened sinewave to the cross-correlogram of a pair of theta-modulated cells.
 %
 %  USAGE
 %
-%    [dt1,dt2,index] = FitCCG(t,ccg,<options>)
+%    [dt1,dt2,travel,index] = FitCCG(t,ccg,<options>)
 %
 %    t              time bins
 %    ccg            cross-correlogram
@@ -20,9 +20,10 @@ function [dt1,dt2,Travel,index] = FitCCG(t,ccg,varargin)
 %
 %    dt1            non-parametric estimate of first theta-modulated peak
 %    dt2            parametric estimate of first theta-modulated peak
+%    travel         travel time between field peaks (see Geisler et al. 2011)
 %    index          theta modulation index (see Royer et al. 2010)
 
-% Copyright (C) 2012 by Michaël Zugaro
+% Copyright (C) 2012-2015 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -72,11 +73,24 @@ maxima = IsExtremum([t smoothed]);
 peaksPos = t(t>0&maxima);
 peaksNeg = t(t<0&maxima);
 
-if peaksPos(1) < abs(peaksNeg(size(peaksNeg,1))),
-    dt1 = peaksPos(1);
-else 
-    dt1 = peaksNeg(size(peaksNeg,1));
+if isempty(peaksPos),
+    if isempty(peaksNeg),
+        dt1 = NaN;
+    else
+        dt1 = peaksNeg(size(peaksNeg,1));
+    end
+else
+    if isempty(peaksNeg) || peaksPos(1) < abs(peaksNeg(size(peaksNeg,1))),
+        dt1 = peaksPos(1);
+    else
+        dt1 = peaksNeg(size(peaksNeg,1));
+    end
 end
+
+
+
+
+
 
 % Try to find decent initial values
 tau = 0.5;
@@ -106,19 +120,27 @@ maxima = IsExtremum([t fit]);
 peaksPos = t(t>0&maxima);
 peaksNeg = t(t<0&maxima);
 
-if peaksPos(1) < abs(peaksNeg(size(peaksNeg,1))),
-    dt2 = peaksPos(1);
-else 
-    dt2 = peaksNeg(size(peaksNeg,1));
+if isempty(peaksPos),
+    if isempty(peaksNeg),
+        dt2 = NaN;
+    else
+        dt2 = peaksNeg(size(peaksNeg,1));
+    end
+else
+    if isempty(peaksNeg) || peaksPos(1) < abs(peaksNeg(size(peaksNeg,1))),
+        dt2 = peaksPos(1);
+    else
+        dt2 = peaksNeg(size(peaksNeg,1));
+    end
 end
 
 % Theta index
 index = a/b;
 
-% Find T (Geisler 2011) : Travel time
-carrier = smooth(fit,5);
-[~,I] = max(carrier);
-Travel = t(I);
+% Determine travel time (see Geisler et al., 2011)
+carrier = Smooth(fit,5);
+[~,i] = max(carrier);
+travel = t(i);
 
 % Plot and display results
 if strcmp(show,'on'),

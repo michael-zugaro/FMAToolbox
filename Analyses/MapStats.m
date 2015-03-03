@@ -43,7 +43,7 @@ function stats = MapStats(map,varargin)
 %    stats.field         field (1 = bin in field, 0 = bin not in field)
 %    stats.fieldX        field x boundaries (in bins)
 %    stats.fieldY        field y boundaries (in bins)
-%    stats.specificity   spatial specificity (Skaggs et al., 1993)
+%    stats.specificity   spatial specificity (in bits, see Skaggs et al., 1993)
 %
 %    For 1D circular data:
 %

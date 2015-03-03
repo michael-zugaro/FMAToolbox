@@ -103,10 +103,14 @@ for i = 1:2:length(varargin),
 end
 
 % Compute point spectrogram and moments
-[spectrogram,~,f] = MTPointSpectrogram(lfp,v{:});
+[spectrogram,~,f] = MTPointSpectrogram(times,v{:});
 spectrogram = spectrogram';
-spectrum = mean(spectrogram);
-s = var(spectrogram);
+mu = mean(spectrogram);
+v = var(spectrogram);
+
+% Compute spectrum
+spectrum = mu;
+s = sqrt(v);
 
 % Plot log, i.e. mean E[log(spectrogram)] and stdev sqrt(Var[log(spectrogram)])
 % (see http://en.wikipedia.org/wiki/Taylor_expansions_for_the_moments_of_functions_of_random_variables)
