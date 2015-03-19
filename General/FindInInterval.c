@@ -2,7 +2,7 @@
                             FindInInterval.c
                             --------------------
     begin                : June 2008
-    copyright            : (C) 2008 by Michaël Zugaro
+    copyright            : (C) 2008-2015 by Michaël Zugaro
     email                : michael.zugaro@college-de-france.fr
  ***************************************************************************/
 
@@ -38,17 +38,26 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[])
 	indices = mxGetPr(plhs[0]);
 	indices[0] = indices[1] = 0;
 
+	/* Find index of first value greater than lower bound */
 	for ( i = start ; i < m && x[i] < t0 ; i++ );
 	if ( i >= m )
 	{
+		/* None found, return empty */
 		mxDestroyArray(plhs[0]);
 		plhs[0] = mxCreateDoubleMatrix(0,0,mxREAL);
 	}
 	else
 	{
+		/* Found at least one value, now find the last one */
 		indices[0] = i+1;
 
 		for ( ; i < m && x[i] <= t1 ; i++ );
 		indices[1] = i;
+	}
+	if ( indices[1] < indices[0] )
+	{
+		/* None found, return empty */
+		mxDestroyArray(plhs[0]);
+		plhs[0] = mxCreateDoubleMatrix(0,0,mxREAL);
 	}
 }
