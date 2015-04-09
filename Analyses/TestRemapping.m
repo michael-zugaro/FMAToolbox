@@ -27,11 +27,14 @@ function [h,p,cr,ca] = TestRemapping(control,repeat,test,varargin)
 %
 %  Current implementation only tests 1D environments.
 %
+%  Note that a repeated control condition is not required: one may provide the
+%  same control condition twice, in which case the correction will be zero.
+%
 %  USAGE
 %
 %    [h,p,cr,ca] = TestRemapping(control,repeat,test,<options>)
 %
-%    control        firing fields in control condition (MxN: M fields, N bins)
+%    control        firing fields (rates) in control condition (MxN: M fields, N bins)
 %    repeat         firing fields in repeated control condition
 %    test           firing fields in test condition
 %    <options>      optional list of property-value pairs (see table below)

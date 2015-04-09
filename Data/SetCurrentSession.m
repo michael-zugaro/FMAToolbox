@@ -16,6 +16,7 @@ function SetCurrentSession(varargin)
 %     Properties    Values
 %    -------------------------------------------------------------------------
 %     'spikes'      load or skip spike files (default = 'on')
+%     'verbose'     display progress messages (default = 'on')
 %    =========================================================================
 %
 %  NOTE
@@ -23,7 +24,7 @@ function SetCurrentSession(varargin)
 %    If no parameter file name is specified, an interactive file selection
 %    dialog is displayed.
 
-% Copyright (C) 2004-2014 by Michaël Zugaro, 2014 by Gabrielle Girardeau
+% Copyright (C) 2004-2015 by Michaël Zugaro, 2014 by Gabrielle Girardeau
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -32,6 +33,7 @@ function SetCurrentSession(varargin)
 
 % Default values
 spikes = 'on';
+verbose = 'on';
 filename = '';
 
 % Filename?
@@ -53,6 +55,11 @@ for i = 1:2:length(varargin),
 		error(['Parameter ' num2str(i+2) ' is not a property (type ''help <a href="matlab:help SetCurrentSession">SetCurrentSession</a>'' for details).']);
 	end
 	switch(lower(varargin{i})),
+		case 'verbose',
+			verbose = lower(varargin{i+1});
+			if ~isstring(verbose,'on','off'),
+				error('Incorrect value for property ''verbose'' (type ''help <a href="matlab:help SetCurrentSession">SetCurrentSession</a>'' for details).');
+			end
 		case 'spikes',
 			spikes = lower(varargin{i+1});
 			if ~isstring(spikes,'on','off'),
@@ -60,8 +67,7 @@ for i = 1:2:length(varargin),
 			end
 		otherwise,
 			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help SetCurrentSession">SetCurrentSession</a>'' for details).']);
-
-  end
+	end
 end
 
 global DATA;
@@ -119,7 +125,7 @@ else
 	end
 end
 
-disp(['Loading session files for ' basename]);
+if strcmp(verbose,'on'), disp(['Loading session files for ' basename]); end
 
 % File already loaded?
 if strcmp(basename,DATA.session.basename) & strcmp(path,DATA.session.path) & ~strcmp(filename,'same'),
@@ -130,7 +136,7 @@ end
 
 % Parameter file
 DATA = LoadParameters([path separator basename '.xml']);
-disp(['... loaded parameter file ''' basename '.xml''']);
+if strcmp(verbose,'on'), disp(['... loaded parameter file ''' basename '.xml''']); end
 
 % Event file(s)
 DATA.events.time = [];
@@ -142,27 +148,27 @@ if ~isempty(eventFiles),
 		if isempty(events.time), continue; end
 		DATA.events.time = [DATA.events.time ; events.time];
 		DATA.events.description = {DATA.events.description{:} events.description{:}}';
-		disp(['... loaded event file ''' eventFiles(i).name '''']);
+		if strcmp(verbose,'on'), disp(['... loaded event file ''' eventFiles(i).name '''']); end
 	end
 	[DATA.events.time,i] = sortrows(DATA.events.time);
 	DATA.events.description = {DATA.events.description{i}}';
 else
-	disp('... (no event file found)');
+	if strcmp(verbose,'on'), disp('... (no event file found)'); end
 end
 
 % Position file
 DATA.positions = [];
 if exist([path separator basename '.pos']),
 	DATA.positions = LoadPositions([path separator basename '.pos'],DATA.rates.video);
-	disp(['... loaded position file ''' basename '.pos''']);
+	if strcmp(verbose,'on'), disp(['... loaded position file ''' basename '.pos''']); end
 elseif exist([path separator basename '.whl']),
 	DATA.positions = LoadPositions([path separator basename '.whl'],DATA.rates.video);
-	disp(['... loaded position file ''' basename '.whl''']);
+	if strcmp(verbose,'on'), disp(['... loaded position file ''' basename '.whl''']); end
 elseif exist([path separator basename '.whl']),
 	DATA.positions = LoadPositions([path separator basename '.mqa'],DATA.rates.video);
-	disp(['... loaded position file ''' basename '.mqa''']);
+	if strcmp(verbose,'on'), disp(['... loaded position file ''' basename '.mqa''']); end
 else
-	disp('... (no position file found)');
+	if strcmp(verbose,'on'), disp('... (no position file found)'); end
 end
 
 % Spike files
@@ -173,31 +179,31 @@ if strcmp(spikes,'on'),
 		if exist(filename,'file'),
 			try
 				DATA.spikes = [DATA.spikes;LoadSpikeTimes(filename,DATA.rates.wideband)];
-				disp(['... loaded spike files ''' basename '.' int2str(i) '.clu''']);
+				if strcmp(verbose,'on'), disp(['... loaded spike files ''' basename '.' int2str(i) '.clu''']); end
 			catch
-				disp(['... (could not load spike files ''' basename '.' int2str(i) '.clu'')']);
+				if strcmp(verbose,'on'), disp(['... (could not load spike files ''' basename '.' int2str(i) '.clu'')']); end
 			end
 		else
 			filename = [path separator basename '.clu.' int2str(i)];
 			if exist(filename,'file'),
 				try
 					DATA.spikes = [DATA.spikes;LoadSpikeTimes(filename,DATA.rates.wideband)];
-					disp(['... loaded spike files ''' basename '.clu.' int2str(i) '''']);
+					if strcmp(verbose,'on'), disp(['... loaded spike files ''' basename '.clu.' int2str(i) '''']); end
 				catch
-					disp(['... (could not load spike files ''' basename '.clu.' int2str(i) ''')']);
+					if strcmp(verbose,'on'), disp(['... (could not load spike files ''' basename '.clu.' int2str(i) ''')']); end
 				end
 			end
 		end
 	end
 	if isempty(DATA.spikes),
-		disp('... (no spike files found)');
+		if strcmp(verbose,'on'), disp('... (no spike files found)'); end
 	end
 else
-	disp('... (skipping spike files)');
+	if strcmp(verbose,'on'), disp('... (skipping spike files)'); end
 end
 
 % This is updated only once the files have been properly loaded
 DATA.session.basename = basename;
 DATA.session.path = path;
 
-disp('Done');
+if strcmp(verbose,'on'), disp('Done'); end

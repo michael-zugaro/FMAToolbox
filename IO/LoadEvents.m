@@ -30,9 +30,12 @@ c = textscan(file,'%s','delimiter','\n');
 fclose(file);
 
 % Parse cell array (extract time and messages using regular expressions)
-t = regexprep(c{1},'([0-9]*.[0-9]*).*','$1','once');
+t = regexprep(c{1},'([^ \t]*).*','$1','once');
 events.time = cellfun(@str2num,t);
-events.description = regexprep(c{1},'[0-9]*.[0-9 \t]*','','once');
+events.description = regexprep(c{1},'[^ \t]*[ \t]*','','once');
+%  t = regexprep(c{1},'([0-9]*[.]?[0-9]*[e]?[+-]?[0-9]*).*','$1','once');
+%  events.description = regexprep(c{1},'[0-9]*[.]?[0-9]*[ \t]*','','once');
+
 
 % Convert to seconds
 if ~isempty(events.time), events.time(:,1) = events.time(:,1) / 1000; end

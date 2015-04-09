@@ -163,7 +163,7 @@ end
 % Position and number of records of the data subset
 if time,
 	if length(duration) == 1,
-		duration = repmat(duration,size(start,1),1);
+		duration = repmat(duration,length(start),1);
 	elseif length(duration) ~= length(start),
 		error('Start and duration lists have different lengths (type ''help <a href="matlab:help LoadBinary">LoadBinary</a>'' for details).');
 	end

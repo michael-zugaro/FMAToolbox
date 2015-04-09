@@ -161,7 +161,7 @@ parameters.tapers = tapers;
 parameters.pad = pad;
 parameters.trialave = averageTrials;
 [spectrogram,t,f] = mtspecgrampt(times,[window window-overlap],parameters);
-t = t'+times(1);
+t = t';
 f = f';
 spectrogram = spectrogram';
 if strcmp(lower(show),'on'),

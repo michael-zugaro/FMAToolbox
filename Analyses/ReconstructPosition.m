@@ -58,17 +58,17 @@ training = 0.5;
 type = '';
 nDimensions = 1;
 
-% Check number of parameters
-if nargin < 2 || mod(length(varargin),2) ~= 0,
-	builtin('error','Incorrect number of parameters (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
-end
-
 % Optional parameter 'phases'
 if nargin == 2,
 	phases = [];
 elseif nargin >= 3 && ischar(phases),
 	varargin = {phases,varargin{:}};
 	phases = [];
+end
+
+% Check number of parameters
+if nargin < 2 || mod(length(varargin),2) ~= 0,
+	builtin('error','Incorrect number of parameters (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
 end
 
 % Check parameter sizes
@@ -78,7 +78,7 @@ end
 if ~isdmatrix(spikes),
 	builtin('error','Incorrect spikes (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
 end
-if size(positions,2) > 3,
+if size(positions,2) >= 3,
 	nDimensions = 2;
 end
 if ~isempty(phases) && ~isdmatrix(phases),
@@ -267,10 +267,12 @@ if nDimensions == 1,
 	% Shift estimated position by the real distance to center
 	stats.errors = CircularShift(stats.estimations(:,1:length(dx)),dx);
 	% Average over one or more cycles
-	k = 2*pi/window;
-	n = floor(size(stats.errors,2)/k)*k;
-	stats.average = reshape(stats.errors(:,1:n),nBins,k,[]);
-	stats.average = nanmean(stats.average,3);
+    if ~isempty(phases),
+        k = 2*pi/window;
+        n = floor(size(stats.errors,2)/k)*k;
+        stats.average = reshape(stats.errors(:,1:n),nBins,k,[]);
+        stats.average = nanmean(stats.average,3);
+    end
 else
 	warning('Computation of estimation error not yet implemented for 2D environments');
 end
