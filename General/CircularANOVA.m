@@ -115,6 +115,8 @@ if isvector(factors),
 	end
 else
 	% Two-way ANOVA
+	factor1 = factors(:,1);
+	factor2 = factors(:,2);
 	levels1 = unique(factor1);
 	if any(diff(levels1)~=1),
 		error('Incorrect levels for factor 1 (should be 1..N).');
@@ -154,6 +156,7 @@ else
 	end
 end
 
+
 %-----------------------------------------------------------------------------------------------------------------
 %  Compute F values for 2-way ANOVA (location only method)
 %-----------------------------------------------------------------------------------------------------------------
@@ -162,6 +165,8 @@ function [Fa,Fb,Fab] = lo(A,m,factor1,factor2)
 
 % Mean angle
 theta = angle(mean(A));
+levels1 = unique(factor1);
+levels2 = unique(factor2);
 
 % Mean angles for each level of factor 1
 for i = 1:length(levels1),
@@ -192,10 +197,10 @@ phi_l(1) = angle(mean([theta_11 theta_22]));
 phi_l(2) = angle(mean([theta_12 theta_21]));
 
 % Sum of squares
-SSa = 4*m*sum(1-cos(tehta_i-theta));
-SSb = 4*m*sum(1-cos(tehta_j-theta));
+SSa = 4*m*sum(1-cos(theta_i-theta));
+SSb = 4*m*sum(1-cos(theta_j-theta));
 SSab = 4*m*sum(1-cos(phi_l-theta));
-SSr = 2*sum(1-cos(angles-t_ij));
+SSr = 2*sum(1-cos(angle(A)-t_ij));
 
 % F values
 Fa = SSa/SSr;
