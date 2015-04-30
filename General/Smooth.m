@@ -170,8 +170,8 @@ else
 		% Prepend/append data to limit edge effects
 		if strcmp(type(1),'l'),
 			% For linear data, flip edge data
-			left = 2*data(:,1)-fliplr(data(:,1:hKernelSize));
-			right = 2*data(:,end)-fliplr(data(:,end-hKernelSize+1:end));
+			left = 2*repmat(data(:,1),1,hKernelSize)-fliplr(data(:,1:hKernelSize));
+			right = 2*repmat(data(:,end),1,hKernelSize)-fliplr(data(:,end-hKernelSize+1:end));
 		else
 			% For circular data, wrap edge data
 			left = data(:,end-hKernelSize+1:end);
