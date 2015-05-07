@@ -19,6 +19,7 @@
 %   glinspace             - Gamma-corrected linearly spaced vector.
 %   int2zstr              - Convert integer to zero-padded string.
 %   wrap                  - Set radian angles in range [0,2pi] or [-pi,pi].
-%   minmax                - Show min and max values for any number of variables.
+%   minmax                - Return min and max values for any number of arrays.
+%   mM                    - Show min and max values for any number of variables.
 %   sz                    - Show sizes for any number of variables.
 %
