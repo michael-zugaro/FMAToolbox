@@ -33,6 +33,7 @@
 %   PlotColorMap             - Plot a color map.
 %   PlotCSD                  - Plot current source density.
 %   PlotDistribution2        - For two random variables X and Y, plot distributions and Y vs X.
+%   PlotLinkage              - Plot network clustering obtained e.g. by FCA analysis.
 %   PlotPhasePrecession      - Plot phase precession plots and maps.
 %   PlotRippleStats          - Plot ripple descriptive stats.
 %   PlotShortTimeCCG         - Plot time-varying auto/cross-correlograms of point processes.

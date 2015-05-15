@@ -54,6 +54,7 @@
 %   CofiringCoefficient    - Compute the cofiring coefficient between two sets of intervals.
 %   CountSpikesPerCycle    - Count number of spikes per LFP cycle.
 %   CV                     - Compute coefficient of variation for a point process.
+%   FunctionalClustering   - Determine spike train similarity tree using FCA analysis.
 %   IsolationDistance      - Determine the isolation quality for one or more clusters.
 %   MTPointSpectrogram     - Compute point process spectrogram by multi-taper estimation.
 %   MTPointSpectrum        - Compute point process spectrum by multi-taper estimation.
