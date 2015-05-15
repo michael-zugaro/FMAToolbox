@@ -116,7 +116,10 @@ end
 
 bins = floor((x-limits(1))/(limits(2)-limits(1))*nBins)+1;
 
-if ~trim,
+% The following fixes boundary issues but also Matlab rounding errors
+if trim,
+	bins(bins>nBins) = nan;
+else
 	bins(bins>nBins) = nBins;
 end
 
