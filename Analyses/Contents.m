@@ -39,6 +39,7 @@
 %   SpectrogramBands       - Determine running power in physiological bands.
 %   CoherenceBands         - Determine running coherence in physiological bands.
 %   CSD                    - Compute current source density.
+%   FindDeltaWaves         - Find cortical delta waves (1-4Hz waves).
 %   FindRipples            - Find hippocampal ripples (100~200Hz oscillations).
 %   RippleStats            - Compute descriptive stats for ripples (100~200Hz oscillations).
 %   TuneArtefactTimes      - Fine-tune artefact (e.g. stimulation) times.

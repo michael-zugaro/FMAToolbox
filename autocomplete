@@ -130,6 +130,11 @@ TC.XML
 	<arg argn="3:2:31" ctype="VAR" previous="filter" value="cheby2 fir1"/>
 </binding>
 
+<binding name="FindDeltaWaves">
+	<arg argn="1" ctype="VAR"/>
+	<arg argn="2:2:30" ctype="VAR" value="amplitudes durations"/>
+</binding>
+
 <binding name="FindRipples">
 	<arg argn="1" ctype="VAR"/>
 	<arg argn="2:2:30" ctype="VAR" value="thresholds durations restrict frequency stdev show noise"/>
