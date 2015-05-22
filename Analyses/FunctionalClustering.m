@@ -1,4 +1,4 @@
-function [d,s,linkage] = FunctionalClustering(spikes)
+function [d,s,linkage] = FunctionalClustering(spikes,varargin)
 
 %FunctionalClustering - Determine spike train similarity tree using FCA analysis.
 %
@@ -24,12 +24,18 @@ function [d,s,linkage] = FunctionalClustering(spikes)
 %
 %  USAGE
 %
-%    [d,s,linkage] = FunctionalClustering(spikes)
-%
-%  INPUT
+%    [d,s,linkage] = FunctionalClustering(spikes,<options>)
 %
 %    spikes         two-column matrix of timestamps and unit IDs,
 %                   provided by <a href="matlab:help GetSpikeTimes">GetSpikeTimes</a> using 'output' = 'numbered'
+%    <options>      optional list of property-value pairs (see table below)
+%
+%    =========================================================================
+%     Properties    Values
+%    -------------------------------------------------------------------------
+%     'jitter'      jitter standard deviation, in s (default = 5)
+%     'nJitters'    number of jittered spike trains (default = 1000)
+%    =========================================================================
 %
 %  OUTPUT
 %
@@ -55,6 +61,27 @@ nJitters = 1000;
 % Check parameter
 if ~isdmatrix(spikes,'@2') || ~isivector(spikes(:,2)),
 	error('Incorrect spikes (type ''help <a href="matlab:help FunctionalClustering">FunctionalClustering</a>'' for details).');
+end
+
+% Parse parameter list
+for i = 1:2:length(varargin),
+	if ~ischar(varargin{i}),
+		error(['Parameter ' num2str(i+2) ' is not a property (type ''help <a href="matlab:help FunctionalClustering">FunctionalClustering</a>'' for details).']);
+	end
+	switch(lower(varargin{i})),
+		case 'jitter',
+			jitterSD = varargin{i+1};
+			if ~isdscalar(jitterSD,'>0'),
+				error('Incorrect value for property ''jitter'' (type ''help <a href="matlab:help FunctionalClustering">FunctionalClustering</a>'' for details).');
+			end
+		case 'njitters',
+			nJitters = varargin{i+1};
+			if ~isiscalar(nJitters,'>0'),
+				error('Incorrect value for property ''nJitters'' (type ''help <a href="matlab:help FunctionalClustering">FunctionalClustering</a>'' for details).');
+			end
+		otherwise,
+			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help FunctionalClustering">FunctionalClustering</a>'' for details).']);
+	end
 end
 
 spikes = sortrows(spikes);

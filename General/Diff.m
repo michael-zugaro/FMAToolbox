@@ -7,7 +7,6 @@ function derivative = Diff(samples,varargin)
 %    derivative = Diff(samples,<options>)
 %
 %    samples        <a href="matlab:help samples">samples</a> to differentiate
-%                   measured in number of samples (default = no smoothing)
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================
