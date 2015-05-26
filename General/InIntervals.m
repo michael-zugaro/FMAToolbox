@@ -6,13 +6,15 @@ function [status,interval,index] = InIntervals(values,intervals,varargin)
 %
 %    [status,interval,index] = InIntervals(values,intervals,<options>)
 %
-%    values         values to test (these need not be ordered)
+%    values         values to test (see NOTE below)
 %    intervals      list of (start,stop) pairs
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================
 %     Properties    Values
 %    -------------------------------------------------------------------------
+%     'mode'        'fast' if values are sorted in ascending order (see
+%                   NOTE below), 'safe' otherwise (default = 'safe')
 %     'verbose'     display information about ongoing processing
 %                   (default = 'off')
 %    =========================================================================
@@ -26,7 +28,11 @@ function [status,interval,index] = InIntervals(values,intervals,varargin)
 %    index          for each value, its index in the interval to which
 %                   it belongs (0 = none)
 %
-%  NOTE
+%  NOTES
+%
+%    Depending on the number of values to test, the 'fast' mode can be orders
+%    of magnitude faster, but will return inaccurate results if the values are
+%    not sorted in ascending order.
 %
 %    If the intervals overlap, the outputs 'interval' and 'index' refer to the
 %    last overlapping interval (i.e. if one value belongs to intervals #7 and #8,
@@ -37,7 +43,7 @@ function [status,interval,index] = InIntervals(values,intervals,varargin)
 %    See also ConsolidateIntervals, SubtractIntervals, ExcludeIntervals,
 %    Restrict, FindInInterval, CountInIntervals, PlotIntervals.
 
-% Copyright (C) 2004-2011 by Michaël Zugaro
+% Copyright (C) 2004-2015 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -46,9 +52,10 @@ function [status,interval,index] = InIntervals(values,intervals,varargin)
 
 % Default values
 verbose = false;
+safe = true;
 
 % Check number of parameters
-if nargin < 2 | mod(length(varargin),2) ~= 0,
+if nargin < 2 || mod(length(varargin),2) ~= 0,
   error('Incorrect number of parameters (type ''help <a href="matlab:help InIntervals">InIntervals</a>'' for details).');
 end
 
@@ -73,16 +80,24 @@ for i = 1:2:length(varargin),
 				error('Incorrect value for property ''verbose'' (type ''help <a href="matlab:help InIntervals">InIntervals</a>'' for details).');
 			end
 			verbose = strcmp(verbose,'on');
-
+		case 'mode',
+			mode = varargin{i+1};
+			if ~isstring(mode,'safe','fast'),
+				error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help InIntervals">InIntervals</a>'' for details).');
+			end
+			safe = strcmp(mode,'safe');
 		otherwise,
 			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help InIntervals">InIntervals</a>'' for details).']);
 	end
 end
 
-[values,order] = sortrows(values(:,1));
+% Sort if necessary
+if safe,
+	[values,order] = sortrows(values(:,1));
+end
 
 % Max nb of digits for display
-l = int2str(floor(log10(max(max(intervals*100))))+2);
+if verbose, l = int2str(floor(log10(max(max(intervals*100))))+2); end
 
 % Determine if intervals overlap (in which case we must use a 'slow' algorithm)
 i = sortrows(intervals,1);
@@ -99,14 +114,13 @@ end
 % Retrieve values in intervals
 previous = 1;
 n = size(intervals,1);
-status = logical(zeros(size(values)));
+status = false(size(values));
 interval = zeros(size(values));
 index = zeros(size(values));
-times = values;
 for i = 1:n,
 	from = intervals(i,1);
 	to = intervals(i,2);
-	timeString = sprintf(['%' l '.2f %' l '.2f (%' l '.2f)'],from,to,to-from);
+    
 	% Get values
 	more = FindInInterval(values,[from to],previous);
 	if ~isempty(more),
@@ -116,9 +130,11 @@ for i = 1:n,
 		status(more(1):more(2)) = 1;
 		index(more(1):more(2)) = (1:nMore);
 	end
-	if verbose, disp([timeString ' - ' int2str(nMore) ' values']); end
+	if verbose, timeString = sprintf(['%' l '.2f %' l '.2f (%' l '.2f)'],from,to,to-from); disp([timeString ' - ' int2str(nMore) ' values']); end
 end
 
-status(order) = status;
-interval(order) = interval;
-index(order) = index;
+if safe,
+	status(order) = status;
+	interval(order) = interval;
+	index(order) = index;
+end
