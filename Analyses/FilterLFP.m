@@ -15,7 +15,7 @@ function filtered = FilterLFP(lfp,varargin)
 %     Properties    Values
 %    -------------------------------------------------------------------------
 %     'passband'    frequency range (default = [4 10], 'theta')
-%     'order'       filter order (default = 4)
+%     'order'       filter order (default = 4, but see NOTE below)
 %     'ripple'      filter ripple (default = 20)
 %     'nyquist'     nyquist frequency (default = 625)
 %     'filter'      choose filter type between 'cheby2' (default) and 'fir1'
@@ -26,13 +26,13 @@ function filtered = FilterLFP(lfp,varargin)
 %    The passband can be supplied either explicitly, e.g. [30 80], or by name,
 %    by choosing among the following predefined frequency bands:
 %
-%        delta      [0 4]
+%        delta      [0 6] (order = 8)
 %        theta      [4 10]
-%        spindles   [10 20]
+%        spindles   [9 17]
 %        gamma      [30 80]
 %        ripples    [100 250]
 
-% Copyright (C) 2004-2011 by Michaël Zugaro
+% Copyright (C) 2004-2015 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -41,6 +41,7 @@ function filtered = FilterLFP(lfp,varargin)
 
 % Default values
 passband = [4 10];
+order = 4;
 
 % Check number of parameters
 if nargin < 1 | mod(length(varargin),2) ~= 0,
@@ -64,11 +65,12 @@ while i <= length(varargin),
 			if isstring(passband),
 				switch(lower(passband)),
 					case 'delta',
-						passband = [0 4];
+						passband = [0 6];
+						order = 8;
 					case 'theta',
 						passband = [4 10];
 					case 'spindles',
-						passband = [10 20];
+						passband = [9 17];
 					case 'gamma',
 						passband = [30 80];
 					case 'ripples',
@@ -84,4 +86,4 @@ while i <= length(varargin),
 			i = i+2;
 	end
 end
-filtered = Filter(lfp,'passband',passband,varargin{:});
+filtered = Filter(lfp,'passband',passband,'order',order,varargin{:});

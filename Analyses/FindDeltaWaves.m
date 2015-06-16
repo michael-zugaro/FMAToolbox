@@ -1,12 +1,14 @@
 function delta = FindDeltaWaves(filtered,varargin)
 
-%FindDeltaWaves - Find cortical delta waves (1-4Hz waves).
+%FindDeltaWaves - Find cortical delta waves (1-6Hz waves).
 %
 %  USAGE
 %
 %    delta = FindDeltaWaves(filtered,<options>)
 %
-%    filtered       delta-band filtered LFP <a href="matlab:help samples">samples</a> (one channel).
+%    filtered       delta-band filtered LFP <a href="matlab:help samples">samples</a> (one channel). This must
+%                   be restricted to slow wave sleep periods for the algorithm
+%                   to perform best.
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================

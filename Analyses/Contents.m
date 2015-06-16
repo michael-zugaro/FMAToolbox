@@ -40,7 +40,8 @@
 %   CoherenceBands         - Determine running coherence in physiological bands.
 %   CSD                    - Compute current source density.
 %   FindDeltaWaves         - Find cortical delta waves (1-4Hz waves).
-%   FindRipples            - Find hippocampal ripples (100~200Hz oscillations).
+%   FindRipples            - Find hippocampal ripples (100-200Hz oscillations).
+%   FindSpindles           - Find thalamo-cortical spindles (9-17Hz oscillations).
 %   RippleStats            - Compute descriptive stats for ripples (100~200Hz oscillations).
 %   TuneArtefactTimes      - Fine-tune artefact (e.g. stimulation) times.
 %   RemoveArtefacts        - Remove artefacts from local field potentials.
