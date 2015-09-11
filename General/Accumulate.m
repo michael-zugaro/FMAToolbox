@@ -84,13 +84,17 @@ end
 
 % Make sure 'values' is a Mx1 vector (possibly a scalar)
 if ~isdvector(values),
-    error('Incorrect values (type ''help <a href="matlab:help Accumulate">Accumulate</a>'' for details)');
+	if islvector(values),
+		values = double(values);
+	else
+		error('Incorrect values (type ''help <a href="matlab:help Accumulate">Accumulate</a>'' for details)');
+	end
 end
 if size(values,1) == 1, values = values'; end
 
 % Make sure 'variables' is a MxN matrix (possibly a Mx1 vector) of positive integers
 if ~isivector(variables,'>=0') & ~isimatrix(variables,'>=0'),
-    error('Incorrect variables (type ''help <a href="matlab:help Accumulate">Accumulate</a>'' for details)');
+	error('Incorrect variables (type ''help <a href="matlab:help Accumulate">Accumulate</a>'' for details)');
 end
 if size(variables,1) == 1, variables = variables'; end
 
@@ -109,7 +113,7 @@ end
 
 % 'variables' and 'values' must have the same length
 if size(values,1) ~= size(variables,1),
-    error('Incompatible sizes for variables and values (type ''help <a href="matlab:help Accumulate">Accumulate</a>'' for details)');
+	error('Incompatible sizes for variables and values (type ''help <a href="matlab:help Accumulate">Accumulate</a>'' for details)');
 end
 
 % Drop NaN and Inf values
