@@ -41,7 +41,7 @@ function stats = ReconstructPosition(positions,spikes,phases,varargin)
 %     stats.phases        phase windows (empty for fixed time windows)
 %
 
-% Copyright (C) 2012-2013 by Michaël Zugaro, (C) 2012 by Karim El Kanbi
+% Copyright (C) 2012-2015 by Michaël Zugaro, (C) 2012 by Karim El Kanbi, (C) 2015 by Ralitsa Todorova
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -111,9 +111,9 @@ for i = 1:2:length(varargin),
 			if ~isstring(show,'on','off'),
 				builtin('error','Incorrect value for property ''show'' (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
 			end
-		case 'nBins',
+		case 'nbins',
 			nBins = varargin{i+1};
-			if ~isinteger(nBins),
+			if isiscalar(nBins),
 				builtin('error','Incorrect value for property ''nBins'' (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
 			end
 		case 'type',
@@ -235,9 +235,12 @@ for i = 1:nWindows,
 	% assign a spike count to each position and unit (3D array)
 	n = reshape(repmat(stats.spikes(:,i),1,nBinsX*nBinsY)',nBinsY,nBinsX,nUnits);
 
-	% For each cell i, compute P(ni|x) using a Poisson model
+	% For each cell i, compute P(ni|x) using a Poisson model. The direct formula is:
+	% 	 Pnix = (dt*lambda).^n./factorial(n).*exp(-dt*lambda); 
+	% However, large values of (dt*lambda).^n can create overflow erros, so instead we compute
+	% the log and then take the exponential (fix by Ralitsa Todorova)
 	dt = windows(i,2) - windows(i,1);
-	Pnix = (dt*lambda).^n./factorial(n).*exp(-dt*lambda);
+	Pnix = exp(n.*log(dt*lambda)-logfactorial(n)-dt*lambda);
 	% Compute P(n|x) assuming independent probabilities across units (hmm...)
 	% i.e. P(n|x) = product over i of P(ni|x)
 	Pnx = prod(Pnix,3);
@@ -275,4 +278,16 @@ if nDimensions == 1,
     end
 else
 	warning('Computation of estimation error not yet implemented for 2D environments');
+end
+
+
+function data = logfactorial(data);
+
+% We compute log(n!) as the sum of logs, i.e. log(n!) = sum log(i) for i=1:n
+% First determine the largest n in the array
+m = max(data(:));
+% Create a look-up vector of sum log(i) for each i up to the largest n
+sums = [0 cumsum(log(1:m))];
+% Look-up the value for each item in the array
+data(:) = sums(data+1);
 end
