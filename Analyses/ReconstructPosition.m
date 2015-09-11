@@ -1,4 +1,4 @@
-function stats = ReconstructPosition(positions,spikes,phases,varargin)
+function [stats,lambda,Px] = ReconstructPosition(positions,spikes,phases,varargin)
 
 %ReconstructPosition - Bayesian reconstruction of positions from spike trains.
 %
@@ -10,24 +10,28 @@ function stats = ReconstructPosition(positions,spikes,phases,varargin)
 %
 % USAGE
 %
-%    stats = ReconstructPosition(positions,spikes,phases,<options>)
+%    [stats,lambda,Px] = ReconstructPosition(positions,spikes,phases,<options>)
 %
 %    positions      linear or two-dimensional positions <a href="matlab:help samples">samples</a>, in [0..1]
-%    spikes         list of (t,group,cluster) triplets (obtained via e.g.
-%                   <a href="matlab:help GetSpikes">GetSpikes</a>, using full output)
+%    spikes         list of (t,ID) couples (obtained via e.g. <a href="matlab:help GetSpikes">GetSpikes</a>,
+%                   using numbered output) 
 %    phases         optional unwrapped phase <a href="matlab:help samples">samples</a> of the LFP (see <a href="matlab:help Phase">Phase</a>)
 %
 %    =========================================================================
 %     Properties    Values
 %    -------------------------------------------------------------------------
 %     'training'    time interval over which the model should be trained
-%                   (default = first half of the position data)
+%                   (see NOTE below for defaults)
 %     'window'      length of the time or phase window (default = 0.020 s for
 %                   time, and pi/3 for phases)
 %     'type'        two letters (one for X and one for Y) indicating which
 %                   coordinates are linear ('l') and which are circular ('c')
 %                   - for 1D data, only one letter is used (default 'll')
 %     'nBins'       firing curve or map resolution (default = [200 200])
+%     'mode'        perform only training ('train'), only reconstruction
+%                   ('test'), or both ('both', default)
+%     'lambda'      to provide previously generated model ('test' mode)
+%     'Px'          to provide previously generated model ('test' mode)
 %    =========================================================================
 %
 %   OUTPUT
@@ -40,14 +44,27 @@ function stats = ReconstructPosition(positions,spikes,phases,varargin)
 %     stats.windows       time windows (possibly computed from phases)
 %     stats.phases        phase windows (empty for fixed time windows)
 %
+%     lambda              firing map for each unit
+%     Px                  occupancy probability map
+%
+%   NOTE
+%
+%     Positions and spikes are interpreted differently depending on the mode:
+%
+%      - For 'train', all positions and spikes are used to train the model
+%      - For 'test', all positions and spikes are used to test the model, and
+%        positions are optional (e.g. for reconstruction during sleep)
+%      - For 'both', the optional parameter 'training' can be used to indicate
+%        the training interval (default = first half of the position data)
+%
 
-% Copyright (C) 2012-2015 by Michaël Zugaro, (C) 2012 by Karim El Kanbi, (C) 2015 by Ralitsa Todorova
+% Copyright (C) 2012-2015 by Michaël Zugaro, (C) 2012 by Karim El Kanbi (initial, non-vectorized implementation),
+% (C) 2015 by Céline Drieu (separate training vs test), (C) 2015 by Ralitsa Todorova (log-exp fix)
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
 % the Free Software Foundation; either version 3 of the License, or
 % (at your option) any later version.
-
 
 % Defaults
 wt = 0.020; % default time window
@@ -57,6 +74,7 @@ nBins = 200;
 training = 0.5;
 type = '';
 nDimensions = 1;
+mode = 'both';
 
 % Optional parameter 'phases'
 if nargin == 2,
@@ -72,10 +90,10 @@ if nargin < 2 || mod(length(varargin),2) ~= 0,
 end
 
 % Check parameter sizes
-if ~isdmatrix(positions),
+if ~isempty(positions) && ~isdmatrix(positions),
 	builtin('error','Incorrect positions (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
 end
-if ~isdmatrix(spikes),
+if ~isdmatrix(spikes,'@2') && ~isdmatrix(spikes,'@3'),
 	builtin('error','Incorrect spikes (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
 end
 if size(positions,2) >= 3,
@@ -83,11 +101,6 @@ if size(positions,2) >= 3,
 end
 if ~isempty(phases) && ~isdmatrix(phases),
 	builtin('error','Incorrect value for property ''phases'' (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
-end
-
-% Check number of output parameters
-if isempty(phases) && nargout == 3,
-	builtin('error','Too many output parameters or missing phases (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
 end
 
 % Parse parameters
@@ -98,7 +111,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'training',
 			training = varargin{i+1};
-			if ~isdvector(training,'>'),
+			if ~isdvector(training,'<'),
 				builtin('error','Incorrect value for property ''training'' (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
 			end
 		case 'window',
@@ -121,12 +134,27 @@ for i = 1:2:length(varargin),
 			if (nDimensions == 1 && ~isstring(type,'cc','cl','lc','ll')) || (nDimensions == 2 && ~isstring(type,'ccl','cll','lcl','lll','ccc','clc','lcc','llc')),
 				builtin('error','Incorrect value for property ''type'' (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
 			end
+		case 'mode',
+			mode = lower(varargin{i+1});
+			if ~isstring(mode,'both','train','test'),
+				builtin('error','Incorrect value for property ''mode'' (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
+			end
+		case 'lambda',
+			lambda = varargin{i+1};
+			if ~isnumeric(lambda) || length(size(lambda)) ~= 3,
+				builtin('error','Incorrect value for property ''lambda'' (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
+			end
+		case 'px',
+			Px = varargin{i+1};
+			if ~isdvector(Px),
+				builtin('error','Incorrect value for property ''Px'' (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
+			end
 		otherwise,
 			builtin('error',['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).']);
 	end
 end
 
-% Defaults
+% Defaults (window)
 if isempty(window),
 	if isempty(phases),
 		window = wt;
@@ -137,13 +165,11 @@ if isempty(window),
 		end
 	end
 end
-if isdscalar(training),
+% Defaults (training)
+if isstring(mode,'train','both') && isdscalar(training),
 	training = [-Inf positions(1,1)+training*(positions(end,1)-positions(1,1))];
-else
-	if min([positions(1,1) spikes(1,1)]) < training(1) & min([positions(end,1) spikes(end,1)]) > training(2),
-		builtin('error',['Spikes or positions occur both before and after training interval (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).']);
-	end
 end
+% Defaults (type)
 if isempty(type),
 	if nDimensions == 2,
 		type = 'lll';
@@ -151,6 +177,7 @@ if isempty(type),
 		type = 'll';
 	end
 end
+% Defaults (nBins)
 nBinsX = nBins(1);
 if length(nBins) > 2,
 	nBinsY = nBins(2);
@@ -161,47 +188,91 @@ else
 		nBinsY = 1;
 	end
 end
-
-
-% List units, assign them an ID (number them from 1 to N), and associate these IDs with each spike
-% (IDs will be easier to manipulate than (group,cluster) pairs in subsequent computations)
-[units,~,i] = unique(spikes(:,2:end),'rows');
-nUnits = length(units);
-index = 1:nUnits;
-id = index(i)';
-spikes = [spikes(:,1) id];
-
-% Split data (training vs test)
-trainingPositions = Restrict(positions,training);
-trainingSpikes = Restrict(spikes,training);
-testPositions = positions(~InIntervals(positions,training),:);
-testSpikes = spikes(~InIntervals(spikes,training),:);
+% Defaults (mode)
+if isstring(mode,'train','both') && ( exist('lambda','var') || exist('Px','var') ),
+	warning(['Inconsistent inputs, lambda and Px will be ignored in mode ''' mode ''' (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).']);
+	clear('lambda');clear('Px');
+end
+% Convert from legacy format for backward compatibility with previous versions of the code (spikes)
+if isdmatrix(spikes,'@3'),
+	% List units, assign them an ID (number them from 1 to N), and associate these IDs with each spike
+	% (IDs will be easier to manipulate than (group,cluster) pairs in subsequent computations)
+	[units,~,i] = unique(spikes(:,2:end),'rows');
+	nUnits = length(units);
+	index = 1:nUnits;
+	id = index(i)';
+	spikes = [spikes(:,1) id];
+	warning('Spikes were provided as Nx3 samples - this is now obsolete (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
+	if ~strcmp(mode,'both'),
+		builtin('error','Obsolete format can be used only when training and test are performed together (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
+	end
+else
+	if strcmp(mode,'test'),
+		nUnits = size(lambda,3);
+	else
+		nUnits = max(spikes(:,2));
+	end
+end
 
 % TRAINING
 
-% Compute occupancy probability P(x) (i.e. normalized occupancy map)
-firstUnit = trainingSpikes(:,2) == 1;
-s = trainingSpikes(firstUnit,1);
-map = Map(trainingPositions,s,'nbins',nBins,'smooth',5,'type',type);
-Px = map.time;
-Px = Px ./ sum(Px(:));
+if isstring(mode,'both','train'),
 
-% Compute average firing probability lambda for each unit (i.e. firing maps)
-lambda(:,:,1) = map.z;
-for i = 2:nUnits,
-	nextUnit = trainingSpikes(:,2) == i;
-	s = trainingSpikes(nextUnit,1);
-	map = Map(trainingPositions,s,'nbins',nBins,'smooth',5,'type',type);
-	lambda(:,:,i) = map.z;
+	% Split data (training vs test)
+	if strcmp(mode,'train'),
+		% Mode = 'train', use all data
+		trainingPositions = positions;
+		trainingSpikes = spikes;
+	else
+		% Mode = 'both', used info from 'training' parameter
+		trainingPositions = Restrict(positions,training);
+		trainingSpikes = Restrict(spikes,training);
+	end
+	
+	% Compute average firing probability lambda for each unit (i.e. firing maps)
+	for i = 1:nUnits,
+		unit = trainingSpikes(:,2) == i;
+		s = trainingSpikes(unit,1);
+		map = Map(trainingPositions,s,'nbins',nBins,'smooth',5,'type',type);
+		lambda(:,:,i) = map.z;
+	end
+
+	% Compute occupancy probability P(x) (i.e. normalized occupancy map)
+	Px = map.time;
+	Px = Px ./ sum(Px(:));
+	
 end
 
 % TEST
 
+if strcmp(mode,'train'),
+	stats.estimations = [];
+	stats.spikes = [];
+   stats.errors = [];
+   stats.average = [];
+   stats.windows = [];
+   stats.phases = [];
+   return
+end
+
+% Split data (training vs test)
+if strcmp(mode,'test'),
+	% Mode = 'test', use all data
+	testPositions = positions;
+	testSpikes = spikes;
+else
+	% Mode = 'both', used info from 'training' parameter
+	testPositions = positions(~InIntervals(positions,training),:);
+	testSpikes = spikes(~InIntervals(spikes,training),:);
+end
+
 % Determine time windows (using unwrapped phases if necessary)
 if ~isempty(phases),
 	testPhases = phases(~InIntervals(phases,training),:);
-	drop = testPhases(:,1) < testPositions(1,1);
-	testPhases(drop,:) = [];
+	if ~isempty(testPositions),
+		drop = testPhases(:,1) < testPositions(1,1);
+		testPhases(drop,:) = [];
+	end
 	startPhase = ceil(testPhases(1,2)/(2*pi))*2*pi;
 	stopPhase = floor(testPhases(end,2)/(2*pi))*2*pi;
 	windows = (startPhase:window:stopPhase)';
@@ -210,7 +281,11 @@ if ~isempty(phases),
 	windows = [windows(1:end-1,2) windows(2:end,2)];
 else
 	stats.phases = [];
-	windows = (testPositions(1,1):window:testPositions(end,1))';
+	if ~isempty(testPositions),
+		windows = (testPositions(1,1):window:testPositions(end,1))';
+	else
+		windows = (testSpikes(1,1):window:testSpikes(end,1))';
+	end
 	windows = [windows(1:end-1) windows(2:end)];
 end
 nWindows = size(windows,1);
@@ -262,7 +337,7 @@ stats.windows = windows;
 
 stats.errors = [];
 stats.average = [];
-if nDimensions == 1,
+if nDimensions == 1 && ~isempty(testPositions),
 	% Bin test positions and compute distance to center
 	stats.positions = Interpolate(testPositions,windows(:,1));
 	stats.positions(:,2) = Bin(stats.positions(:,2),[0 1],nBinsX);
