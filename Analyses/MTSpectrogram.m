@@ -74,90 +74,89 @@ pad = 0;
 
 % Check number of parameters
 if nargin < 1 | mod(length(varargin),2) ~= 0,
-  error('Incorrect number of parameters (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
+    error('Incorrect number of parameters (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
 end
 
 % Check parameter sizes
 if size(lfp,2) ~= 1 && size(lfp,2) ~= 2,
-	error('Parameter ''lfp'' is not a vector or a Nx2 matrix (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
+    error('Parameter ''lfp'' is not a vector or a Nx2 matrix (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
 end
-
 % Parse parameter list
 for i = 1:2:length(varargin),
-	if ~ischar(varargin{i}),
-		error(['Parameter ' num2str(i+2) ' is not a property (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).']);
-	end
-	switch(lower(varargin{i})),
-		case 'frequency',
-			frequency = varargin{i+1};
-			if ~isdscalar(frequency,'>0'),
-				error('Incorrect value for property ''frequency'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
-			end
-		case 'range',
-			range = varargin{i+1};
-			if ~isdvector(range,'#2','>=0','<'),
-				error('Incorrect value for property ''range'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
-			end
-		case 'window',
-			window = varargin{i+1};
-			if ~isdscalar(window,'>0'),
-				error('Incorrect value for property ''window'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
-			end
-		case 'overlap',
-			overlap = varargin{i+1};
-			if ~isdscalar(overlap,'>0'),
-				error('Incorrect value for property ''overlap'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
-			end
-		case 'step',
-			step = varargin{i+1};
-			if ~isdscalar(step,'>0'),
-				error('Incorrect value for property ''step'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
-			end
-		case 'tapers',
-			tapers = varargin{i+1};
-			if ~isivector(tapers,'#2','>0'),
-				error('Incorrect value for property ''tapers'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
-			end
-		case 'pad',
-			pad = varargin{i+1};
-			if ~isiscalar(pad,'>-1'),
-				error('Incorrect value for property ''pad'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
-			end
-		case 'show',
-			show = varargin{i+1};
-			if ~isstring(show,'on','off'),
-				error('Incorrect value for property ''show'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
-			end
-		case 'cutoffs',
-			cutoffs = varargin{i+1};
-			if ~isdvector(cutoffs,'#2','>=0','<'),
-				error('Incorrect value for property ''cutoffs'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
-			end
-		otherwise,
-			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).']);
-	end
+    if ~ischar(varargin{i}),
+        error(['Parameter ' num2str(i+2) ' is not a property (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).']);
+    end
+    switch(lower(varargin{i})),
+        case 'frequency',
+            frequency = varargin{i+1};
+            if ~isdscalar(frequency,'>0'),
+                error('Incorrect value for property ''frequency'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
+            end
+        case 'range',
+            range = varargin{i+1};
+            if ~isdvector(range,'#2','>=0','<'),
+                error('Incorrect value for property ''range'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
+            end
+        case 'window',
+            window = varargin{i+1};
+            if ~isdscalar(window,'>0'),
+                error('Incorrect value for property ''window'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
+            end
+        case 'overlap',
+            overlap = varargin{i+1};
+            if ~isdscalar(overlap,'>0'),
+                error('Incorrect value for property ''overlap'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
+            end
+        case 'step',
+            step = varargin{i+1};
+            if ~isdscalar(step,'>0'),
+                error('Incorrect value for property ''step'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
+            end
+        case 'tapers',
+            tapers = varargin{i+1};
+            if ~isivector(tapers,'#2','>0'),
+                error('Incorrect value for property ''tapers'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
+            end
+        case 'pad',
+            pad = varargin{i+1};
+            if ~isiscalar(pad,'>-1'),
+                error('Incorrect value for property ''pad'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
+            end
+        case 'show',
+            show = varargin{i+1};
+            if ~isstring(show,'on','off'),
+                error('Incorrect value for property ''show'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
+            end
+        case 'cutoffs',
+            cutoffs = varargin{i+1};
+            if ~isdvector(cutoffs,'#2','>=0','<'),
+                error('Incorrect value for property ''cutoffs'' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
+            end
+        otherwise,
+            error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).']);
+    end
 end
 
 % Determine LFP frequency
 if isempty(frequency),
-	if size(lfp,2) == 2,
-		frequency = 1/median(diff(lfp(:,1)));
-	else
-		frequency = f;
-	end
+    if size(lfp,2) == 2,
+        frequency = 1/median(diff(lfp(:,1)));
+    else
+        frequency = f;
+    end
 end
 
 % Determine step/overlap
 if isempty(step),
-	if isempty(overlap),
-		overlap = window/2;
-	end
+    if isempty(overlap),
+        overlap = window/2;
+    end
 else
-	if isempty(overlap),
-		overlap = window-step;
-	elseif overlap ~= window-step,
-		error('Incompatible ''step'' and ''overlap'' parameters (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
-	end
+    if isempty(overlap),
+        overlap = window-step;
+    elseif overlap ~= window-step,
+        error('Incompatible ''step'' and ''overlap'' parameters (type ''help <a href="matlab:help MTSpectrogram">MTSpectrogram</a>'' for details).');
+    end
 end
 
 % Compute and plot spectrogram
@@ -169,11 +168,19 @@ parameters.pad = pad;
 t = t'+lfp(1,1);
 f = f';
 spectrogram = spectrogram';
+
+% Check for LFP discontinuities and update t accordingly
+gaps = diff(lfp(:,1)) > 2*nanmedian(diff(lfp(:,1)));
+if any(gaps),    
+	n = length(lfp(:,1));
+	t = interp1(1:n,lfp(:,1),linspace(1,n,length(t))');
+end
+
 if strcmp(lower(show),'on'),
-	figure;
-	logTransformed = log(spectrogram);
-	PlotColorMap(logTransformed,1,'x',t,'y',f,'cutoffs',cutoffs);
-	xlabel('Time (s)');
-	ylabel('Frequency (Hz)');
-	title('Power Spectrogram');
+    figure;
+    logTransformed = log(spectrogram);
+    PlotColorMap(logTransformed,1,'x',t,'y',f,'cutoffs',cutoffs);
+    xlabel('Time (s)');
+    ylabel('Frequency (Hz)');
+    title('Power Spectrogram');
 end
