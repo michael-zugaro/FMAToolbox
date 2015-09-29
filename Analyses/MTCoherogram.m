@@ -83,6 +83,9 @@ end
 if size(lfp2,2) ~= 1 && size(lfp2,2) ~= 2,
 	error('Parameter ''lfp2'' is not a vector or a Nx2 matrix (type ''help <a href="matlab:help MTCoherogram">MTCoherogram</a>'' for details).');
 end
+if any(size(lfp1) ~= size(lfp2)),
+	error('Parameters ''lfp1'' and ''lfp2'' have different sizes (type ''help <a href="matlab:help MTCoherogram">MTCoherogram</a>'' for details).');
+end
 
 % Parse parameter list
 for i = 1:2:length(varargin),
@@ -140,6 +143,11 @@ for i = 1:2:length(varargin),
 	end
 end
 
+% Make sure both LFPs have the same timestamps
+if size(lfp1,2) == 2 && any(lfp1(:,1) ~= lfp2(:,1)),
+	error('Parameters ''lfp1'' and ''lfp2'' have different timestamps (type ''help <a href="matlab:help MTCoherogram">MTCoherogram</a>'' for details).']);
+end
+
 % Determine LFP frequency
 if isempty(frequency),
 	if size(lfp1,2) == 2,
@@ -171,6 +179,14 @@ parameters.pad = pad;
 t = t'+lfp1(1,1);
 f = f';
 coherogram = coherogram';
+
+% Check for LFP discontinuities and update t accordingly
+gaps = diff(lfp1(:,1)) > 2*nanmedian(diff(lfp1(:,1)));
+if any(gaps),    
+	n = length(lfp1(:,1));
+	t = interp1(1:n,lfp1(:,1),linspace(1,n,length(t))');
+end
+
 % coherogram = permute(coherogram,[2 1 3]);  % Previous code by Gabrielle Girardeau, keep it around just in case
 phase = phase';
 if strcmp(lower(show),'on'),
