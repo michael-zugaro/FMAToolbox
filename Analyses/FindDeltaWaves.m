@@ -59,7 +59,7 @@ lowPeak = 1;
 highTrough = 1.5;
 lowTrough = 0;
 minDuration = 150; % min time between successive zero crossings (in ms)
-maxDuration = 500; % max time between successive zero crossings (in ms)
+maxDuration = 450; % max time between successive zero crossings (in ms)
 
 % Check number of parameters
 if nargin < 1 | mod(length(varargin),2) ~= 0,
