@@ -41,8 +41,9 @@ if nargin < 1,
   error('Incorrect number of parameters (type ''help <a href="matlab:help issamples">issamples</a>'' for details).');
 end
 
-% Test: double, vector
-test = isa(x,'double');
+% Test: double, vector or matrix
+test = isdvector(x) | isdmatrix(x);
+test = test & isdvector(x(:,1),'<');
 
 % Optional tests
 for i = 1:length(varargin),

@@ -65,6 +65,7 @@
 %   SelectSpikes           - Discriminate bursts vs single spikes.
 %   ShortTimeCCG           - Time-varying auto/cross-correlograms of point processes.
 %   ThresholdSpikes        - Post-hoc threshold correction for spike detection.
+%   GenerateSpikeTrain     - Generate spike train using a leaky integrate and fire neuron model.
 %
 % Behaviour
 %

@@ -9,8 +9,8 @@ function h = SideAxes(a,location,s,varargin)
 %    Using cell arrays will overlay variable pairs.
 %
 %    a              optional target axes (default = gca)
-%    s              size, as proportion of target axes
 %    location       'top', 'bottom', 'left' or 'right'
+%    s              size, as proportion of target axes
 %    <options>      optional list of property-value pairs (see table below)
 %
 %    =========================================================================
@@ -25,7 +25,7 @@ function h = SideAxes(a,location,s,varargin)
 %    h              handle to the new axes
 
 
-% Copyright (C) 2013 by Michaël Zugaro
+% Copyright (C) 2013-2015 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by

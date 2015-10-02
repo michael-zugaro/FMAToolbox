@@ -52,6 +52,7 @@
 % Figure elements (insets, subplots, titles...)
 %
 %   Insets                   - Create insets in current axes.
+%   PiecewiseLinearAxis      - Label axis using piecewise linear values.
 %   SideAxes                 - Add side axes to existing axes.
 %   SquareSubplot            - Layout subplots in a square arrangement.
 %   Subpanel                 - Add an (invisible) panel container to a figure.

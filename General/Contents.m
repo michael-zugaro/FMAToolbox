@@ -51,7 +51,6 @@
 %   Diff                           - Differentiate samples.
 %   Filter                         - Filter samples.
 %   Interpolate                    - Interpolate samples (positions, spikes, LFP, etc.) at given timestamps.
-%   AdaptiveSmooth                 - Smooth using an adaptive kernel.
 %
 % General-purpose.
 %

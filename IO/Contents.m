@@ -16,6 +16,7 @@
 %
 %   LoadBinary           - Load data from a binary file.
 %   SaveBinary           - Save data to binary file.
+%   ProcessBinary        - Process binary data file.
 %   ResampleBinary       - Resample binary file (e.g. dat->lfp).
 %   ChangeBinaryGain     - Change gain in a multiplexed binary file.
 %

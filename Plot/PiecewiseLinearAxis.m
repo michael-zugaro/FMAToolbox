@@ -1,6 +1,6 @@
 function a = PiecewiseLinearAxis(x,axis,varargin)
 
-%PiecewiseLinearAxis - Label axis using piecewise linear values
+%PiecewiseLinearAxis - Label axis using piecewise linear values.
 %
 %  USAGE
 %

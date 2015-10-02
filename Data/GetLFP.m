@@ -66,7 +66,7 @@ for i = 1:2:length(varargin),
     case {'intervals','restrict'},
       intervals = varargin{i+1};
       if ~isdmatrix(intervals) || size(intervals,2) ~= 2,
-        error('Incorrect value for property ''intervals'' (type ''help <a href="matlab:help GetLFP">GetLFP</a>'' for details).');
+        error(['Incorrect value for property ''' lower(varargin{i}) ''' (type ''help <a href="matlab:help GetLFP">GetLFP</a>'' for details).']);
       end
     case 'select',
       select = lower(varargin{i+1});
