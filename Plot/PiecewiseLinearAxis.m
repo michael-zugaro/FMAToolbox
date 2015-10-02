@@ -62,7 +62,7 @@ end
 % To this end, we create temporary, invisible axes of the same physical size (in the figure window)
 % as each piece, set its limits, and get tick information from there; we then transfer these back
 % to the original axis
-p = get(a,'position');
+P = get(a,'position');
 gaps = [1;gaps;length(x)];
 ticks = [];
 tickLabels = [];
@@ -73,11 +73,11 @@ for i = 2:length(gaps),
 	% Create temporary, invisible axes, and set their physical width (in the figure window) so that
 	% it matches that of current linear piece
 	if strcmp(axis,'x'),
-		factor = p(3)/(x(end)-x(1));
-		p = [0 1 (stop-start)*factor 1];
+		factor = P(3)/(x(end)-x(1))
+		p = [0 0.25 (stop-start)*factor 0.5];
 	else
-		factor = p(4)/(x(end)-x(1));
-		p = [0 1 1 (stop-start)*factor];
+		factor = P(4)/(x(end)-x(1));
+		p = [0.25 0 0.5 (stop-start)*factor];
 	end
 	tmp = axes('position',p,'visible','off');
 	% Set limits as the beginning and end of current piece
