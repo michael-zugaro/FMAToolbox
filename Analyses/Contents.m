@@ -32,6 +32,7 @@
 %
 %   FilterLFP              - Filter the local field potentials, e.g. in the theta band.
 %   Phase                  - Compute instantaneous phase in LFP.
+%   TimeToPhase            - Resample signal as a function of unwrapped phase.
 %   MTCoherence            - Compute LFP coherence by multi-taper estimation.
 %   MTCoherogram           - Compute LFP coherogram by multi-taper estimation.
 %   MTSpectrum             - Compute LFP spectrum by multi-taper estimation.
