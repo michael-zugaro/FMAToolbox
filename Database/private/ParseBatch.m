@@ -61,11 +61,17 @@ while ~feof(f),
 		else
 			% It is a vector (or matrix)
 			[token,line] = strtok([token line],'[]');
-			n = str2num(token);
-			if isempty(n),
-				error(['Incorrect vector or matrix in batch file (line ' int2str(l) ', element ' int2str(field) ').']);
+			if isempty(regexprep(token,'( |\t)','')),
+				% Empty matrix (square brackets separated by spaces or tabs)
+				b.field{item,field} = [];
+			else
+				% Make sure this is a numeric matrix
+				n = str2num(token);
+				if isempty(n),
+					error(['Incorrect vector or matrix in batch file (line ' int2str(l) ', element ' int2str(field) ').']);
+				end
+				b.field{item,field} = n;
 			end
-			b.field{item,field} = n;
 			line = line(2:end);
 		end
 	end
