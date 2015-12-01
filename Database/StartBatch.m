@@ -44,7 +44,7 @@ function batch = StartBatch(mfile,bfile,varargin)
 %     'delay'       delay (in minutes) before execution starts
 %     'hide'        by default, new figures are hidden to speed up batch
 %                   processing (use 'off' to cancel this behavior)
-%     'log'         error log file (default = none) (see NOTE below)
+%     'log'         progress/error log file (default = none) (see NOTE below)
 %    =========================================================================
 %
 %  NOTE
@@ -91,11 +91,11 @@ function batch = StartBatch(mfile,bfile,varargin)
 %
 %        n = GetBatch(b);
 %
-%    To log errors:
+%    To log progress and errors:
 %
 %        b = StartBatch(@CountRipples,'batch.txt','log','Errors-%y%m%d.log');
 %
-%  NOTE
+%  LIMITATIONS
 %
 %    For technical reasons, the batch function must have a fixed number of output
 %    parameters, e.g. it cannot have 'varargout' as one of its output parameters.

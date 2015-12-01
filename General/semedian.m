@@ -26,5 +26,5 @@ end
 if any(size(x)==1), x = x(:); end
 
 n = size(x,1);
-m = repmat(median(x),n,1);
-s = sqrt( sum((x-m).^2) / (n*(n-1)) );
+m = repmat(nanmedian(x),n,1);
+s = sqrt( nansum((x-m).^2) / (n*(n-1)) );

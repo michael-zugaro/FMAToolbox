@@ -27,6 +27,16 @@ if b.hide,
 	warning('off','FMAToolbox:Hide:FigureHidden');
 end
 
+progress = ['########## 0/' int2str(length(b.field)) ' = 0%% done [starting] ##########\n'];
+fprintf(1,progress);
+if b.log ~= -1,
+	try
+		fprintf(b.log,progress);
+	catch
+		fprintf(2,[' (Progress information could not be saved to log file)\n']);
+	end
+end
+
 tic;
 while true,
 	% Get next item
@@ -88,17 +98,24 @@ while true,
 	else
 		left = datestr(datenum(0,0,0,0,0,left),'HH:MM:SS');
 	end
-	progress = sprintf(['########## %.2f%% done [' left ' left] ##########'],100*proportion);
-	disp(progress);
-	
+	progress = sprintf(['########## ' int2str(item) '/' int2str(length(b.field)) ' = %.2f%%%% done [' left ' left] ##########\n'],100*proportion);
+	fprintf(1,progress);
+	if b.log ~= -1,
+		try
+			fprintf(b.log,progress);
+		catch
+			fprintf(2,[' (Progress information could not be saved to log file)\n']);
+		end
+	end
 end
 
 % Elapsed time
 t = toc;
-printf('Batch finished in %f s.',t);
+done = sprintf('Batch finished in %f s.\n',t);
+fprintf(1,done);
 if b.log ~= -1,
 	try
-		fprintf(b.log,'Batch finished in %f s.',t);
+		fprintf(b.log,done);
 	catch
 		fprintf(2,[' (Elapsed time could not be saved to log file)\n']);
 	end

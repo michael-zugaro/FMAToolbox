@@ -24,7 +24,7 @@ function smoothed = Smooth(data,smooth,varargin)
 %    =========================================================================
 %
 
-% Copyright (C) 2004-2012 by Michaël Zugaro, 2013 Nicolas Maingret
+% Copyright (C) 2004-2015 by Michaël Zugaro, 2013 Nicolas Maingret
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -147,8 +147,10 @@ if vector,
 	% Prepend/append data to limit edge effects
 	if strcmp(type,'l'),
 		% For linear data, flip edge data
-		top = 2*data(1)-flipud(data(1:vKernelSize));
-		bottom = 2*data(end)-flipud(data(end-vKernelSize+1:end));
+		% top = 2*data(1)-flipud(data(1:vKernelSize));
+		% bottom = 2*data(end)-flipud(data(end-vKernelSize+1:end));
+		top = flipud(data(1:vKernelSize));
+		bottom = flipud(data(end-vKernelSize+1:end));
 	else
 		% For circular data, wrap edge data
 		top = data(end-vKernelSize+1:end);
@@ -170,8 +172,10 @@ else
 		% Prepend/append data to limit edge effects
 		if strcmp(type(1),'l'),
 			% For linear data, flip edge data
-			left = 2*repmat(data(:,1),1,hKernelSize)-fliplr(data(:,1:hKernelSize));
-			right = 2*repmat(data(:,end),1,hKernelSize)-fliplr(data(:,end-hKernelSize+1:end));
+			% left = 2*repmat(data(:,1),1,hKernelSize)-fliplr(data(:,1:hKernelSize));
+			% right = 2*repmat(data(:,end),1,hKernelSize)-fliplr(data(:,end-hKernelSize+1:end));
+			left = fliplr(data(:,1:hKernelSize));
+			right = fliplr(data(:,end-hKernelSize+1:end));
 		else
 			% For circular data, wrap edge data
 			left = data(:,end-hKernelSize+1:end);
@@ -191,8 +195,10 @@ else
 		% Prepend/append data to limit edge effects
 		if strcmp(type(2),'l'),
 			% For linear data, flip edge data
-			top = repmat(2*data(1,:),vKernelSize,1)-flipud(data(1:vKernelSize,:));
-			bottom = repmat(2*data(end,:),vKernelSize,1)-flipud(data(end-vKernelSize+1:end,:));
+			% top = 2*repmat(2*data(1,:),vKernelSize,1)-flipud(data(1:vKernelSize,:));
+			% bottom = 2*repmat(2*data(end,:),vKernelSize,1)-flipud(data(end-vKernelSize+1:end,:));
+			top = flipud(data(1:vKernelSize,:));
+			bottom = flipud(data(end-vKernelSize+1:end,:));
 		else
 			% For circular data, wrap edge data
 			bottom = data(1:vKernelSize,:);
@@ -212,8 +218,10 @@ else
 		% Prepend/append data to limit edge effects
 		if strcmp(type(2),'l'),
 			% For linear data, flip edge data
-			top = repmat(2*data(1,:),vKernelSize,1)-flipud(data(1:vKernelSize,:));
-			bottom = repmat(2*data(end,:),vKernelSize,1)-flipud(data(end-vKernelSize+1:end,:));
+  			% top = 2*repmat(2*data(1,:),vKernelSize,1)-flipud(data(1:vKernelSize,:));
+  			% bottom = 2*repmat(2*data(end,:),vKernelSize,1)-flipud(data(end-vKernelSize+1:end,:));
+			top = flipud(data(1:vKernelSize,:));
+			bottom = flipud(data(end-vKernelSize+1:end,:));
 		else
 			% For circular data, wrap edge data
 			bottom = data(1:vKernelSize,:);
@@ -222,8 +230,10 @@ else
 		data = [top;data;bottom];
 		if strcmp(type(1),'l'),
 			% For linear data, flip edge data
-			left = repmat(2*data(:,1),1,hKernelSize)-fliplr(data(:,1:hKernelSize));
-			right = repmat(2*data(:,end),1,hKernelSize)-fliplr(data(:,end-hKernelSize+1:end));
+			% left = 2*repmat(2*data(:,1),1,hKernelSize)-fliplr(data(:,1:hKernelSize));
+  			% right = 2*repmat(2*data(:,end),1,hKernelSize)-fliplr(data(:,end-hKernelSize+1:end));
+			left = fliplr(data(:,1:hKernelSize));
+			right = fliplr(data(:,end-hKernelSize+1:end));
 		else
 			% For circular data, wrap edge data
 			left = data(:,end-hKernelSize+1:end);
