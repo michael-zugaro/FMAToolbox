@@ -28,5 +28,5 @@
 %  their startup.m file:
 %
 %   global SETTINGS;
-%   SETTINGS.GetPositions.video = 'video';
+%   SETTINGS.GetPositions.coordinates = 'video';
 %

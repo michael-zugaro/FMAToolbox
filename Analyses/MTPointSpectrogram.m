@@ -160,7 +160,9 @@ if ~isempty(range), parameters.fpass = range; end
 parameters.tapers = tapers;
 parameters.pad = pad;
 parameters.trialave = averageTrials;
-[spectrogram,t,f] = mtspecgrampt(times,[window window-overlap],parameters);
+% mtspecgrampt was optimized, until Chonux releases a new updated version, we are calling our mtspecgrampt_optimized version:
+% [spectrogram,t,f] = mtspecgrampt(times,[window window-overlap],parameters);
+[spectrogram,t,f] = mtspecgrampt_optimized(times,[window window-overlap],parameters);
 t = t';
 f = f';
 spectrogram = spectrogram';

@@ -12,7 +12,7 @@
 %    See also isdmatrix, isdvector, isdscalar, isimatrix, isivector, isiscalar.
 %
 
-% Copyright (C) 2004-2010 by Michaël Zugaro
+% Copyright (C) 2004-2016 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -28,6 +28,10 @@ end
 
 test = true;
 
+if ~isvector(x),
+	test = false;
+	return;
+end
 if ~ischar(x),
 	test = false;
 	return;

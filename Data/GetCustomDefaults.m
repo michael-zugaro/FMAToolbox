@@ -62,7 +62,7 @@ function output = GetCustomDefaults(current,property,value)
 %    See the code for GetPositions for an example.
 
 
-% Copyright (C) 2010-2014 by Michaël Zugaro
+% Copyright (C) 2010-2016 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -112,5 +112,5 @@ elseif isstring(output),
 else
 	d = '';
 end
-warning(['Using custom default value ' d 'for ''' property ''' in function ''' functionName '''.']);
+warning('FMAToolbox:GetCustomDefaults:UsingCustomDefaults',['Using custom default value ' d 'for ''' property ''' in function ''' functionName '''.']);
 
