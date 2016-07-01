@@ -16,9 +16,9 @@ function [h,a] = PlotDistribution2(var1,var2,varargin)
 %     Properties    Values
 %    -------------------------------------------------------------------------
 %     'nBins'       number of bins for distributions (default = 100)
-%     'xbins'       [m M n], lower and upper bounds, and number of bins,
+%     'xBins'       [m M n], lower and upper bounds, and number of bins,
 %                   respectively, for x axis (default [min max 100])
-%     'ybins'       [m M n], lower and upper bounds, and number of bins,
+%     'yBins'       [m M n], lower and upper bounds, and number of bins,
 %                   respectively, for y axis (default [min max 100])
 %     'smooth'      standard deviation of Gaussian kernel (default = 5)
 %    =========================================================================
@@ -41,8 +41,8 @@ colors = [1 0.2 0;0 0.4 1;0 1 0.2;1 0.6 0;0.8 0 1;0.8 1 0];
 % Default values
 nBins = 100;
 smooth = 5;
-xbins = [];
-ybins = [];
+xBins = [];
+yBins = [];
 
 % Check number of parameters
 if nargin < 2 | mod(length(varargin),2) ~= 0,
@@ -79,15 +79,15 @@ for i = 1:2:length(varargin),
 		if ~isiscalar(nBins,'>0'),
 			error('Incorrect value for property ''nBins'' (type ''help <a href="matlab:help PlotDistribution2">PlotDistribution2</a>'' for details).');
 		end
-	case 'xbins',
-		xbins = varargin{i+1};
-		if ~isdvector(xbins,'#3') | xbins(1) > xbins(2) | ~isiscalar(xbins(3),'>0'),
-			error('Incorrect value for property ''xbins'' (type ''help <a href="matlab:help PlotDistribution2">PlotDistribution2</a>'' for details).');
+	case 'xBins',
+		xBins = varargin{i+1};
+		if ~isdvector(xBins,'#3') | xBins(1) > xBins(2) | ~isiscalar(xBins(3),'>0'),
+			error('Incorrect value for property ''xBins'' (type ''help <a href="matlab:help PlotDistribution2">PlotDistribution2</a>'' for details).');
 		end
-	case 'ybins',
-		ybins = varargin{i+1};
-		if ~isdvector(ybins,'#3') | ybins(1) > ybins(2) | ~isiscalar(ybins(3),'>0'),
-			error('Incorrect value for property ''ybins'' (type ''help <a href="matlab:help PlotDistribution2">PlotDistribution2</a>'' for details).');
+	case 'yBins',
+		yBins = varargin{i+1};
+		if ~isdvector(yBins,'#3') | yBins(1) > yBins(2) | ~isiscalar(yBins(3),'>0'),
+			error('Incorrect value for property ''yBins'' (type ''help <a href="matlab:help PlotDistribution2">PlotDistribution2</a>'' for details).');
 		end
 	case 'smooth',
 		smooth = varargin{i+1};
@@ -116,7 +116,7 @@ right = axes('position',[x+h2*2/3+hg y h2/3 v2*2/3]);
 top = axes('position',[x y+v2*2/3+vg h2*2/3 v2/3]);
 
 % Axis limits
-if isempty(xbins),
+if isempty(xBins),
 	m1 = min(var1{1});
 	M1 = max(var1{1});
 	for i = 2:length(var1),
@@ -125,11 +125,11 @@ if isempty(xbins),
 	end
 	nBinsX = nBins;
 else
-	m1 = xbins(1);
-	M1 = xbins(2);
-	nBinsX = xbins(3);
+	m1 = xBins(1);
+	M1 = xBins(2);
+	nBinsX = xBins(3);
 end
-if isempty(ybins),
+if isempty(yBins),
 	m2 = min(var2{1});
 	M2 = max(var2{1});
 	for i = 2:length(var1),
@@ -138,9 +138,9 @@ if isempty(ybins),
 	end
 	nBinsY = nBins;
 else
-	m2 = ybins(1);
-	M2 = ybins(2);
-	nBinsY = ybins(3);
+	m2 = yBins(1);
+	M2 = yBins(2);
+	nBinsY = yBins(3);
 end
 d1 = M1-m1;
 m1 = m1-d1/10;

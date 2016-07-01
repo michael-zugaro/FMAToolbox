@@ -145,7 +145,7 @@ end
 
 % Make sure both LFPs have the same timestamps
 if size(lfp1,2) == 2 && any(lfp1(:,1) ~= lfp2(:,1)),
-	error('Parameters ''lfp1'' and ''lfp2'' have different timestamps (type ''help <a href="matlab:help MTCoherogram">MTCoherogram</a>'' for details).']);
+	error(['Parameters ''lfp1'' and ''lfp2'' have different timestamps (type ''help <a href="matlab:help MTCoherogram">MTCoherogram</a>'' for details).']);
 end
 
 % Determine LFP frequency

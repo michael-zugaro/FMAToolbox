@@ -4,15 +4,15 @@ function p = PlotSlope(x,y,slope,len,varargin)
 %
 %  USAGE
 %
-%    p = PlotSlope(x,y,slope,len,<options>)
+%    p = PlotSlope(x,y,slope,length,<options>)
 %
-%    slope          line slope
 %    x,y            coordinates of central point
-%    len            segment length along the x axis
+%    slope          line slope
+%    length         segment length along the x axis
 %    <options>      line and color specification (see <a href="matlab:help plot">plot</a>)
 %
 
-% Copyright (C) 2010-2011 by Michaël Zugaro
+% Copyright (C) 2010-2016 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by

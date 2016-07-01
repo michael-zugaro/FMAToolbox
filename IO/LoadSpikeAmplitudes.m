@@ -4,7 +4,7 @@ function amplitudes = LoadSpikeAmplitudes(filename,nChannels,nSamples,peak,rate)
 %
 %  USAGE
 %
-%    amplitudes = LoadSpikeAmplitudes(filename,nChannels,nSamples)
+%    amplitudes = LoadSpikeAmplitudes(filename,nChannels,nSamples,peak,rate)
 %
 %    filename            spike waveform file name
 %    nChannels           number of channels in electrode group

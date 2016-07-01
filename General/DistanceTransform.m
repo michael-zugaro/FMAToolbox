@@ -1,6 +1,6 @@
 function dt = DistanceTransform(b)
 
-%DistanceTransform - Compute distance transform of a binary matrix (distance to nearest 1 value).
+%DistanceTransform - Compute distance transform of a binary matrix.
 %
 %  This function assigns to every point (x,y) in a binary matrix B the distance
 %  to the nearest point in B with value 1. It uses the Euclidean metric for

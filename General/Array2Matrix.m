@@ -5,6 +5,11 @@ function M = Array2Matrix(A)
 %  Each line in the output matrix lists the subscripts for all dimensions
 %  (one per column) and the corresponding value in the array.
 %
+%  USAGE
+%
+%    M = Array2Matrix(A)
+%
+%    A              N-dimensional array
 
 % Copyright (C) 2009-2011 by Michaël Zugaro
 %

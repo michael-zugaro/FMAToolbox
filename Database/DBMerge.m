@@ -1,10 +1,10 @@
-function target = DBMerge(source,target,varargin)
+function target = DBMerge(source,target)
 
 %DBMerge - Merge databases.
 %
 %  USAGE
 %
-%    target = DBMerge(source,target,<options>)
+%    target = DBMerge(source,target)
 %
 %    source         database where the data is read
 %    target         database where the data is added
@@ -14,7 +14,7 @@ function target = DBMerge(source,target,varargin)
 %    See also DBCreate, DBDuplicate.
 %
 
-% Copyright (C) 2007-2013 by Michaël Zugaro
+% Copyright (C) 2007-2016 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by

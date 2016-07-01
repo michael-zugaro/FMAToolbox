@@ -354,7 +354,7 @@ if nDimensions == 1 && ~isempty(testPositions),
 else
 	warning('Computation of estimation error not yet implemented for 2D environments');
 end
-
+end
 
 function data = logfactorial(data);
 

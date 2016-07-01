@@ -4,7 +4,7 @@ function [spikes,V] = GenerateSpikeTrain(I,threshold,varargin);
 %
 %  USAGE
 %
-%    [spikes,V] = GenerateSpikeTrain(I,threshold,varargin,<options>)
+%    [spikes,V] = GenerateSpikeTrain(I,threshold,<options>)
 %
 %    I              input current <a href="matlab:help samples">samples</a>
 %    threshold      spiking threshold
@@ -34,7 +34,7 @@ function [spikes,V] = GenerateSpikeTrain(I,threshold,varargin);
 %    the common signal.
 
 
-% Copyright (C) 2015 by Ralitsa Todorova, Michaël Zugaro
+% Copyright (C) 2015-2016 by Ralitsa Todorova, Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by

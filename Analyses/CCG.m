@@ -22,7 +22,7 @@ function [ccg,t,tau,c] = CCG(times,id,varargin)
 %                   (see EXAMPLE #2 below)
 %     'mode'        'ccg' or 'ccv' (default = 'ccg')
 %     'alpha'       significance level to determine correlated pairs
-%     'totaltime'   total recording duration in s (if different from the
+%     'totalTime'   total recording duration in s (if different from the
 %                   default = max(times) - min(times))
 %    =========================================================================
 %

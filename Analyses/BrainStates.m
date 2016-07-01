@@ -30,16 +30,16 @@ function [exploration,sws,rem] = BrainStates(s,t,f,q,emg,varargin)
 %
 %    Option 'method' can take several possible values:
 %
-%     'pca'         PCA on the spectrogram
-%     'hippocampus' theta / delta ratio
-%     'amygdala'    gamma / low ratio
-%     'cortex'      heuristic ratios described in Gervasoni et al. (2004)
+%     'pca'                     PCA on the spectrogram
+%     'hippocampus', 'direct'   theta / delta ratio
+%     'cortex', 'ratios'        ratios described in Gervasoni et al. (2004)
+%     'amygdala'                gamma / low ratio
 %
 %  OUTPUT
 %
 %    exploration    at each time t, whether the rat was exploring
 %    sws            at each time t, whether the rat was in slow wave sleep
-%    rem            at each time t, whether the rat was in rapid eye movement sleep
+%    rem            at each time t, whether the rat was in REM sleep
 %
 %  NOTE
 %
@@ -50,7 +50,7 @@ function [exploration,sws,rem] = BrainStates(s,t,f,q,emg,varargin)
 %
 %    See also QuietPeriods, SpectrogramBands.
 
-% Copyright (C) 2008-2014 by Michaël Zugaro, Gabrielle Girardeau
+% Copyright (C) 2008-2016 by Michaël Zugaro, Gabrielle Girardeau
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by

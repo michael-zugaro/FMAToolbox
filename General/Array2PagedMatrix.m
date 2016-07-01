@@ -7,7 +7,15 @@ function M = Array2PagedMatrix(A)
 %  second dimension (which is implicit, since it becomes the
 %  second dimension of the output matrix).
 %
-%  Consider the following example. Let A be the array:
+%  USAGE
+%
+%    M = Array2Matrix(A)
+%
+%    A              N-dimensional array
+%
+%  EXAMPLE
+%
+%    Consider the following example. Let A be the array:
 %
 %    A(:,:,1,1) =
 %
@@ -44,8 +52,8 @@ function M = Array2PagedMatrix(A)
 %       0     0     0     0     0
 %       6     5     6     5     6
 %
-%  Array2PagedMatrix concatenates each of the above pages vertically, and adds three
-%  columns listing the first, third and fourth dimensions, yielding:
+%    Array2PagedMatrix concatenates each of the above pages vertically, and adds three
+%    columns listing the first, third and fourth dimensions, yielding:
 %
 %    B =
 %
@@ -61,6 +69,7 @@ function M = Array2PagedMatrix(A)
 %       9     9     9     9     9     2     1     3
 %       0     0     0     0     0     1     2     3
 %       6     5     6     5     6     2     2     3
+%
 
 
 % Copyright (C) 2008-2011 by Michaël Zugaro
