@@ -1,0 +1,843 @@
+{
+"AngularVelocity":
+{
+	"inputs":
+	[
+		{"name":"X", "kind":"required", "type":"numeric"},
+		{"name":"smooth", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"BrainStates":
+{
+	"inputs":
+	[
+		{"name":"s", "kind":"required", "type":"numeric"},
+		{"name":"t", "kind":"required", "type":"numeric"},
+		{"name":"f", "kind":"required", "type":"numeric"},
+		{"name":"q", "kind":"required", "type":"numeric"},
+		{"name":"emg", "kind":"required", "type":"numeric"},
+		{"name":"nClusters", "kind":"namevalue", "type":"numeric"},
+		{"name":"method", "kind":"namevalue", "type":"choices={'pca','hippocampus','direct','cortex','ratios','amygdala'}"},
+		{"name":"nComponents", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'kmeans','clusters','all','none'}"}
+	]
+},
+
+"CCG":
+{
+	"inputs":
+	[
+		{"name":"times", "kind":"required", "type":"numeric"},
+		{"name":"id", "kind":"required", "type":"numeric"},
+		{"name":"binSize", "kind":"namevalue", "type":"numeric"},
+		{"name":"duration", "kind":"namevalue", "type":"numeric"},
+		{"name":"nBins", "kind":"namevalue", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"},
+		{"name":"groups", "kind":"namevalue", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'ccg','ccv'}"},
+		{"name":"alpha", "kind":"namevalue", "type":"numeric"},
+		{"name":"totalTime", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"CCGParameters":
+{
+	"inputs":
+	[
+		{"name":"series", "kind":"required", "type":"numeric"},
+		{"name":"group", "kind":"optional", "type":"numeric"},
+		{"multiplicity":"append", "tuple":
+			[
+				{"name":"series", "kind":"required", "type":"numeric"},
+				{"name":"group", "kind":"optional", "type":"numeric"}
+			]
+		}
+	]
+},
+
+"CSD":
+{
+	"inputs":
+	[
+		{"name":"lfp", "kind":"required", "type":"numeric"}
+	]
+},
+
+"CV":
+{
+	"inputs":
+	[
+		{"name":"timestamps", "kind":"required", "type":"numeric"},
+		{"name":"measure", "kind":"namevalue", "type":"choices={'cv','cvo','cv2'}"},
+		{"name":"order", "kind":"namevalue", "type":"numeric"},
+		{"name":"method", "kind":"namevalue", "type":"choices={'fixed','adaptive','inverse'}"},
+		{"name":"binSize", "kind":"namevalue", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"CofiringCoefficient":
+{
+	"inputs":
+	[
+		{"name":"spikes", "kind":"required", "type":"numeric"},
+		{"name":"intervals1", "kind":"required", "type":"numeric"},
+		{"name":"intervals2", "kind":"required", "type":"numeric"}
+	]
+},
+
+"CoherenceBands":
+{
+	"inputs":
+	[
+		{"name":"coherogram", "kind":"required", "type":"numeric"},
+		{"name":"frequencies", "kind":"required", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"},
+		{"name":"custom", "kind":"namevalue", "type":"numeric"},
+		{"name":"delta", "kind":"namevalue", "type":"numeric"},
+		{"name":"theta", "kind":"namevalue", "type":"numeric"},
+		{"name":"spindles", "kind":"namevalue", "type":"numeric"},
+		{"name":"lowGamma", "kind":"namevalue", "type":"numeric"},
+		{"name":"highGamma", "kind":"namevalue", "type":"numeric"},
+		{"name":"ripples", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"CompareDistributions":
+{
+	"inputs":
+	[
+		{"name":"group1", "kind":"required", "type":"numeric"},
+		{"name":"group2", "kind":"required", "type":"numeric"},
+		{"name":"nShuffles", "kind":"namevalue", "type":"numeric"},
+		{"name":"alpha", "kind":"namevalue", "type":"numeric"},
+		{"name":"max", "kind":"namevalue", "type":"numeric"},
+		{"name":"tolerance", "kind":"namevalue", "type":"numeric"},
+		{"name":"tail", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"},
+		{"name":"verbose", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"CountSpikesPerCycle":
+{
+	"inputs":
+	[
+		{"name":"spikes", "kind":"required", "type":"numeric"},
+		{"name":"phases", "kind":"required", "type":"numeric"}
+
+	]
+},
+
+"DefineZone":
+{
+	"inputs":
+	[
+		{"name":"size", "kind":"required", "type":"numeric"},
+		{"name":"shape", "kind":"namevalue", "type":"choices={'rectangle','circle'}"},
+		{"name":"points", "kind":"required", "type":"numeric"}
+	]
+},
+
+"Distance":
+{
+	"inputs":
+	[
+		{"name":"positions", "kind":"required", "type":"numeric"},
+		{"name":"reference", "kind":"required", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'l','c'}"}
+	]
+},
+
+"FieldPSP":
+{
+	"inputs":
+	[
+		{"name":"stims", "kind":"required", "type":"numeric"},
+		{"name":"lfp", "kind":"required", "type":"numeric"},
+		{"name":"direction", "kind":"namevalue", "type":"choices={'up','down'}"},
+		{"name":"durations", "kind":"namevalue", "type":"numeric"},
+		{"name":"slope", "kind":"namevalue", "type":"numeric"},
+		{"name":"amplitude", "kind":"namevalue", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'time','count'}"},
+		{"name":"window", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"FieldShift":
+{
+	"inputs":
+	[
+		{"name":"control", "kind":"required", "type":"numeric"},
+		{"name":"test", "kind":"required", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'linear','circular'}"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"FilterLFP":
+{
+	"inputs":
+	[
+		{"name":"lfp", "kind":"required", "type":"numeric"},
+		{"name":"passband", "kind":"namevalue", "type":"choices={'delta','theta','spindles','gamma','ripples'}"},
+		{"name":"order", "kind":"namevalue", "type":"numeric"},
+		{"name":"ripple", "kind":"namevalue", "type":"numeric"},
+		{"name":"nyquist", "kind":"namevalue", "type":"numeric"},
+		{"name":"filter", "kind":"namevalue", "type":"choices={'cheby2','fir1'}"}
+	]
+},
+
+"FindDeltaWaves":
+{
+	"inputs":
+	[
+		{"name":"filtered", "kind":"required", "type":"numeric"},
+		{"name":"amplitudes", "kind":"namevalue", "type":"numeric"},
+		{"name":"durations", "kind":"namevalue", "type":"numeric"}
+
+	]
+},
+
+"FindRipples":
+{
+	"inputs":
+	[
+		{"name":"filtered", "kind":"required", "type":"numeric"},
+		{"name":"thresholds", "kind":"namevalue", "type":"numeric"},
+		{"name":"durations", "kind":"namevalue", "type":"numeric"},
+		{"name":"baseline", "kind":"namevalue", "type":"numeric"},
+		{"name":"restrict", "kind":"namevalue", "type":"numeric"},
+		{"name":"frequency", "kind":"namevalue", "type":"numeric"},
+		{"name":"stdev", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"},
+		{"name":"noise", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"FindSpindles":
+{
+	"inputs":
+	[
+		{"name":"filtered", "kind":"required", "type":"numeric"},
+		{"name":"threshold", "kind":"namevalue", "type":"numeric"},
+		{"name":"peak", "kind":"namevalue", "type":"numeric"},
+		{"name":"durations", "kind":"namevalue", "type":"numeric"}
+
+	]
+},
+
+"FiringCurve":
+{
+	"inputs":
+	[
+		{"name":"samples", "kind":"required", "type":"numeric"},
+		{"name":"spikes", "kind":"required", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"},
+		{"name":"nBins", "kind":"namevalue", "type":"numeric"},
+		{"name":"minTime", "kind":"namevalue", "type":"numeric"},
+		{"name":"maxGap", "kind":"namevalue", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'linear','circular'}"},
+		{"name":"threshold", "kind":"namevalue", "type":"numeric"},
+		{"name":"minSize", "kind":"namevalue", "type":"numeric"},
+		{"name":"minPeak", "kind":"namevalue", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'interpolate','discard'}"},
+		{"name":"maxDistance", "kind":"namevalue", "type":"numeric"},
+		{"name":"verbose", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"FiringMap":
+{
+	"inputs":
+	[
+		{"name":"positions", "kind":"required", "type":"numeric"},
+		{"name":"spikes", "kind":"required", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"},
+		{"name":"nBins", "kind":"namevalue", "type":"numeric"},
+		{"name":"minTime", "kind":"namevalue", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'interpolate','discard'}"},
+		{"name":"maxDistance", "kind":"namevalue", "type":"numeric"},
+		{"name":"maxGap", "kind":"namevalue", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'ll','cl','lc','cc'}"},
+		{"name":"threshold", "kind":"namevalue", "type":"numeric"},
+		{"name":"minSize", "kind":"namevalue", "type":"numeric"},
+		{"name":"minPeak", "kind":"namevalue", "type":"numeric"},
+		{"name":"verbose", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"FitCCG":
+{
+	"inputs":
+	[
+		{"name":"t", "kind":"required", "type":"numeric"},
+		{"name":"ccg", "kind":"required", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"Frequency":
+{
+	"inputs":
+	[
+		{"name":"timestamps", "kind":"required", "type":"numeric"},
+		{"name":"method", "kind":"namevalue", "type":"choices={'fixed','adaptive','inverse'}"},
+		{"name":"limits", "kind":"namevalue", "type":"numeric"},
+		{"name":"binSize", "kind":"namevalue", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"FunctionalClustering":
+{
+	"inputs":
+	[
+		{"name":"spikes", "kind":"required", "type":"numeric"},
+		{"name":"jitter", "kind":"namevalue", "type":"numeric"},
+		{"name":"nJitters", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"GenerateSpikeTrain":
+{
+	"inputs":
+	[
+		{"name":"I", "kind":"required", "type":"numeric"},
+		{"name":"threshold", "kind":"required", "type":"numeric"},
+		{"name":"delay", "kind":"namevalue", "type":"numeric"},
+		{"name":"tau", "kind":"namevalue", "type":"numeric"},
+		{"name":"Vr", "kind":"namevalue", "type":"numeric"},
+		{"name":"sigma", "kind":"namevalue", "type":"numeric"},
+		{"name":"R", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"IsInZone":
+{
+	"inputs":
+	[
+		{"name":"positions", "kind":"required", "type":"numeric"},
+		{"name":"zone", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"IsolationDistance":
+{
+	"inputs":
+	[
+		{"name":"features", "kind":"required", "type":"numeric"},
+		{"name":"units", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"LinearVelocity":
+{
+	"inputs":
+	[
+		{"name":"X", "kind":"required", "type":"numeric"},
+		{"name":"smooth", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"Map":
+{
+	"inputs":
+	[
+		{"name":"inputs", "kind":"required", "type":"numeric"},
+		{"name":"outputs", "kind":"required", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"},
+		{"name":"nBins", "kind":"namevalue", "type":"numeric"},
+		{"name":"minTime", "kind":"namevalue", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'interpolate','discard'}"},
+		{"name":"maxDistance", "kind":"namevalue", "type":"numeric"},
+		{"name":"maxGap", "kind":"namevalue", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'lll','llc','lcl','lcc','cll','clc','ccl','ccc'}"}
+	]
+},
+
+"MapStats":
+{
+	"inputs":
+	[
+		{"name":"map", "kind":"required", "type":"struct"},
+		{"name":"threshold", "kind":"namevalue", "type":"numeric"},
+		{"name":"minSize", "kind":"namevalue", "type":"numeric"},
+		{"name":"minPeak", "kind":"namevalue", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'ll','cl','lc','cc'}"},
+		{"name":"verbose", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"MTCoherence":
+{
+	"inputs":
+	[
+		{"name":"lfp1", "kind":"required", "type":"numeric"},
+		{"name":"lfp2", "kind":"required", "type":"numeric"},
+		{"name":"frequency", "kind":"namevalue", "type":"numeric"},
+		{"name":"range", "kind":"namevalue", "type":"numeric"},
+		{"name":"tapers", "kind":"namevalue", "type":"numeric"},
+		{"name":"pad", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"MTCoherogram":
+{
+	"inputs":
+	[
+		{"name":"lfp1", "kind":"required", "type":"numeric"},
+		{"name":"lfp2", "kind":"required", "type":"numeric"},
+		{"name":"frequency", "kind":"namevalue", "type":"numeric"},
+		{"name":"range", "kind":"namevalue", "type":"numeric"},
+		{"name":"window", "kind":"namevalue", "type":"numeric"},
+		{"name":"overlap", "kind":"namevalue", "type":"numeric"},
+		{"name":"step", "kind":"namevalue", "type":"numeric"},
+		{"name":"tapers", "kind":"namevalue", "type":"numeric"},
+		{"name":"pad", "kind":"namevalue", "type":"numeric"},
+		{"name":"cutoffs", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"MTPointSpectrogram":
+{
+	"inputs":
+	[
+		{"name":"times", "kind":"required", "type":"numeric"},
+		{"name":"frequency", "kind":"namevalue", "type":"numeric"},
+		{"name":"range", "kind":"namevalue", "type":"numeric"},
+		{"name":"window", "kind":"namevalue", "type":"numeric"},
+		{"name":"overlap", "kind":"namevalue", "type":"numeric"},
+		{"name":"step", "kind":"namevalue", "type":"numeric"},
+		{"name":"tapers", "kind":"namevalue", "type":"numeric"},
+		{"name":"pad", "kind":"namevalue", "type":"numeric"},
+		{"name":"parent", "kind":"namevalue", "type":"numeric"},
+		{"name":"cutoffs", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"MTPointSpectrum":
+{
+	"inputs":
+	[
+		{"name":"times", "kind":"required", "type":"numeric"},
+		{"name":"frequency", "kind":"namevalue", "type":"numeric"},
+		{"name":"range", "kind":"namevalue", "type":"numeric"},
+		{"name":"tapers", "kind":"namevalue", "type":"numeric"},
+		{"name":"pad", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"MTSpectrogram":
+{
+	"inputs":
+	[
+		{"name":"lfp", "kind":"required", "type":"numeric"},
+		{"name":"frequency", "kind":"namevalue", "type":"numeric"},
+		{"name":"range", "kind":"namevalue", "type":"numeric"},
+		{"name":"window", "kind":"namevalue", "type":"numeric"},
+		{"name":"overlap", "kind":"namevalue", "type":"numeric"},
+		{"name":"step", "kind":"namevalue", "type":"numeric"},
+		{"name":"tapers", "kind":"namevalue", "type":"numeric"},
+		{"name":"pad", "kind":"namevalue", "type":"numeric"},
+		{"name":"cutoffs", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"MTSpectrum":
+{
+	"inputs":
+	[
+		{"name":"lfp", "kind":"required", "type":"numeric"},
+		{"name":"frequency", "kind":"namevalue", "type":"numeric"},
+		{"name":"range", "kind":"namevalue", "type":"numeric"},
+		{"name":"window", "kind":"namevalue", "type":"numeric"},
+		{"name":"overlap", "kind":"namevalue", "type":"numeric"},
+		{"name":"step", "kind":"namevalue", "type":"numeric"},
+		{"name":"tapers", "kind":"namevalue", "type":"numeric"},
+		{"name":"pad", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"NormalizeFields":
+{
+	"inputs":
+	[
+		{"name":"fields", "kind":"required", "type":"numeric"},
+		{"name":"rate", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"PETHTransition":
+{
+	"inputs":
+	[
+		{"name":"peth", "kind":"required", "type":"numeric"},
+		{"name":"timeBins", "kind":"required", "type":"numeric"},
+		{"name":"method", "kind":"namevalue", "type":"choices={'ml','ls','pl'}"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"Phase":
+{
+	"inputs":
+	[
+		{"name":"samples", "kind":"required", "type":"numeric"},
+		{"name":"times", "kind":"required", "type":"numeric"}
+	]
+},
+
+"PhaseCurve":
+{
+	"inputs":
+	[
+		{"name":"samples", "kind":"required", "type":"numeric"},
+		{"name":"phases", "kind":"required", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"},
+		{"name":"nBins", "kind":"namevalue", "type":"numeric"},
+		{"name":"minTime", "kind":"namevalue", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'interpolate','discard'}"},
+		{"name":"maxDistance", "kind":"namevalue", "type":"numeric"},
+		{"name":"maxGap", "kind":"namevalue", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'linear','circular'}"}
+	]
+},
+
+"PhaseMango":
+{
+	"inputs":
+	[
+		{"name":"spikes", "kind":"required", "type":"numeric"},
+		{"name":"phases", "kind":"required", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"},
+		{"name":"nBins", "kind":"namevalue", "type":"numeric"},
+		{"name":"limits", "kind":"namevalue", "type":"numeric"},
+		{"name":"maxGap", "kind":"namevalue", "type":"numeric"},
+		{"name":"boundaries", "kind":"namevalue", "type":"choices={'count'}"}
+	]
+},
+
+"PhaseMap":
+{
+	"inputs":
+	[
+		{"name":"positions", "kind":"required", "type":"numeric"},
+		{"name":"phases", "kind":"required", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"},
+		{"name":"nBins", "kind":"namevalue", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'interpolate','discard'}"},
+		{"name":"minTime", "kind":"namevalue", "type":"numeric"},
+		{"name":"maxDistance", "kind":"namevalue", "type":"numeric"},
+		{"name":"maxGap", "kind":"namevalue", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'linear','circular'}"}
+	]
+},
+
+"PhasePrecession":
+{
+	"inputs":
+	[
+		{"name":"positions", "kind":"required", "type":"numeric"},
+		{"name":"spikes", "kind":"required", "type":"numeric"},
+		{"name":"phases", "kind":"required", "type":"numeric"},
+		{"name":"maxGap", "kind":"namevalue", "type":"numeric"},
+		{"name":"boundaries", "kind":"namevalue", "type":"choices={'count'}"},
+		{"name":"slope", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"QuietPeriods":
+{
+	"inputs":
+	[
+		{"name":"v", "kind":"required", "type":"numeric"},
+		{"name":"velocity", "kind":"required", "type":"numeric"},
+		{"name":"duration", "kind":"required", "type":"numeric"},
+		{"name":"brief", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"RadialMaze":
+{
+	"inputs":
+	[
+		{"name":"data", "kind":"required", "type":"numeric"},
+		{"name":"baitedArms", "kind":"required", "type":"numeric"},
+		{"name":"plots", "kind":"namevalue", "type":"choices={'individuals','groups'}"},
+		{"name":"measures", "kind":"namevalue", "type":"choices={'ref','work','rewards','visits','perf','penalty','adjusted'}"},
+		{"name":"anova", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"RadialMazeTurns":
+{
+	"inputs":
+	[
+		{"name":"data", "kind":"required", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'good','preferred','non-preferred'}"}
+	]
+},
+
+"ReconstructPositions":
+{
+	"inputs":
+	[
+		{"name":"positions", "kind":"required", "type":"numeric"},
+		{"name":"spikes", "kind":"required", "type":"numeric"},
+		{"name":"phases", "kind":"required", "type":"numeric"},
+		{"name":"training", "kind":"namevalue", "type":"numeric"},
+		{"name":"window", "kind":"namevalue", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'ll','lc','cc'}"},
+		{"name":"nBins", "kind":"namevalue", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'train','test'}"},
+		{"name":"lambda", "kind":"namevalue", "type":"numeric"},
+		{"name":"Px", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"RemoveArtefacts":
+{
+	"inputs":
+	[
+		{"name":"lfp", "kind":"required", "type":"numeric"},
+		{"name":"times", "kind":"required", "type":"numeric"},
+		{"name":"durations", "kind":"namevalue", "type":"numeric"}
+
+	]
+},
+
+"RippleStats":
+{
+	"inputs":
+	[
+		{"name":"filtered", "kind":"required", "type":"numeric"},
+		{"name":"ripples", "kind":"required", "type":"numeric"},
+		{"name":"frequency", "kind":"namevalue", "type":"numeric"},
+		{"name":"durations", "kind":"namevalue", "type":"numeric"}
+
+	]
+},
+
+"SelectSpikes":
+{
+	"inputs":
+	[
+		{"name":"spikes", "kind":"required", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'bursts','single'}"},
+		{"name":"isi", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"ShortTimeCCG":
+{
+	"inputs":
+	[
+		{"name":"times1", "kind":"required", "type":"numeric"},
+		{"name":"times2", "kind":"required", "type":"numeric"},
+		{"name":"binSize", "kind":"namevalue", "type":"numeric"},
+		{"name":"duration", "kind":"namevalue", "type":"numeric"},
+		{"name":"window", "kind":"namevalue", "type":"numeric"},
+		{"name":"overlap", "kind":"namevalue", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'counts','norm'}"},
+		{"name":"min", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"SpectrogramBands":
+{
+	"inputs":
+	[
+		{"name":"spectrogram", "kind":"required", "type":"numeric"},
+		{"name":"frequencies", "kind":"required", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"},
+		{"name":"delta", "kind":"namevalue", "type":"numeric"},
+		{"name":"theta", "kind":"namevalue", "type":"numeric"},
+		{"name":"spindles", "kind":"namevalue", "type":"numeric"},
+		{"name":"lowGamma", "kind":"namevalue", "type":"numeric"},
+		{"name":"highGamma", "kind":"namevalue", "type":"numeric"},
+		{"name":"ripples", "kind":"namevalue", "type":"numeric"},
+		{"name":"broadLow", "kind":"namevalue", "type":"numeric"},
+		{"name":"amyGamma", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"SurveyCCG":
+{
+	"inputs":
+	[
+		{"name":"units", "kind":"required", "type":"numeric"},
+		{"name":"minv", "kind":"namevalue", "type":"numeric"},
+		{"name":"pixel", "kind":"namevalue", "type":"numeric"},
+		{"name":"duration", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"SurveyFiringMaps":
+{
+	"inputs":
+	[
+		{"name":"units", "kind":"required", "type":"numeric"},
+		{"name":"minv", "kind":"namevalue", "type":"numeric"},
+		{"name":"pixel", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"SurveyFiringMapsAutoCorr":
+{
+	"inputs":
+	[
+		{"name":"units", "kind":"required", "type":"numeric"},
+		{"name":"minv", "kind":"namevalue", "type":"numeric"},
+		{"name":"pixel", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"SurveyFiringMapsScale":
+{
+	"inputs":
+	[
+		{"name":"units", "kind":"required", "type":"numeric"},
+		{"name":"minv", "kind":"namevalue", "type":"numeric"},
+		{"name":"pixel", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"SurveyPhasePrecession":
+{
+	"inputs":
+	[
+		{"name":"group", "kind":"required", "type":"numeric"},
+		{"name":"cluster", "kind":"required", "type":"numeric"},
+		{"name":"channel", "kind":"required", "type":"numeric"},
+		{"name":"subsessions", "kind":"optional", "type":"numeric"},
+		{"name":"linearize", "kind":"namevalue", "type":"function_handle"},
+		{"name":"minv", "kind":"namevalue", "type":"numeric"},
+		{"name":"pixel", "kind":"namevalue", "type":"numeric"},
+		{"name":"track", "kind":"namevalue", "type":"choices={'linear','circular'}"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"},
+		{"name":"figures", "kind":"namevalue", "type":"choices={'single','multiple'}"},
+		{"name":"slopes", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"SurveyTuningCurves":
+{
+	"inputs":
+	[
+		{"name":"units", "kind":"required", "type":"numeric"},
+		{"name":"minv", "kind":"namevalue", "type":"numeric"},
+		{"name":"pixel", "kind":"namevalue", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'cartesian','polar'}"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"Sync":
+{
+	"inputs":
+	[
+		{"name":"samples", "kind":"required", "type":"numeric"},
+		{"name":"sync", "kind":"required", "type":"numeric"},
+		{"name":"durations", "kind":"namevalue", "type":"numeric"},
+		{"name":"verbose", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"SyncHist":
+{
+	"inputs":
+	[
+		{"name":"samples", "kind":"required", "type":"numeric"},
+		{"name":"sync", "kind":"required", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'sum','mean','dist'}"},
+		{"name":"durations", "kind":"namevalue", "type":"numeric"},
+		{"name":"nBins", "kind":"namevalue", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'linear','circular'}"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"},
+		{"name":"bins", "kind":"namevalue", "type":"numeric"},
+		{"name":"error", "kind":"namevalue", "type":"choices={'std','sem','95%'}"}
+	]
+},
+
+"SyncMap":
+{
+	"inputs":
+	[
+		{"name":"synchronized", "kind":"required", "type":"numeric"},
+		{"name":"indices", "kind":"required", "type":"numeric"},
+		{"name":"durations", "kind":"namevalue", "type":"numeric"},
+		{"name":"nBins", "kind":"namevalue", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"}
+
+	]
+},
+
+"TestRemapping":
+{
+	"inputs":
+	[
+		{"name":"control", "kind":"required", "type":"numeric"},
+		{"name":"repeat", "kind":"required", "type":"numeric"},
+		{"name":"test", "kind":"required", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'linear','circular'}"},
+		{"name":"alpha", "kind":"namevalue", "type":"numeric"},
+		{"name":"iterations", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"TestSkewness":
+{
+	"inputs":
+	[
+		{"name":"control", "kind":"required", "type":"numeric"},
+		{"name":"repeat", "kind":"required", "type":"numeric"},
+		{"name":"test", "kind":"required", "type":"numeric"},
+		{"name":"alpha", "kind":"namevalue", "type":"numeric"},
+		{"name":"iterations", "kind":"namevalue", "type":"numeric"},
+		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"},
+		{"name":"style", "kind":"namevalue", "type":"choices={'hist','curves'}"},
+		{"name":"bins", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"TimeToPhase":
+{
+	"inputs":
+	[
+		{"name":"input", "kind":"required", "type":"numeric"},
+		{"name":"phases", "kind":"required", "type":"numeric"},
+		{"name":"frequency", "kind":"namevalue", "type":"numeric"}
+
+	]
+},
+
+"TuneArtefactTimes":
+{
+	"inputs":
+	[
+		{"name":"lfp", "kind":"required", "type":"numeric"},
+		{"name":"artefacts", "kind":"required", "type":"numeric"},
+		{"name":"method", "kind":"namevalue", "type":"choices={'slope','amplitude'}"},
+		{"name":"durations", "kind":"namevalue", "type":"numeric"},
+		{"name":"verbose", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+}
+
+}

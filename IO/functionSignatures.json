@@ -1,0 +1,165 @@
+{
+"ChangeBinaryGain":
+{
+	"inputs":
+	[
+		{"name":"filename", "kind":"required", "type":"filepath"},
+		{"name":"output", "kind":"namevalue", "type":"filepath"},
+		{"name":"nChannels", "kind":"namevalue", "type":"numeric"},
+		{"name":"gains", "kind":"namevalue", "type":"numeric"},
+		{"name":"precision", "kind":"namevalue", "type":"choices={'int8','int16','int32','int64','float32','float64','uint8','uint16','uint32','uint64'}"},
+		{"name":"skip", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"LoadBinary":
+{
+	"inputs":
+	[
+		{"name":"filename", "kind":"required", "type":"filepath"},
+		{"name":"frequency", "kind":"namevalue", "type":"numeric"},
+		{"name":"start", "kind":"namevalue", "type":"numeric"},
+		{"name":"duration", "kind":"namevalue", "type":"numeric"},
+		{"name":"offset", "kind":"namevalue", "type":"numeric"},
+		{"name":"nRecords", "kind":"namevalue", "type":"numeric"},
+		{"name":"nChannels", "kind":"namevalue", "type":"numeric"},
+		{"name":"channels", "kind":"namevalue", "type":"numeric"},
+		{"name":"precision", "kind":"namevalue", "type":"choices={'int8','int16','int32','int64','float32','float64','uint8','uint16','uint32','uint64'}"},
+		{"name":"skip", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"LoadEvents":
+{
+	"inputs":
+	[
+		{"name":"filename", "kind":"required", "type":"filepath"}
+	]
+},
+
+"LoadParameters":
+{
+	"inputs":
+	[
+		{"name":"filename", "kind":"required", "type":"filepath"}
+	]
+},
+
+"LoadPositions":
+{
+	"inputs":
+	[
+		{"name":"filename", "kind":"required", "type":"filepath"},
+		{"name":"rate", "kind":"optional", "type":"numeric"}
+
+	]
+},
+
+"LoadSpikeAmplitudes":
+{
+	"inputs":
+	[
+		{"name":"filename", "kind":"required", "type":"filepath"},
+		{"name":"nChannels", "kind":"required", "type":"numeric"},
+		{"name":"nSamples", "kind":"required", "type":"numeric"},
+		{"name":"peak", "kind":"required", "type":"numeric"},
+		{"name":"rate", "kind":"required", "type":"numeric"}
+	]
+},
+
+"LoadSpikeFeatures":
+{
+	"inputs":
+	[
+		{"name":"filename", "kind":"required", "type":"filepath"},
+		{"name":"rate", "kind":"required", "type":"numeric"}
+	]
+},
+
+"LoadSpikeTimes":
+{
+	"inputs":
+	[
+		{"name":"filename", "kind":"required", "type":"filepath"},
+		{"name":"rate", "kind":"required", "type":"numeric"}
+	]
+},
+
+"LoadSpikeWaveforms":
+{
+	"inputs":
+	[
+		{"name":"filename", "kind":"required", "type":"filepath"},
+		{"name":"nChannels", "kind":"required", "type":"numeric"},
+		{"name":"nSamples", "kind":"required", "type":"numeric"},
+		{"name":"list", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"NewEvents":
+{
+	"inputs":
+	[
+		{"name":"times", "kind":"required", "type":"numeric"},
+		{"name":"description", "kind":"required", "type":"char"}
+	]
+},
+
+"ProcessBinary":
+{
+	"inputs":
+	[
+		{"name":"inputName", "kind":"required", "type":"filepath"},
+		{"name":"outputName", "kind":"required", "type":"filepath"},
+		{"name":"nChannels", "kind":"required", "type":"numeric"},
+		{"name":"f", "kind":"required", "type":"function_handle"},
+		{"name":"parameters", "kind":"namevalue", "type":"cell"},
+		{"name":"overlap", "kind":"namevalue", "type":"numeric"},
+		{"name":"segment", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"ResampleBinary":
+{
+	"inputs":
+	[
+		{"name":"inputName", "kind":"required", "type":"filepath"},
+		{"name":"outputName", "kind":"required", "type":"filepath"},
+		{"name":"nChannels", "kind":"required", "type":"numeric"},
+		{"name":"up", "kind":"required", "type":"numeric"},
+		{"name":"down", "kind":"required", "type":"numeric"}
+	]
+},
+
+"SaveBinary":
+{
+	"inputs":
+	[
+		{"name":"filename", "kind":"required", "type":"filepath"},
+		{"name":"data", "kind":"required", "type":"numeric"},
+		{"name":"precision", "kind":"namevalue", "type":"choices={'int8','int16','int32','int64','float32','float64','uint8','uint16','uint32','uint64'}"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'new','append'}"}
+	]
+},
+
+"SaveEvents":
+{
+	"inputs":
+	[
+		{"name":"filename", "kind":"required", "type":"filepath"},
+		{"name":"events", "kind":"required", "type":"numeric"},
+		{"name":"overwrite", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"SaveRippleEvents":
+{
+	"inputs":
+	[
+		{"name":"filename", "kind":"required", "type":"filepath"},
+		{"name":"ripples", "kind":"required", "type":"numeric"},
+		{"name":"channelID", "kind":"required", "type":"numeric"},
+		{"name":"overwrite", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+}
+}

@@ -1,0 +1,157 @@
+{
+"AddSpikeTimes":
+{
+	"inputs":
+	[
+		{"name":"spikes", "kind":"required", "type":"numeric"}
+	]
+},
+
+"GetAngles":
+{
+	"inputs":
+	[
+		{"name":"mode", "kind":"namevalue", "type":"choices={'all','clean'}"}
+	]
+},
+
+"GetChannels":
+{
+	"inputs":
+	[
+		{"name":"groups", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"GetCurrentSession":
+{
+	"inputs":
+	[
+		{"name":"verbose", "kind":"optional", "type":"choices={'verbose'}"}
+	]
+},
+
+"GetCustomDefaults":
+{
+	"inputs":
+	[
+		{"name":"current", "kind":"required", "type":"char"},
+		{"name":"property", "kind":"required", "type":"char"},
+		{"name":"value", "kind":"required"}
+	]
+},
+
+"GetEventTypes":
+{
+	"inputs":
+	[
+		{"name":"selection", "kind":"optional", "type":"char"}
+	]
+},
+
+"GetEvents":
+{
+	"inputs":
+	[
+		{"name":"selection", "kind":"optional", "type":"char"},
+		{"name":"output", "kind":"namevalue", "type":"choices={'times','indices','logical','descriptions'}"}
+	]
+},
+
+"GetLFP":
+{
+	"inputs":
+	[
+		{"name":"channels", "kind":"required", "type":"numeric"},
+		{"name":"restrict", "kind":"namevalue", "type":"numeric"},
+		{"name":"select", "kind":"namevalue", "type":"choices={'id','number'}"}
+	]
+},
+
+"GetPositions":
+{
+	"inputs":
+	[
+		{"name":"mode", "kind":"namevalue", "type":"choices={'all','clean'}"},
+		{"name":"coordinates", "kind":"namevalue", "type":"choices={'video','normalized','real'}"},
+		{"name":"pixel", "kind":"namevalue", "type":"numeric"},
+		{"name":"discard", "kind":"namevalue", "type":"choices={'partial','none'}"},
+		{"name":"distances", "kind":"namevalue", "type":"numeric"}
+
+	]
+},
+
+"GetSpikeAmplitudes":
+{
+	"inputs":
+	[
+		{"name":"units", "kind":"required"},
+		{"name":"restrict", "kind":"namevalue", "type":"numeric"}
+
+	]
+},
+
+"GetSpikeFeatures":
+{
+	"inputs":
+	[
+		{"name":"group", "kind":"required", "type":"numeric"}
+	]
+},
+
+"GetSpikeTimes":
+{
+	"inputs":
+	[
+		{"name":"units", "kind":"required", "type":"numeric"},
+		{"name":"output", "kind":"namevalue", "type":"choices={'time','full'}"}
+	]
+},
+
+"GetSpikes":
+{
+	"inputs":
+	[
+		{"name":"units", "kind":"required", "type":"numeric"},
+		{"name":"output", "kind":"namevalue", "type":"choices={'time','full'}"}
+	]
+},
+
+"GetSpikeWaveforms":
+{
+	"inputs":
+	[
+		{"name":"unit", "kind":"required", "type":"numeric"},
+		{"name":"restrict", "kind":"namevalue", "type":"numeric"}
+
+	]
+},
+
+"GetUnits":
+{
+	"inputs":
+	[
+		{"name":"groups", "kind":"required", "type":"numeric"}
+	]
+},
+
+"GetWidebandData":
+{
+	"inputs":
+	[
+		{"name":"channels", "kind":"required", "type":"numeric"},
+		{"name":"restrict", "kind":"namevalue", "type":"numeric"},
+		{"name":"select", "kind":"namevalue", "type":"choices={'id','number'}"}
+	]
+},
+
+"SetCurrentSession":
+{
+	"inputs":
+	[
+		{"name":"session", "kind":"optional", "type":"filepath"},
+		{"name":"spikes", "kind":"namevalue", "type":"choices={'on','off'}"},
+		{"name":"verbose", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+}
+}

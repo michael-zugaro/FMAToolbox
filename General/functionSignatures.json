@@ -1,0 +1,523 @@
+{
+"Accumulate":
+{
+	"inputs":
+	[
+		{"name":"variables", "kind":"required", "type":"numeric"},
+		{"name":"values", "kind":"required", "type":"numeric"},
+		{"name":"size", "kind":"namevalue", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'sum','mean','min','max'}"}
+	]
+},
+
+"Array2Matrix":
+{
+	"inputs":
+	[
+		{"name":"A", "kind":"required", "type":"numeric"}
+	]
+},
+
+"Array2PagedMatrix":
+{
+	"inputs":
+	[
+		{"name":"A", "kind":"required", "type":"numeric"}
+	]
+},
+
+"BartlettTest":
+{
+	"inputs":
+	[
+		{"name":"data", "kind":"required", "type":"numeric"},
+		{"name":"alpha", "kind":"required", "type":"numeric"}
+	]
+},
+
+"Bin":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"a", "kind":"required", "type":"numeric"},
+		{"name":"b", "kind":"optional", "type":"numeric"},
+		{"name":"trim", "kind":"optional", "type":"choices={'trim'}"}
+
+	]
+},
+
+"CircularANOVA":
+{
+	"inputs":
+	[
+		{"name":"angles", "kind":"required", "type":"numeric"},
+		{"name":"groups", "kind":"required", "type":"numeric"},
+		{"name":"method", "kind":"required", "type":"choices={'ww','l2','lr'}"}
+	]
+},
+
+"CircularConfidenceIntervals":
+{
+	"inputs":
+	[
+		{"name":"angles", "kind":"required", "type":"numeric"},
+		{"name":"alpha", "kind":"required", "type":"numeric"},
+		{"name":"nBootstrap", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"CircularDistribution":
+{
+	"inputs":
+	[
+		{"name":"angles", "kind":"required", "type":"numeric"},
+		{"name":"nBins", "kind":"namevalue", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"},
+		{"name":"groups", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"CircularMean":
+{
+	"inputs":
+	[
+		{"name":"angles", "kind":"required", "type":"numeric"},
+		{"name":"dim", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"CircularRegression":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"angles", "kind":"required", "type":"numeric"},
+		{"name":"p", "kind":"optional", "type":"numeric"},
+		{"name":"slope", "kind":"namevalue", "type":"numeric"},
+		{"name":"method", "kind":"namevalue", "type":"choices={'k','pole','ts'}"}
+	]
+},
+
+"CircularShift":
+{
+	"inputs":
+	[
+		{"name":"m", "kind":"required", "type":"numeric"},
+		{"name":"s", "kind":"required", "type":"numeric"}
+	]
+},
+
+"CircularVariance":
+{
+	"inputs":
+	[
+		{"name":"angles", "kind":"required", "type":"numeric"},
+		{"name":"dim", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"Clip":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"min", "kind":"required", "type":"numeric"},
+		{"name":"max", "kind":"required", "type":"numeric"}
+	]
+},
+
+"CompareSlopes":
+{
+	"inputs":
+	[
+		{"name":"x1", "kind":"required", "type":"numeric"},
+		{"name":"y1", "kind":"required", "type":"numeric"},
+		{"name":"x2", "kind":"required", "type":"numeric"},
+		{"name":"y2", "kind":"required", "type":"numeric"}
+	]
+},
+
+"Concentration":
+{
+	"inputs":
+	[
+		{"name":"angles", "kind":"required", "type":"numeric"}
+	]
+},
+
+"ConcentrationTest":
+{
+	"inputs":
+	[
+		{"name":"angles", "kind":"required", "type":"numeric"},
+		{"name":"group", "kind":"required", "type":"numeric"},
+		{"name":"alpha", "kind":"optional", "type":"numeric"},
+		{"name":"nRandomizations", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"ConsolidateIntervals":
+{
+	"inputs":
+	[
+		{"name":"intervals", "kind":"required", "type":"numeric"},
+		{"name":"strict", "kind":"namevalue", "type":"choices={'on','off'}"},
+		{"name":"epsilon", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"CountInIntervals":
+{
+	"inputs":
+	[
+		{"name":"values", "kind":"required", "type":"numeric"},
+		{"name":"intervals", "kind":"required", "type":"numeric"}
+	]
+},
+
+"CumSum":
+{
+	"inputs":
+	[
+		{"name":"data", "kind":"required", "type":"numeric"},
+		{"name":"stops", "kind":"required", "type":"numeric"}
+	]
+},
+
+"Detrend":
+{
+	"inputs":
+	[
+		{"name":"samples", "kind":"required", "type":"numeric"},
+		{"name":"model", "kind":"namevalue", "type":"numeric"},
+		{"name":"window", "kind":"namevalue", "type":"numeric"},
+		{"name":"common", "kind":"namevalue", "type":"choices={'on','off'}"},
+		{"name":"order", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"Diff":
+{
+	"inputs":
+	[
+		{"name":"samples", "kind":"required", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'linear','circular'}"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"DistanceTransform":
+{
+	"inputs":
+	[
+		{"name":"b", "kind":"required", "type":"numeric"}
+	]
+},
+
+"ExcludeIntervals":
+{
+	"inputs":
+	[
+		{"name":"intervals1", "kind":"required", "type":"numeric"},
+		{"name":"intervals2", "kind":"required", "type":"numeric"},
+		{"name":"strict", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"ExtendArray":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"s", "kind":"required", "type":"numeric"},
+		{"name":"fill", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"Filter":
+{
+	"inputs":
+	[
+		{"name":"samples", "kind":"required", "type":"numeric"},
+		{"name":"passband", "kind":"namevalue", "type":"numeric"},
+		{"name":"stopband", "kind":"namevalue", "type":"numeric"},
+		{"name":"order", "kind":"namevalue", "type":"numeric"},
+		{"name":"ripple", "kind":"namevalue", "type":"numeric"},
+		{"name":"nyquist", "kind":"namevalue", "type":"numeric"},
+		{"name":"filter", "kind":"namevalue", "type":"choices={'cheby2','fir1'}"}
+	]
+},
+
+"FindInInterval":
+{
+	"inputs":
+	[
+		{"name":"values", "kind":"required", "type":"numeric"},
+		{"name":"interval", "kind":"required", "type":"numeric"},
+		{"name":"from", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"FisherTest":
+{
+	"inputs":
+	[
+		{"name":"samples1", "kind":"required", "type":"numeric"},
+		{"name":"samples2", "kind":"required", "type":"numeric"},
+		{"name":"alpha", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"InIntervals":
+{
+	"inputs":
+	[
+		{"name":"values", "kind":"required", "type":"numeric"},
+		{"name":"intervals", "kind":"required", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'safe','fast'}"},
+		{"name":"verbose", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"Insert":
+{
+	"inputs":
+	[
+		{"name":"matrix", "kind":"required", "type":"numeric"},
+		{"name":"lines", "kind":"required", "type":"numeric"},
+		{"name":"indices", "kind":"required", "type":"numeric"}
+	]
+},
+
+"Interpolate":
+{
+	"inputs":
+	[
+		{"name":"samples", "kind":"required", "type":"numeric"},
+		{"name":"timestamps", "kind":"required", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'linear','circular'}"},
+		{"name":"trim", "kind":"namevalue", "type":"choices={'on','off'}"},
+		{"name":"maxGap", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"IsExtremum":
+{
+	"inputs":
+	[
+		{"name":"samples", "kind":"required", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'maxima','minima'}"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'linear','circular'}"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"IsFirstAfter":
+{
+	"inputs":
+	[
+		{"name":"timestamps", "kind":"required", "type":"numeric"},
+		{"name":"list", "kind":"required", "type":"numeric"},
+		{"name":"strict", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"IsLastBefore":
+{
+	"inputs":
+	[
+		{"name":"timestamps", "kind":"required", "type":"numeric"},
+		{"name":"list", "kind":"required", "type":"numeric"},
+		{"name":"strict", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"Match":
+{
+	"inputs":
+	[
+		{"name":"list1", "kind":"required", "type":"numeric"},
+		{"name":"list2", "kind":"required", "type":"numeric"},
+		{"name":"match", "kind":"namevalue", "type":"choices={'down','up'}"},
+		{"name":"error", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"MatchPairs":
+{
+	"inputs":
+	[
+		{"name":"list1", "kind":"required", "type":"numeric"},
+		{"name":"list2", "kind":"required", "type":"numeric"},
+		{"name":"error", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"MultinomialConfidenceIntervals":
+{
+	"inputs":
+	[
+		{"name":"samples", "kind":"required", "type":"numeric"},
+		{"name":"alpha", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"Restrict":
+{
+	"inputs":
+	[
+		{"name":"samples", "kind":"required", "type":"numeric"},
+		{"name":"intervals", "kind":"required", "type":"numeric"},
+		{"name":"shift", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"RunningAverage":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"y", "kind":"required", "type":"numeric"},
+		{"name":"window", "kind":"namevalue", "type":"numeric"},
+		{"name":"overlap", "kind":"namevalue", "type":"numeric"},
+		{"name":"limits", "kind":"namevalue", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'linear','circular'}"}
+	]
+},
+
+"SineWavePeaks":
+{
+	"inputs":
+	[
+		{"name":"sineWave", "kind":"required", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'peaks','troughs'}"},
+		{"name":"method", "kind":"namevalue", "type":"choices={'zero','diff'}"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"Smooth":
+{
+	"inputs":
+	[
+		{"name":"data", "kind":"required", "type":"numeric"},
+		{"name":"smooth", "kind":"required", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'ll','lc','cl','cc'}"},
+		{"name":"kernel", "kind":"namevalue", "type":"choices={'gaussian','rectangular','triangular'}"}
+	]
+},
+
+"SubtractIntervals":
+{
+	"inputs":
+	[
+		{"name":"intervals1", "kind":"required", "type":"numeric"},
+		{"name":"intervals2", "kind":"required", "type":"numeric"},
+		{"name":"strict", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"Threshold":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"criterion", "kind":"required", "type":"choices={'>','>=','<','<='}"},
+		{"name":"min", "kind":"namevalue", "type":"numeric"},
+		{"name":"max", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"ToIntervals":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"in", "kind":"required", "type":"logical"}
+	]
+},
+
+"WatsonU2Test":
+{
+	"inputs":
+	[
+		{"name":"group1", "kind":"required", "type":"numeric"},
+		{"name":"group2", "kind":"required", "type":"numeric"},
+		{"name":"alpha", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"XCorr1":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"y", "kind":"required", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'linear','circular'}"}
+	]
+},
+
+"ZeroCrossings":
+{
+	"inputs":
+	[
+		{"name":"samples", "kind":"required", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"ZeroToOne":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"a", "kind":"optional", "type":"numeric", "multiplicity":"append"}
+	]
+},
+
+"mean2str":
+{
+	"inputs":
+	[
+		{"name":"m", "kind":"required", "type":"numeric"},
+		{"name":"s", "kind":"required", "type":"numeric"},
+		{"name":"n", "kind":"required", "type":"numeric"},
+		{"name":"precision", "kind":"namevalue", "type":"numeric"},
+		{"name":"split", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"nansem":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"}
+	]
+},
+
+"npcdf":
+{
+	"inputs":
+	[
+		{"name":"X", "kind":"required", "type":"numeric"},
+		{"name":"x", "kind":"required", "type":"numeric"}
+	]
+},
+
+"sem":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"}
+	]
+},
+
+"semedian":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"}
+	]
+}
+}

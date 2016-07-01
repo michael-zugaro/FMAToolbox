@@ -1,0 +1,260 @@
+{
+"BatchInfo":
+{
+	"inputs":
+	[
+		{"name":"batch", "kind":"required", "type":"numeric"}
+	]
+},
+
+"CancelBatch":
+{
+	"inputs":
+	[
+		{"name":"batch", "kind":"required", "type":"numeric"}
+	]
+},
+
+"CleanBatches":
+{
+	"inputs":
+	[
+	]
+},
+
+"DBAddFigure":
+{
+	"inputs":
+	[
+		{"name":"f", "kind":"required", "type":"numeric"},
+		{"name":"eid", "kind":"required", "type":"char"},
+		{"name":"name", "kind":"required", "type":"char"},
+		{"name":"comments", "kind":"required", "type":"char"},
+		{"name":"parameters", "kind":"required", "type":"char"},
+		{"name":"mfiles", "kind":"required", "type":"cell"},
+		{"name":"onlyPNG", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"DBAddVariable":
+{
+	"inputs":
+	[
+		{"name":"v", "kind":"required", "type":"numeric"},
+		{"name":"eid", "kind":"required", "type":"char"},
+		{"name":"name", "kind":"required", "type":"char"},
+		{"name":"comments", "kind":"required", "type":"char"},
+		{"name":"parameters", "kind":"required", "type":"char"},
+		{"name":"mfiles", "kind":"required", "type":"cell"}
+	]
+},
+
+"DBConnect":
+{
+	"inputs":
+	[
+		{"name":"host", "kind":"optional", "type":"char"},
+		{"name":"user", "kind":"optional", "type":"char"},
+		{"name":"password", "kind":"optional", "type":"char"}
+	]
+},
+
+"DBCreate":
+{
+	"inputs":
+	[
+		{"name":"database", "kind":"required", "type":"char"}
+	]
+},
+
+"DBCreateTables":
+{
+	"inputs":
+	[
+		{"name":"database", "kind":"required", "type":"char"}
+	]
+},
+
+"DBDuplicate":
+{
+	"inputs":
+	[
+		{"name":"old", "kind":"required", "type":"char"},
+		{"name":"new", "kind":"required", "type":"char"}
+	]
+},
+
+"DBExportGallery":
+{
+	"inputs":
+	[
+		{"name":"name", "kind":"required", "type":"char"},
+		{"name":"query", "kind":"required", "type":"char"},
+		{"name":"size", "kind":"namevalue", "type":"numeric"},
+		{"name":"nColumns", "kind":"namevalue", "type":"numeric"},
+		{"name":"info", "kind":"namevalue", "type":"choices={'on','off'}"},
+		{"name":"code", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"DBGetFigures":
+{
+	"inputs":
+	[
+		{"name":"query", "kind":"required", "type":"char"},
+		{"name":"output", "kind":"namevalue", "type":"choices={'figures','info','full','keys'}"}
+	]
+},
+
+"DBGetValues":
+{
+	"inputs":
+	[
+		{"name":"query", "kind":"required", "type":"char"},
+		{"name":"direction", "kind":"required", "type":"choices={'h','v','z'}"}
+	]
+},
+
+"DBGetVariables":
+{
+	"inputs":
+	[
+		{"name":"query", "kind":"required", "type":"char"},
+		{"name":"output", "kind":"namevalue", "type":"choices={'variables','info','full','keys'}"}
+	]
+},
+
+"DBList":
+{
+	"inputs":
+	[
+		{"name":"pattern", "kind":"optional", "type":"char"}
+	]
+},
+
+"DBListFigures":
+{
+	"inputs":
+	[
+		{"name":"query", "kind":"optional", "type":"char"}
+	]
+},
+
+"DBListVariables":
+{
+	"inputs":
+	[
+		{"name":"query", "kind":"optional", "type":"char"}
+	]
+},
+
+"DBMatchValues":
+{
+	"inputs":
+	[
+		{"name":"eid1", "kind":"required", "type":"char"},
+		{"name":"eid2", "kind":"required", "type":"char"},
+		{"name":"rexp", "kind":"optional", "type":"char"}
+	]
+},
+
+"DBMerge":
+{
+	"inputs":
+	[
+		{"name":"source", "kind":"required", "type":"char"},
+		{"name":"target", "kind":"required", "type":"char"}
+	]
+},
+
+"DBRemove":
+{
+	"inputs":
+	[
+		{"name":"database", "kind":"required", "type":"char"}
+	]
+},
+
+"DBRemoveFigures":
+{
+	"inputs":
+	[
+		{"name":"query", "kind":"optional", "type":"char"}
+	]
+},
+
+"DBRemoveVariables":
+{
+	"inputs":
+	[
+		{"name":"query", "kind":"optional", "type":"char"}
+	]
+},
+
+"DBUse":
+{
+	"inputs":
+	[
+		{"name":"database", "kind":"optional", "type":"char"}
+	]
+},
+
+"DebugBatch":
+{
+	"inputs":
+	[
+		{"name":"mfile", "kind":"required", "type":["char","function_handle"]},
+		{"name":"bfile", "kind":"required", "type":["char","function_handle"]},
+		{"name":"item", "kind":"required", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'run','set'}"}
+	]
+},
+
+"GetBatch":
+{
+	"inputs":
+	[
+		{"name":"batch", "kind":"required", "type":"numeric"}
+	]
+},
+
+"Recall":
+{
+	"inputs":
+	[
+		{"name":"name", "kind":"required", "type":"char"},
+		{"name":"key", "kind":"required", "multiplicity":"append"}
+	]
+},
+
+"ShowBatch":
+{
+	"inputs":
+	[
+		{"name":"bfile", "kind":"required", "type":"filepath"}
+	]
+},
+
+"StartBatch":
+{
+	"inputs":
+	[
+		{"name":"mfile", "kind":"required", "type":[["identifier=function"],["function_handle"]]},
+		{"name":"bfile", "kind":"required", "type":"filepath"},
+		{"name":"delay", "kind":"namevalue", "type":"numeric"},
+		{"name":"hide", "kind":"namevalue", "type":"choices={'on','off'}"},
+		{"name":"log", "kind":"namevalue", "type":"filepath"}
+	]
+},
+
+"Store":
+{
+	"inputs":
+	[
+		{"name":"variable", "kind":"required"},
+		{"name":"name", "kind":"required", "type":"char"},
+		{"name":"key", "kind":"required", "multiplicity":"append"}
+	]
+}
+
+}

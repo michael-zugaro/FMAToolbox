@@ -1,0 +1,464 @@
+{
+"AdjustAxes":
+{
+	"inputs":
+	[
+		{"name":"f", "kind":"optional", "type":"numeric"},
+		{"name":"x", "kind":"namevalue", "type":"choice={'uniform','auto'}"},
+		{"name":"y", "kind":"namevalue", "type":"choice={'uniform','auto'}"},
+		{"name":"xy", "kind":"namevalue", "type":"choice={'uniform','auto'}"}
+	]
+},
+
+"AdjustColorMap":
+{
+	"inputs":
+	[
+		{"name":"shift", "kind":"namevalue", "type":"numeric"},
+		{"name":"gamma", "kind":"namevalue", "type":"numeric"},
+		{"name":"hgamma", "kind":"namevalue", "type":"numeric"},
+		{"name":"hrotate", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"Bright":
+{
+	"inputs":
+	[
+		{"name":"n", "kind":"required", "type":"numeric"},
+		{"name":"hgamma", "kind":"namevalue", "type":"numeric"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'linear','circular'}"},
+		{"name":"stops", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"Browse":
+{
+	"inputs":
+	[
+		{"name":"figure", "kind":"optional", "type":"numeric"},
+		{"name":"on", "kind":"optional", "type":"choice={'on','off','all','none'}"}
+	]
+},
+
+"Hide":
+{
+	"inputs":
+	[
+		{"name":"figures", "kind":"optional", "type":"numeric"},
+		{"name":"on", "kind":"optional", "type":"choice={'on','off','all','none','status'}"}
+	]
+},
+
+"HTML":
+{
+	"inputs":
+	[
+		{"name":"in", "kind":"required", "type":"char"},
+		{"name":"format", "kind":"required", "type":"char"}
+	]
+},
+
+"Insets":
+{
+	"inputs":
+	[
+		{"name":"location", "kind":"required", "type":"choice={'topleft','top','
+		topright','left','center','right','bottomleft','bottom','bottomright'}"},
+		{"name":"size", "kind":"required", "type":"numeric"},
+		{"name":"margin", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"MultiPlotXY":
+{
+	"inputs":
+	[
+		{"multiplicity":"append", "tuple":
+			[
+				{"name":"X", "kind":"required", "type":"numeric"},
+				{"name":"columns", "kind":"optional", "type":"numeric"}
+			]
+		}
+	]
+},
+
+"PiecewiseLinearAxis":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"axis", "kind":"required", "type":"choices={'x','y'}"}
+	]
+},
+
+"PlotCCG":
+{
+	"inputs":
+	[
+		{"name":"t", "kind":"required", "type":"numeric"},
+		{"name":"ccg", "kind":"required", "type":"numeric"},
+		{"name":"full", "kind":"namevalue", "type":"choices={'on','off'}"}
+	]
+},
+
+"PlotCircularDistribution":
+{
+	"inputs":
+	[
+		{"name":"dist", "kind":"required", "type":"numeric"},
+		{"name":"angles", "kind":"optional", "type":"numeric"},
+		{"name":"stats", "kind":"optional", "type":"numeric"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'grouped','separate'}"}
+	]
+},
+
+"PlotColorCurves":
+{
+	"inputs":
+	[
+		{"name":"curves", "kind":"required", "type":"numeric"},
+		{"name":"range", "kind":"optional", "type":"numeric"},
+		{"multiplicity":"append", "tuple":
+			[
+				{"name":"x", "kind":"optional", "type":"numeric"},
+				{"name":"style", "kind":"optional", "type":"char"}
+			]
+		},
+		{"name":"cutoffs", "kind":"namevalue", "type":"numeric"},
+		{"name":"hgamma", "kind":"namevalue", "type":"numeric"},
+		{"name":"colorspace", "kind":"namevalue", "type":"choices={'HSV','RGB'}"},
+		{"name":"bar", "kind":"namevalue", "type":"choices={'on','off'}"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'linear','circular'}"}
+	]
+},
+
+"PlotColorMap":
+{
+	"inputs":
+	[
+		{"name":"data", "kind":"required", "type":"numeric"},
+		{"name":"dimm", "kind":"optional", "type":"numeric"},
+		{"name":"x", "kind":"namevalue", "type":"numeric"},
+		{"name":"y", "kind":"namevalue", "type":"numeric"},
+		{"name":"threshold", "kind":"namevalue", "type":"numeric"},
+		{"name":"cutoffs", "kind":"namevalue", "type":"numeric"},
+		{"name":"hgamma", "kind":"namevalue", "type":"numeric"},
+		{"name":"colorspace", "kind":"namevalue", "type":"choices={'HSV','RGB'}"},
+		{"name":"bar", "kind":"namevalue", "type":"choices={'on','off'}"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'linear','circular'}"},
+		{"name":"ydir", "kind":"namevalue", "type":"choices={'normal','reverse'}"}
+	]
+},
+
+"PlotCSD":
+{
+	"inputs":
+	[
+		{"name":"csd", "kind":"required", "type":"numeric"},
+		{"name":"lfp", "kind":"namevalue", "type":"numeric"},
+		{"name":"scale", "kind":"namevalue", "type":"numeric"},
+		{"name":"cutoffs", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"PlotDistribution2":
+{
+	"inputs":
+	[
+		{"name":"var1", "kind":"required", "type":"numeric"},
+		{"name":"var2", "kind":"required", "type":"numeric"},
+		{"name":"nBins", "kind":"namevalue", "type":"numeric"},
+		{"name":"xBins", "kind":"namevalue", "type":"numeric"},
+		{"name":"yBins", "kind":"namevalue", "type":"numeric"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"PlotHVLines":
+{
+	"inputs":
+	[
+		{"name":"positions", "kind":"required", "type":"numeric"},
+		{"name":"direction", "kind":"optional", "type":"choices={'h','v'}"}
+	]
+},
+
+"PlotIntervals":
+{
+	"inputs":
+	[
+		{"name":"intervals", "kind":"required", "type":"numeric"},
+		{"name":"style", "kind":"optional", "type":"choices={'bars','rectangles'}"},
+		{"name":"direction", "kind":"optional", "type":"choices={'h','v'}"},
+		{"name":"color", "kind":"namevalue", "type":"numeric"},
+		{"name":"alpha", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"PlotLinkage":
+{
+	"inputs":
+	[
+		{"name":"linkage", "kind":"required", "type":"numeric"},
+		{"name":"threshold", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"PlotMean":
+{
+	"inputs":
+	[
+		{"name":"X", "kind":"required", "type":"numeric"},
+		{"name":"Y", "kind":"required", "type":"numeric"},
+		{"name":"L", "kind":"required", "type":"numeric"},
+		{"name":"U", "kind":"required", "type":"numeric"},
+		{"name":"style", "kind":"optional", "type":"choices={':','-'}"},
+		{"name":"color", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"PlotPhasePrecession":
+{
+	"inputs":
+	[
+		{"name":"data", "kind":"required", "type":"struct"},
+		{"name":"stats", "kind":"required", "type":"struct"},
+		{"name":"smooth", "kind":"namevalue", "type":"numeric"},
+		{"name":"nBins", "kind":"namevalue", "type":"numeric"},
+		{"name":"track", "kind":"namevalue", "type":"choices={'linear','circular'}"},
+		{"name":"laps", "kind":"namevalue", "type":"choices={'all','single'}"},
+		{"name":"parent", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"PlotRepeat":
+{
+	"inputs":
+	[
+		{"name":"X", "kind":"required", "type":"numeric"},
+		{"name":"Y", "kind":"required", "type":"numeric"},
+		{"name":"repeat", "kind":"required", "type":"choices={'xxy','xyy','xxyy'}"},
+		{"name":"mode", "kind":"namevalue", "type":"choices={'curve','bar'}"},
+		{"name":"xLim", "kind":"namevalue", "type":"numeric"},
+		{"name":"yLim", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"PlotRippleStats":
+{
+	"inputs":
+	[
+		{"name":"ripples", "kind":"required", "type":"numeric"},
+		{"name":"maps", "kind":"required", "type":"numeric"},
+		{"name":"data", "kind":"required", "type":"numeric"},
+		{"name":"stats", "kind":"required", "type":"numeric"},
+		{"name":"frequency", "kind":"namevalue", "type":"numeric"},
+		{"name":"durations", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"PlotSamples":
+{
+	"inputs":
+	[
+		{"name":"samples", "kind":"required", "type":"numeric"},
+		{"name":"spacing", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"PlotShortTimeCCG":
+{
+	"inputs":
+	[
+		{"name":"data", "kind":"required", "type":"numeric"},
+		{"name":"parent", "kind":"namevalue", "type":"numeric"},
+		{"name":"x", "kind":"namevalue", "type":"numeric"},
+		{"name":"y", "kind":"namevalue", "type":"numeric"},
+		{"name":"threshold", "kind":"namevalue", "type":"numeric"},
+		{"name":"cutoffs", "kind":"namevalue", "type":"numeric"},
+		{"name":"hgamma", "kind":"namevalue", "type":"numeric"},
+		{"name":"colorspace", "kind":"namevalue", "type":"choices={'HSV','RGB'}"},
+		{"name":"bar", "kind":"namevalue", "type":"choices={'on','off'}"},
+		{"name":"type", "kind":"namevalue", "type":"choices={'linear','circular'}"},
+		{"name":"ydir", "kind":"namevalue", "type":"choices={'normal','reverse'}"}
+	]
+},
+
+"PlotSlope":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"y", "kind":"required", "type":"numeric"},
+		{"name":"slope", "kind":"required", "type":"numeric"},
+		{"name":"length", "kind":"required", "type":"numeric"},
+		{"name":"spacing", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"PlotSpikeWaveforms":
+{
+	"inputs":
+	[
+		{"name":"W", "kind":"required", "type":"numeric"},
+		{"name":"spacing", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"PlotSync":
+{
+	"inputs":
+	[
+		{"name":"synchronized", "kind":"required", "type":"numeric"},
+		{"name":"indices", "kind":"required", "type":"numeric"},
+		{"name":"durations", "kind":"namevalue", "type":"numeric"},
+		{"name":"spacing", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"PlotTicks":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"y", "kind":"required", "type":"numeric"},
+		{"name":"direction", "kind":"namevalue", "type":"choices={'h','v'}"},
+		{"name":"size", "kind":"namevalue", "type":"numeric"},
+		{"name":"color", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"PlotXY":
+{
+	"inputs":
+	[
+		{"multiplicity":"append", "tuple":
+			[
+				{"name":"X", "kind":"required", "type":"numeric"},
+				{"name":"columns", "kind":"optional", "type":"numeric"},
+				{"name":"options", "kind":"optional", "type":"char"}
+			]
+		}
+	]
+},
+
+"SideAxes":
+{
+	"inputs":
+	[
+		{"name":"a", "kind":"optional", "type":"numeric"},
+		{"name":"location", "kind":"required", "type":"choices={'top','bottom','left','
+		right'}"},
+		{"name":"size", "kind":"required", "type":"numeric"},
+		{"name":"gap", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"SplitTitle":
+{
+	"inputs":
+	[
+		{"name":"h", "kind":"optional", "type":"numeric"},
+		{"name":"text", "kind":"required", "type":"char"},
+		{"name":"width", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"SquareSubplot":
+{
+	"inputs":
+	[
+		{"name":"n", "kind":"required", "type":"numeric"},
+		{"name":"i", "kind":"required", "type":"numeric"}
+	]
+},
+
+"Subpanel":
+{
+	"inputs":
+	[
+		{"name":"m", "kind":"required", "type":"numeric"},
+		{"name":"n", "kind":"required", "type":"numeric"},
+		{"name":"p", "kind":"required", "type":"numeric"},
+		{"name":"parent", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"TableFigure":
+{
+	"inputs":
+	[
+		{"name":"title", "kind":"required", "type":"char"},
+		{"name":"data", "kind":"required", "type":"cell"},
+		{"name":"column", "kind":"optional", "type":"cell"}
+	]
+},
+
+"UIAddLine":
+{
+	"inputs":
+	[
+		{"name":"dir", "kind":"required", "type":"choices={'h','v'}"},
+		{"name":"options", "kind":"optional", "type":"char"}
+	]
+},
+
+"UIInPolygon":
+{
+	"inputs":
+	[
+		{"name":"X", "kind":"required", "type":"numeric"},
+		{"name":"Y", "kind":"required", "type":"numeric"}
+	]
+},
+
+"UISelect":
+{
+	"inputs":
+	[
+	]
+},
+
+"clim":
+{
+	"inputs":
+	[
+		{"name":"h", "kind":"optional", "type":"numeric"},
+		{"name":"minmax", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"hsl2hsv":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"}
+	]
+},
+
+"hsv2hsl":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"}
+	]
+},
+
+"sca":
+{
+	"inputs":
+	[
+		{"name":"h", "kind":"required", "type":"numeric"}
+	]
+},
+
+"scf":
+{
+	"inputs":
+	[
+		{"name":"h", "kind":"required", "type":"numeric"}
+	]
+}
+
+}

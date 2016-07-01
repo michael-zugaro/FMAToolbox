@@ -1,0 +1,172 @@
+{
+"clinspace":
+{
+	"inputs":
+	[
+		{"name":"n", "kind":"required", "type":"numeric"},
+		{"name":"range", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"glinspace":
+{
+	"inputs":
+	[
+		{"name":"d1", "kind":"required", "type":"numeric"},
+		{"name":"d2", "kind":"required", "type":"numeric"},
+		{"name":"gamma", "kind":"required", "type":"numeric"},
+		{"name":"n", "kind":"required", "type":"numeric"}
+	]
+},
+
+"int2zstr":
+{
+	"inputs":
+	[
+		{"name":"n", "kind":"required", "type":"numeric"},
+		{"name":"digits", "kind":"optional", "type":"numeric"}
+	]
+},
+
+"isdmatrix":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"test", "kind":"optional", "multiplicity":"append", "type":"char"}
+	]
+},
+
+"isdscalar":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"test", "kind":"optional", "multiplicity":"append", "type":"char"}
+	]
+},
+
+"isdvector":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"test", "kind":"optional", "multiplicity":"append", "type":"char"}
+	]
+},
+
+"isimatrix":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"test", "kind":"optional", "multiplicity":"append", "type":"char"}
+	]
+},
+
+"isiscalar":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"test", "kind":"optional", "multiplicity":"append", "type":"char"}
+	]
+},
+
+"isivector":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"test", "kind":"optional", "multiplicity":"append", "type":"char"}
+	]
+},
+
+"islmatrix":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"}
+	]
+},
+
+"islscalar":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"}
+	]
+},
+
+"islvector":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"test", "kind":"optional", "multiplicity":"append", "type":"char"}
+	]
+},
+
+"isradians":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"}
+	]
+},
+
+"issamples":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"test", "kind":"optional", "multiplicity":"append", "type":"char"}
+	]
+},
+
+"isstring":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"string", "kind":"optional", "multiplicity":"append", "type":"char"}
+	]
+},
+
+"mM":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"y", "kind":"optional", "multiplicity":"append", "type":"numeric"}
+	]
+},
+
+"minmax":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"y", "kind":"optional", "multiplicity":"append", "type":"numeric"}
+	]
+},
+
+"sz":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"y", "kind":"optional", "multiplicity":"append", "type":"numeric"}
+	]
+},
+
+"wrap":
+{
+	"inputs":
+	[
+		{"name":"x", "kind":"required", "type":"numeric"},
+		{"name":"range", "kind":"optional", "type":"numeric"}
+	]
+}
+
+}
