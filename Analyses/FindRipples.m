@@ -44,7 +44,8 @@ function [ripples,sd,bad] = FindRipples(filtered,varargin)
 %
 %    See also FilterLFP, RippleStats, SaveRippleEvents, PlotRippleStats.
 
-% Copyright (C) 2004-2011 by Michaël Zugaro, initial algorithm by Hajime Hirase
+% Copyright (C) 2004-2011 by Michaël Zugaro, 2016 Ralitsa Todorova (vectorized secondPass),
+% initial algorithm by Hajime Hirase
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -170,19 +171,23 @@ else
 end
 
 % Merge ripples if inter-ripple period is too short (unless this would yield too long a ripple)
-minInterRippleSamples = minInterRippleInterval/1000*frequency;
-secondPass = [];
-ripple = firstPass(1,:);
-for i = 2:size(firstPass,1),
-	if firstPass(i,1) - ripple(2) < minInterRippleSamples && time(firstPass(i,2)) - time(ripple(1)) < maxRippleDuration/1000,
-		% Merge
-		ripple = [ripple(1) firstPass(i,2)];
-	else
-		secondPass = [secondPass ; ripple];
-		ripple = firstPass(i,:);
-	end
+secondPass = firstPass;
+iri = time(secondPass(2:end,1)) - time(secondPass(1:end-1,2));
+duration = time(secondPass(2:end,2)) - time(secondPass(1:end-1,1));
+toMerge = iri<minInterRippleInterval/1000 & duration<maxRippleDuration/1000;
+while any(toMerge),
+    % Get indices of first ripples in pairs to be merged
+    rippleStart = strfind([0 toMerge'],[0 1])';
+    % Incorporate second ripple into first in all pairs
+    rippleEnd = rippleStart+1;
+    secondPass(rippleStart,2) = secondPass(rippleEnd,2);
+    % Remove second ripples and loop
+    secondPass(rippleEnd,:) = [];
+    iri = time(secondPass(2:end,1)) - time(secondPass(1:end-1,2));
+    duration = time(secondPass(2:end,2)) - time(secondPass(1:end-1,1));
+    toMerge = iri<minInterRippleInterval/1000 & duration<maxRippleDuration/1000;
 end
-secondPass = [secondPass ; ripple];
+
 if isempty(secondPass),
 	disp('Ripple merge failed');
 	return

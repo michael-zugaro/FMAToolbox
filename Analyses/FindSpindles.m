@@ -25,7 +25,7 @@ function spindles = FindSpindles(filtered,varargin)
 %                   peak amplitude, in a Nx4 matrix [start peak_t end peak_z]
 %
 
-% Copyright (C) 2012-2015 by Nicolas Maingret, Michaël Zugaro
+% Copyright (C) 2012-2016 Michaël Zugaro, 2012-2015 Nicolas Maingret, 2016 Ralitsa Todorova
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -88,7 +88,7 @@ frequency = 1/median(diff(time));
 windowLength = round(frequency*window);
 window = ones(windowLength,1)/windowLength;
 envelope = abs(hilbert(zscore(filtered(:,2)))).^2;
-envelope = filter(window,1,envelope);
+envelope = filtfilt(window,1,envelope);
 
 % Find start/stop as indices of threshold crossings, and discard incomplete pairs
 crossings = envelope > threshold;
@@ -112,10 +112,14 @@ while true,
 end
 
 % Discard events when envelope peak is too small
-for i = 1:length(start),
-	[peak_z(i,1),peak_i(i,1)] = max(envelope(start(i):stop(i)),[],1);
-end
-peak_i = peak_i + start;
+% For each timestamp of the LFP, get the id of the spindle
+[~,id] = InIntervals(time,time([start stop]));
+% Find peak amplitudes and indices
+% (add 1 so that Accumulate does not complain when id=0, i.e. time points that do not belong to any candidate interval)
+[peak_z,peak_i] = Accumulate(id+1,envelope,'mode','max');
+% (now get rid of id=0, i.e. time points that do not belong to any candidate interval)
+peak_z(1) = []; peak_i(1) = []; 
+% Keep only spindles with large enough amplitude
 tooSmall = peak_z < minPeak;
 start(tooSmall) = [];
 stop(tooSmall) = [];
@@ -129,20 +133,20 @@ peak_t = time(peak_i);
 
 % Spindle start may be inaccurate due to leading delta wave, we need to correct for this
 % 1) Update threshold to 1/3 peak (if this is higher than previous threshold)
-threshold = repmat(threshold,size(start));
-threshold = max([peak_z/3 threshold],[],2);
+newThrehold = peak_z/3;
+% 2) Select spindles that need correction
+indices = find(newThrehold>threshold); 
+% 3) Find last threshold crossing before peak (vectorized code)
+% Candidate intervals for the new spindle start = between the previous spindle end and current spindle peak
+if indices(1) > 1, candidateIntervals = [stop(indices-1) peak_t(indices)];
+else candidateIntervals = [0 peak_t(indices(1)); stop(indices(2:end)-1) peak_t(indices(2:end))]; end
+% For each timestamp, get the id of the interval in which it falls
+[in,id] = InIntervals(time,candidateIntervals);
+belowThreshold = false(size(id));
+belowThreshold(in) = envelope(in) < newThrehold(indices(id(in)));
+dt = mode(diff(time));
+start(indices) = Accumulate(id(in&belowThreshold),time(in&belowThreshold),'mode','max')+dt;
 
-% 2) Find last threshold crossing before peak
-data = [time envelope];
-for i = 1:length(start),
-	[spindle,ii] = Sync(data,peak_t(i),'durations',[-2 2]);
-	spindle(:,2) = spindle(:,2) - threshold(i);
-	up = ZeroCrossings(spindle);
-	up = spindle(up);
-	up(up>0) = [];
-	relativeStart = up(end);
-	start(i) = peak_t(i) + relativeStart;
-end
 
 % Merge events when they are too close
 n = length(peak_z);

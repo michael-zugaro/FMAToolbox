@@ -14,7 +14,7 @@ function delta = FindDeltaWaves(filtered,varargin)
 %    =========================================================================
 %     Properties    Values
 %    -------------------------------------------------------------------------
-%     'amplitudes'  thresholds for z-scored minimum peak and trough amplitudes
+%     'thresholds'  thresholds for z-scored minimum peak and trough amplitudes
 %                   (default = [1 2 0 1.5], see NOTE below)
 %     'durations'   min and max wave durations in ms (default = [150 500])
 %    =========================================================================
@@ -46,7 +46,7 @@ function delta = FindDeltaWaves(filtered,varargin)
 %
 %    See also FilterLFP, FindRipples.
 
-% Copyright (C) 2012-2015 by Nicolas Maingret, Michaël Zugaro
+% Copyright (C) 2012-2016 Michaël Zugaro, 2012-2015 Nicolas Maingret, 
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -77,15 +77,15 @@ for i = 1:2:length(varargin),
 		error(['Parameter ' num2str(i+2) ' is not a property (type ''help <a href="matlab:help FindDeltaWaves">FindDeltaWaves</a>'' for details).']);
 	end
 	switch(lower(varargin{i})),
-		case 'amplitudes',
-			amplitudes = varargin{i+1};
-			if ~isdvector(amplitudes,'#4','>=0'),
-				error('Incorrect value for property ''amplitudes'' (type ''help <a href="matlab:help FindDeltaWaves">FindDeltaWaves</a>'' for details).');
+		case {'thresholds','amplitudes'},
+			thresholds = varargin{i+1};
+			if ~isdvector(thresholds,'#4'),
+				error('Incorrect value for property ''thresholds'' (type ''help <a href="matlab:help FindDeltaWaves">FindDeltaWaves</a>'' for details).');
 			end
-			lowPeak = amplitudes(1);
-			highPeak = amplitudes(2);
-			lowTrough = amplitudes(3);
-			highTrough = amplitudes(4);
+			lowPeak = thresholds(1);
+			highPeak = thresholds(2);
+			lowTrough = thresholds(3);
+			highTrough = thresholds(4);
 			if lowPeak > highPeak || lowTrough > highTrough,
 				error('Inconsistent amplitude thresholds (type ''help <a href="matlab:help FindDeltaWaves">FindDeltaWaves</a>'' for details).');
 			end

@@ -195,7 +195,7 @@
 	"inputs":
 	[
 		{"name":"filtered", "kind":"required", "type":"numeric"},
-		{"name":"amplitudes", "kind":"namevalue", "type":"numeric"},
+		{"name":"thresholds", "kind":"namevalue", "type":"numeric"},
 		{"name":"durations", "kind":"namevalue", "type":"numeric"}
 
 	]
