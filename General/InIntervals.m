@@ -41,7 +41,7 @@ function [status,interval,index] = InIntervals(values,intervals,varargin)
 %  SEE
 %
 %    See also ConsolidateIntervals, SubtractIntervals, ExcludeIntervals,
-%    Restrict, FindInInterval, CountInIntervals, PlotIntervals.
+%    Restrict, FindInInterval, CountInIntervals, ToIntervals, PlotIntervals
 
 % Copyright (C) 2004-2015 by Michaël Zugaro
 %

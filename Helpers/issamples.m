@@ -1,7 +1,7 @@
 %issamples - Test if parameter is a list of samples satisfying an optional list of tests.
 %
-%  A list of samples is a vector or matrix of doubles containing at least one column
-%  for timestamps, and optionally more for continuous variables.
+%  A list of <a href="matlab: help Samples">samples</a> is a vector or matrix of doubles containing at least one column
+%  for (sorted) timestamps, and optionally more for continuous variables.
 %
 %  USAGE
 %

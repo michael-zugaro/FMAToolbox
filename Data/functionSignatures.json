@@ -104,7 +104,7 @@
 	"inputs":
 	[
 		{"name":"units", "kind":"required", "type":"numeric"},
-		{"name":"output", "kind":"namevalue", "type":"choices={'time','full'}"}
+		{"name":"output", "kind":"namevalue", "type":"choices={'time','full','numbered'}"}
 	]
 },
 
@@ -113,7 +113,7 @@
 	"inputs":
 	[
 		{"name":"units", "kind":"required", "type":"numeric"},
-		{"name":"output", "kind":"namevalue", "type":"choices={'time','full'}"}
+		{"name":"output", "kind":"namevalue", "type":"choices={'time','full','numbered'}"}
 	]
 },
 

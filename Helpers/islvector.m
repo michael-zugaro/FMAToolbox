@@ -56,4 +56,4 @@ end
 
 function test = islogical(x)
 
-test = builtin('islogical',x) | all(x(:)==0|x(:)==1);
+test = builtin('islogical',x) || all(x(:)==0|x(:)==1);

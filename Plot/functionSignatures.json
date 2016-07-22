@@ -189,8 +189,8 @@
 	"inputs":
 	[
 		{"name":"intervals", "kind":"required", "type":"numeric"},
-		{"name":"style", "kind":"optional", "type":"choices={'bars','rectangles'}"},
-		{"name":"direction", "kind":"optional", "type":"choices={'h','v'}"},
+		{"name":"style", "kind":"namevalue", "type":"choices={'bars','rectangles'}"},
+		{"name":"direction", "kind":"namevalue", "type":"choices={'h','v'}"},
 		{"name":"color", "kind":"namevalue", "type":"numeric"},
 		{"name":"alpha", "kind":"namevalue", "type":"numeric"}
 	]
