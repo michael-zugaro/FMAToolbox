@@ -1,4 +1,14 @@
 {
+"ActivityTemplates":
+{
+	"inputs":
+	[
+		{"name":"spikes", "kind":"required", "type":"numeric"},
+		{"name":"bins", "kind":"namevalue", "type":"numeric"},
+		{"name":"binSize", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
 "AngularVelocity":
 {
 	"inputs":
@@ -214,6 +224,18 @@
 		{"name":"stdev", "kind":"namevalue", "type":"numeric"},
 		{"name":"show", "kind":"namevalue", "type":"choices={'on','off'}"},
 		{"name":"noise", "kind":"namevalue", "type":"numeric"}
+	]
+},
+
+"FindSpikeTrains":
+{
+	"inputs":
+	[
+		{"name":"spikes", "kind":"required", "type":"numeric"},
+		{"name":"maxDuration", "kind":"namevalue", "type":"numeric"},
+		{"name":"gap", "kind":"namevalue", "type":"numeric"},
+		{"name":"minUnits", "kind":"namevalue", "type":"numeric"}
+
 	]
 },
 
@@ -586,6 +608,19 @@
 	[
 		{"name":"data", "kind":"required", "type":"numeric"},
 		{"name":"mode", "kind":"namevalue", "type":"choices={'good','preferred','non-preferred'}"}
+	]
+},
+
+"ReactivationStrength":
+{
+	"inputs":
+	[
+		{"name":"spikes", "kind":"required", "type":"numeric"},
+		{"name":"templates", "kind":"required", "type":"numeric"},
+		{"name":"bins", "kind":"namevalue", "type":"numeric"},
+		{"name":"overlap", "kind":"namevalue", "type":"numeric"},
+		{"name":"step", "kind":"namevalue", "type":"numeric"},
+		{"name":"binSize", "kind":"namevalue", "type":"numeric"}
 	]
 },
 

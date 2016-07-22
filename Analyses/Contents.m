@@ -55,8 +55,11 @@
 %   CCGParameters          - Reformat time series for CCG computation.
 %   FitCCG                 - Fit dampened sinewave to the cross-correlogram of a pair of theta-modulated cells.
 %   CofiringCoefficient    - Compute the cofiring coefficient between two sets of intervals.
+%   ActivityTemplates      - Compute activity templates from PCA of spike trains.
+%   ReactivationStrength   - Assess reactivation strength of cell assemblies.
 %   CountSpikesPerCycle    - Count number of spikes per LFP cycle.
 %   CV                     - Compute coefficient of variation for a point process.
+%   FindSpikeTrains        - Split long spike trains into 'active' periods.
 %   FunctionalClustering   - Determine spike train similarity tree using FCA analysis.
 %   IsolationDistance      - Determine the isolation quality for one or more clusters.
 %   MTPointSpectrogram     - Compute point process spectrogram by multi-taper estimation.
