@@ -24,6 +24,23 @@
 % and/or PNG images, and be later exported as HTML galleries which are easy to
 % share with other investigators.
 %
+% Because variables can hold large amounts of data, one needs to set an upper
+% limit to the size that can be stored in the actual database. Beyond this limit,
+% the data must be stored to disk, and the database will contain a reference to
+% its location. This will be transparently handled by the database functions.
+% You must however indicate the directory where matlab files should be stored,
+% and make sure it is shared across the network and writable by all users who
+% are expected to use the database. This can typically be done by adding a line
+% in the startup.m file, for instance:
+%
+%   global SETTINGS;
+%   SETTINGS.dbExternalStoragePath = '/mnt/matlab_databases';
+%
+% Optionally, the size limit for external storage (64KiB by default) can also
+% be customized:
+%
+%   SETTINGS.DBAddVariable.maxSize = 10*1024*1024;  % limit of 10MiB
+%
 % Notes
 %
 %  The database backend is MySQL and the interface is provided by the <a href="http://sourceforge.net/projects/mym/">mYm</a>

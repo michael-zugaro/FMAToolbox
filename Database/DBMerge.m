@@ -1,13 +1,17 @@
-function target = DBMerge(source,target)
+function target = DBMerge(source,target,varargin)
 
 %DBMerge - Merge databases.
 %
 %  USAGE
 %
-%    target = DBMerge(source,target)
+%    target = DBMerge(source,target,<options>)
 %
 %    source         database where the data is read
 %    target         database where the data is added
+%
+%  NOTE
+%
+%    This function cannot handle overlapping databases.
 %
 %  SEE
 %
@@ -35,10 +39,54 @@ if ~isstring(target),
   error('Incorrect target database name (type ''help <a href="matlab:help DBMerge">DBMerge</a>'' for details).');
 end
 
+% Make sure both databases exist
+current = DBUse;
+try
+	DBUse(source);
+catch
+  error(['Source database ''' source ''' not found (type ''help <a href="matlab:help DBDuplicate">DBDuplicate</a>'' for details).']);
+end
+if ~isempty(current), DBUse(current); end
+try
+	DBUse(target);
+catch
+  error(['Target database ''' target ''' not found (type ''help <a href="matlab:help DBDuplicate">DBDuplicate</a>'' for details).']);
+end
+if ~isempty(current), DBUse(current); end
+
+% Confirm
+disp(['Please make sure that the databases do not overlap, otherwise ''' target ''' will be damaged.']);
+s = lower(input('Type ''merge'' to confirm: ','s'));
+if ~strcmp(s,'merge'),
+	disp('*** Cancelled ***');
+	return
+end
+
 % Copy database contents
 try
 	h = mym(['insert into ' target '.' 'figures select * from ' source '.figures']);
 	h = mym(['insert into ' target '.' 'variables select * from ' source '.variables']);
 catch
-   error('FMAToolbox:DBMerge:mergeDB',['Could not merge databases ''' source ''' and ''' target '''.']);
+   error('FMAToolbox:DBMerge:mergeDB',['Could not merge databases ''' source ''' and ''' target ''' (non-unique eid-name pairs?)']);
+end
+
+% Copy external storage if necessary
+storage = DBExternalStoragePath;
+sourceDirectory = [storage '/' source];
+targetDirectory = [storage '/' target];
+s = [sourceDirectory '/variables'];
+t = [targetDirectory '/variables'];
+if isdir(s),
+	if ~isdir(t), mkdir(t); end
+	if ~copyfile([s '/*'],t),
+		error(['Could not copy external storage for variables.']);
+	end
+end
+s = [sourceDirectory '/figures'];
+t = [targetDirectory '/figures'];
+if isdir(s),
+	if ~isdir(t), mkdir(t); end
+	if ~copyfile([s '/*'],t),
+		error(['Could not copy external storage for figures.']);
+	end
 end

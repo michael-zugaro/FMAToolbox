@@ -15,7 +15,7 @@ function DBRemoveVariables(query)
 %    See also DBAddVariable, DBGetVariables, DBRemove.
 %
 
-% Copyright (C) 2007-2013 by Michaël Zugaro
+% Copyright (C) 2007-2016 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -63,6 +63,19 @@ if ~strcmp(s,'remove'),
 	return
 end
 
+% Remove variables from external storage if necessary
+storage = DBExternalStoragePath;
+targetDirectory = [storage '/' database '/variables'];
+for i = 1:length(f.eid),
+	matFile = [targetDirectory '/' f.eid{i} '-' f.name{i} '.mat'];
+	if ~exist(matFile,'file'),
+		warning(['External storage file for (' f.eid{i} ',' f.name{i} ') is missing.']); 
+	else
+		delete(matFile);
+	end
+end
+
 % Remove
 mym(['delete from variables' query]);
 disp('Variables removed.');
+

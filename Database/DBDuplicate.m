@@ -27,7 +27,7 @@ function new = DBDuplicate(old,new,varargin)
 %    See also DBCreate, DBMerge.
 %
 
-% Copyright (C) 2007-2013 by Michaël Zugaro
+% Copyright (C) 2007-2016 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -51,15 +51,28 @@ end
 % Insert date
 new = InsertDate(new);
 
-% Create new database
+% Make sure old database exists
 current = DBUse;
+try
+	DBUse(old);
+catch
+  error(['Database ''' old ''' not found (type ''help <a href="matlab:help DBDuplicate">DBDuplicate</a>'' for details).']);
+end
+% Create new database
 DBCreate(new);
-DBUse(current);
+if ~isempty(current), DBUse(current); end
 
 % Copy database
 try
 	h = mym(['insert into ' new '.' 'figures select * from ' old '.figures']);
 	h = mym(['insert into ' new '.' 'variables select * from ' old '.variables']);
+	% Copy external storage if necessary
+	storage = DBExternalStoragePath;
+	sourceDirectory = [storage '/' old];
+	targetDirectory = [storage '/' new];
+	if ~copyfile(sourceDirectory,targetDirectory),
+	   error(['Could not copy external storage for database ''' new '''.']);
+	end
 catch
    error('FMAToolbox:DBDuplicate:copyDB',['Could not copy database ''' new '''.']);
 end

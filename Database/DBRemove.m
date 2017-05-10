@@ -15,7 +15,7 @@ function DBRemove(database)
 %    See also DBRemove, DBRemoveFigures, DBRemoveVariables.
 %
 
-% Copyright (C) 2007-2013 by Michaël Zugaro
+% Copyright (C) 2007-2016 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -55,6 +55,13 @@ if ~strcmp(s,'remove'),
 	return
 end
 
+% Remove external storage if necessary
+try
+	storage = DBExternalStoragePath;
+	targetDirectory = [storage '/' database];
+	rmdir(targetDirectory,'s');
+end
+	
 % Remove
 mym(['drop database ' database]);
 disp('Database removed.');

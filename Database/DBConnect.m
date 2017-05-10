@@ -10,7 +10,7 @@ function DBConnect(host,user,password)
 %
 %    DBConnect(host,user,password)
 %
-%    host               optional host
+%    host               optional host (or host:port combination)
 %    user               optional user
 %    password           optional password
 %
@@ -25,7 +25,7 @@ function DBConnect(host,user,password)
 %    See also DBUse.
 %
 
-% Copyright (C) 2007-2011 by Michaël Zugaro
+% Copyright (C) 2007-2016 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -41,6 +41,7 @@ CheckMyM;
 cfHost = '';
 cfUser = '';
 cfPassword = '';
+cfPort = '3306';
 file = fopen('~/.my.cnf');
 if file ~= -1,
 	while true,
@@ -51,6 +52,8 @@ if file ~= -1,
 		switch line(1:equal-1),
 			case 'host',
 				cfHost = line(equal+1:end);
+			case 'port',
+				cfPort = line(equal+1:end);
 			case 'user',
 				cfUser = line(equal+1:end);
 			case 'password',
@@ -73,10 +76,11 @@ if nargin < 1,
 	host = cfHost;
 end
 
+port = cfPort;
 dbUser = user;
 
 try
-	h = mym('open',host,user,password);
+	h = mym('open',[host ':' port],user,password);
 catch e
    error(['Could not connect to MySQL. Check your login/password (' e.message ').']);
 end

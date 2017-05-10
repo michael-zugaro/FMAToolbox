@@ -20,12 +20,17 @@ function DBAddVariable(v,eid,name,parameters,comments,mfiles)
 %    The pair (eid,name) must uniquely define the variable (they are used as
 %    primary keys in the database).
 %
+%  CUSTOM DEFAULTS
+%
+%    It is possible to set the maximum size stored within the database vs
+%    in external files. See <a href="matlab:help Database">Database</a>'' for details.
+%
 %  SEE
 %
 %    See also DBAddFigure, DBGetVariables, DBGroupValues.
 %
 
-% Copyright (C) 2007-2013 by Michaël Zugaro
+% Copyright (C) 2007-2016 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -33,6 +38,7 @@ function DBAddVariable(v,eid,name,parameters,comments,mfiles)
 % (at your option) any later version.
 
 global dbUser;
+defaultMaxSize = 2^16-1;
 
 % Make sure MyM is installed and functional
 CheckMyM;
@@ -69,6 +75,7 @@ if ischar(mfiles),
 end
 
 % M-Files
+code = '';
 for i = 1:length(mfiles),
 	mfileName = which(mfiles{i});
 	if isempty(mfileName),
@@ -88,5 +95,21 @@ catch
 	md5 = 0;
 end
 
-% Execute SQL query command
-h = mym(['insert into variables (eid,name,comments,parameters,mfiles,code,date,user,md5,v) values ("{S}","{S}","{S}","{S}","{M}","{M}","{S}","{S}","{Si}","{M}")'],eid,name,comments,parameters,mfiles,code,d,dbUser,md5,v);
+% Check variable size: if too large (>64KiB by default), save to file and store path in database
+warning('off','FMAToolbox:GetCustomDefaults:UsingCustomDefaults');
+maxSize = GetCustomDefaults([],'maxsize',defaultMaxSize);
+warning('on','FMAToolbox:GetCustomDefaults:UsingCustomDefaults');
+storage = DBExternalStoragePath;
+s = whos('v');
+if s.bytes > maxSize,
+	% store outside DB
+	targetDirectory = [storage '/' DBUse];
+	if ~isdir(targetDirectory), mkdir(targetDirectory); end
+	if ~isdir([targetDirectory '/variables']), mkdir([targetDirectory '/variables']); end
+	matFile = [targetDirectory '/variables/' eid '-' name '.mat'];
+	h = mym(['insert into variables (eid,name,comments,parameters,mfiles,code,date,user,md5,v) values ("{S}","{S}","{S}","{S}","{M}","{M}","{S}","{S}","{Si}","{M}")'],eid,name,comments,parameters,mfiles,code,d,dbUser,md5,matFile);
+	save(matFile,'v');
+else
+	% store in DB
+	h = mym(['insert into variables (eid,name,comments,parameters,mfiles,code,date,user,md5,v) values ("{S}","{S}","{S}","{S}","{M}","{M}","{S}","{S}","{Si}","{M}")'],eid,name,comments,parameters,mfiles,code,d,dbUser,md5,v);
+end

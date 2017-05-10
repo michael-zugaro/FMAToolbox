@@ -60,7 +60,7 @@ function x = DBGetVariables(query,varargin)
 %    See also DBGetValues, DBAddVariable, DBGetFigures, DBDisplay.
 %
 
-% Copyright (C) 2007-2013 by Michaël Zugaro
+% Copyright (C) 2007-2016 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -107,17 +107,35 @@ switch output,
 	case 'full',
 		x = mym(['select v,eid,name,comments,parameters,mfiles,code,date,user from variables' query]);
 	case 'variables',
-		x = mym(['select v from variables' query]);
+		% Although final output does not require (eid,name), we retrieve them for potential error messages (and discard them later)
+		x = mym(['select v,eid,name from variables' query]);
 	case 'info',
 		x = mym(['select eid,name,comments,parameters,mfiles,code,date,user from variables' query]);
 	case 'keys',
 		x = mym(['select eid,name from variables' query]);
 end
 
-
 % Make sure query results are not empty
 if isempty(x),
 	warning(['No variables match (' query ').']);
+end
+
+% Load variables from external storage if necessary
+for i = 1:length(x.v),
+	matFile = x.v{i};
+	if isstring(matFile) && length(matFile) > 4 && matFile(1) == '/' && strcmp('.mat',matFile(end-3:end)),
+		if ~exist(matFile,'file'),
+			error(['External storage file for (' x.eid{i} ',' x.name{i} ') is missing.']); 
+		else
+			a = load(matFile);
+			x.v{i} = a.v;
+		end
+	end
+end
+
+% These extra fields can now be removed (see note above)
+if strcmp(output,'variables'),
+	x = rmfield(x,{'eid','name'});
 end
 
 % Format code
