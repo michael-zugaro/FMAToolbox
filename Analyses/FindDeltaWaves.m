@@ -46,7 +46,7 @@ function delta = FindDeltaWaves(filtered,varargin)
 %
 %    See also FilterLFP, FindRipples.
 
-% Copyright (C) 2012-2016 Michaël Zugaro, 2012-2015 Nicolas Maingret, 
+% Copyright (C) 2012-2017 Michaël Zugaro, 2012-2015 Nicolas Maingret, 
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -94,6 +94,11 @@ for i = 1:2:length(varargin),
 			if ~isdvector(durations,'#2','<','>0'),
 				error('Incorrect value for property ''durations'' (type ''help <a href="matlab:help FindDeltaWaves">FindDeltaWaves</a>'' for details).');
 			end
+			if durations(2) < 1,
+				warning('Delta wave min and max durations are less than 1 ms, assuming seconds.');
+				durations = durations * 1000;
+			end
+			minDuration = durations(1); maxDuration = durations(2);
 		otherwise,
 			error(['Unknown property ''' num2str(varargin{i}) ''' (type ''help <a href="matlab:help FindDeltaWaves">FindDeltaWaves</a>'' for details).']);
 	end

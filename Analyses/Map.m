@@ -29,8 +29,9 @@ function [map,stats] = Map(v,z,varargin)
 %     'smooth'      smoothing size in bins (0 = no smoothing, default = 2)
 %     'nBins'       number of horizontal and vertical bins (default = [50 50])
 %     'minTime'     minimum time spent in each bin (in s, default = 0)
-%     'mode'        'interpolate' to interpolate missing points (< minTime),
-%                   or 'discard' to discard them (default)
+%     'mode'        'interpolate' to interpolate missing points (< minTime)
+%                   (default for a continuous z) or 'discard' to discard them
+%                   (default for a point process)
 %     'maxDistance' maximal distance for interpolation (default = 5)
 %     'maxGap'      z values recorded during time gaps between successive (x,y)
 %                   samples exceeding this threshold (e.g. undetects) will not
@@ -61,7 +62,7 @@ function [map,stats] = Map(v,z,varargin)
 %
 %    See also MapStats, FiringMap, PlotColorMap, Accumulate.
 
-% Copyright (C) 2002-2014 by Michaël Zugaro
+% Copyright (C) 2002-2017 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -92,13 +93,19 @@ smooth = 2;
 nBins = 50;
 minTime = 0;
 type = 'lll';
-mode = 'discard';
+modePointProcess = 'discard';
+modeContinuous = 'interpolate';
 maxDistance = 5;
 
 if isempty(v) || size(v,1) < 2, return; end
 
 % Some info about x, y and z
 pointProcess = (isempty(z) | size(z,2) == 1);
+if pointProcess,
+	mode = modePointProcess;
+else
+	mode = modeContinuous;
+end
 t = v(:,1);
 x = v(:,2);
 if size(v,2) >= 3,
@@ -202,6 +209,12 @@ else
 	if strcmp(type(end),'c'),
 		range = isradians(z(:,2));
 		z(:,2) = exp(j*z(:,2));
+	end
+	% Interpolation may have discarded values from z (due to gaps): remove them from x, y and dt too
+	if any(discarded),
+		x(discarded,:) = [];
+		dt(discarded,:) = [];
+		if ~isempty(y), y(discarded) = []; end
 	end
 	n = 1;
 end

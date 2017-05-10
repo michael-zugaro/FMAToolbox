@@ -8,12 +8,12 @@ function spikes = GetSpikes(units,varargin)
 %    using the same parameters. See this function for details.
 
 
-% Copyright (C) 2004-2016 by Michaël Zugaro
+% Copyright (C) 2004-2017 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
 % the Free Software Foundation; either version 3 of the License, or
 % (at your option) any later version.
 
-if nargin == 0, units = []; end
+if nargin == 0, units = 'all'; end
 spikes = GetSpikeTimes(units,varargin{:});

@@ -20,7 +20,7 @@ function [h,p] = ConcentrationTest(angles,group,alpha,nRandomizations)
 %
 %    See also Concentration, CircularMean, CircularVariance, CircularConfidenceIntervals.
 
-% Copyright (C) 2004-2011 by Michaël Zugaro
+% Copyright (C) 2004-2017 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -40,6 +40,7 @@ isradians(angles);
 % Number of groups (r), number of samples in each group (n), total number of samples (N)
 r = max(group);
 N = length(angles);
+n = zeros(1,max(group));
 for i = 1:r,
 	n(i) = sum(group==i);
 end

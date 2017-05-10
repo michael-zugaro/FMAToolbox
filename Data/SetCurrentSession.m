@@ -7,7 +7,7 @@ function SetCurrentSession(varargin)
 %
 %  USAGE
 %
-%    SetCurrentSession(filename,varargin)
+%    SetCurrentSession(filename,<options>)
 %
 %    filename       optional parameter file name; use 'same' to force reload
 %    <options>      optional list of property-value pairs (see table below)
@@ -24,7 +24,7 @@ function SetCurrentSession(varargin)
 %    If no parameter file name is specified, an interactive file selection
 %    dialog is displayed.
 
-% Copyright (C) 2004-2015 by Michaël Zugaro, 2014 by Gabrielle Girardeau
+% Copyright (C) 2004-2017 by Michaël Zugaro, 2014 by Gabrielle Girardeau
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by

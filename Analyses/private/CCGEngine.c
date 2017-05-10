@@ -1,7 +1,7 @@
 /***************************************************************************
                            CCGEngine.c  -  description
                              -------------------
-    copyright            : (C) 2013 by Michaël Zugaro
+    copyright            : (C) 2013-2017 by Michaël Zugaro
     email                : michael.zugaro@college-de-france.fr
  ***************************************************************************/
 
@@ -26,15 +26,15 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[])
 
 	/* Check parameters */
 	if ( nlhs == 0 ) return;
-	if ( nrhs != 4 ) mxErrMsgTxt("Incorrect number of input parameters.");
-	if ( mxGetClassID(prhs[0]) != mxDOUBLE_CLASS || mxGetClassID(prhs[1]) != mxDOUBLE_CLASS || mxGetClassID(prhs[2]) != mxDOUBLE_CLASS || mxGetClassID(prhs[3]) != mxDOUBLE_CLASS ) mxErrMsgTxt("Incorrect parameters.");
+	if ( nrhs != 4 ) mexErrMsgTxt("Incorrect number of input parameters.");
+	if ( mxGetClassID(prhs[0]) != mxDOUBLE_CLASS || mxGetClassID(prhs[1]) != mxDOUBLE_CLASS || mxGetClassID(prhs[2]) != mxDOUBLE_CLASS || mxGetClassID(prhs[3]) != mxDOUBLE_CLASS ) mexErrMsgTxt("Incorrect parameters.");
 	times = mxGetPr(prhs[0]);
 	nTimes = mxGetM(prhs[0]);
 	id = mxGetPr(prhs[1]);
 	nIDs = mxGetM(prhs[1]);
 	binSize = mxGetScalar(prhs[2]);
 	halfBins = mxGetScalar(prhs[3]);
-	if ( nIDs != nTimes ) mxErrMsgTxt("Times and IDs have different lengths.");
+	if ( nIDs != nTimes ) mexErrMsgTxt("Times and IDs have different lengths.");
 
 	nBins = 2*halfBins + 1;
 	maxDt = binSize * (halfBins + 0.5);
@@ -48,7 +48,7 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[])
 	size = nIDs * nIDs * nBins;
 	plhs[0] = mxCreateNumericMatrix(size,1,mxDOUBLE_CLASS,mxREAL);
 	ccg = mxGetPr(plhs[0]);
-	if ( ccg == NULL ) mxErrMsgTxt("Not enought memory.");
+	if ( ccg == NULL ) mexErrMsgTxt("Not enought memory.");
 
 	/* Loop through events */
 	for ( current = 0; current < nTimes ; ++current )
@@ -68,7 +68,7 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[])
 			/* Add an event pair in the CCG */
 			bin = halfBins + floor(0.5+(t2-t1)/binSize);
 			index = nBins * nIDs * (id1-1) + nBins * (id2-1) + bin;
-			if ( index < 0 || index >= size) mxErrMsgTxt("Index out of bounds");
+			if ( index < 0 || index >= size) mexErrMsgTxt("Index out of bounds");
 			ccg[index]++;
 		}
 
@@ -84,7 +84,7 @@ void mexFunction(int nlhs,mxArray *plhs[],int nrhs,const mxArray *prhs[])
 			/* Add an event pair in the CCG */
 			bin = halfBins + floor(0.5+(t2-t1)/binSize);
 			index = nBins * nIDs * (id1-1) + nBins * (id2-1) + bin;
-			if ( index < 0 || index >= size) mxErrMsgTxt("Index out of bounds");
+			if ( index < 0 || index >= size) mexErrMsgTxt("Index out of bounds");
 			ccg[index]++;
 		}
 	}

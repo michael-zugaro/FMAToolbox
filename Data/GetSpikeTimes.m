@@ -8,6 +8,8 @@ function spikes = GetSpikeTimes(units,varargin)
 %
 %    units          optional list of units, i.e. [electrode group, cluster] pairs;
 %                   special conventions:
+%                     'all'          all units
+%                     []             no units
 %                     cluster = -1   all clusters except artefacts and MUA
 %                     cluster = -2   all clusters except artefacts
 %                     cluster = -3   all clusters
@@ -27,6 +29,8 @@ function spikes = GetSpikeTimes(units,varargin)
 %
 %    % timestamps for all spikes
 %    s = GetSpikeTimes;
+%    % or
+%    s = GetSpikeTimes('all');
 %
 %    % timestamps for units [1 7] and [4 3]
 %    s = GetSpikeTimes([1 7;4 3]);
@@ -39,6 +43,8 @@ function spikes = GetSpikeTimes(units,varargin)
 %
 %    % timestamps, electrode groups and clusters, for all spikes
 %    s = GetSpikeTimes('output','full');
+%    % or
+%    s = GetSpikeTimes('all','output','full');
 %
 %    % timestamps and identifiers, for units [1 7], [4 3] and [2 5]
 %    % unit [1 7] will be assigned number 1, unit [2 5] number 2, and
@@ -49,14 +55,14 @@ function spikes = GetSpikeTimes(units,varargin)
 %
 %    An electrode group is an ensemble of closely spaced electrodes that record from
 %    the same neurons, e.g. a single wire electrode, or a wire tetrode, or a multisite
-%    silicon probe, etc.
+%    silicon probe in octrode configuration, etc.
 %
 %  SEE
 %
 %    See also LoadSpikeTimes, PlotTicks.
 
 
-% Copyright (C) 2004-2013 by Michaël Zugaro
+% Copyright (C) 2004-2017 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -70,13 +76,14 @@ end
 
 % Default values
 output = 'time';
+if nargin == 0, units = 'all'; end
 
 % Optional parameter
-if ischar(units),
+if ischar(units) && ~strcmp(units,'all'),
 	varargin = {units,varargin{:}};
-	units = []; % all
+	units = 'all';
 else
-	if ~isempty(units) && (~isimatrix(units) || size(units,2) ~= 2),
+	if ~strcmp(units,'all') && ~isempty(units) && (~isimatrix(units) || size(units,2) ~= 2),
 		error('Incorrect list of units (type ''help <a href="matlab:help GetSpikeTimes">GetSpikeTimes</a>'' for details).');
 	end
 end
@@ -98,11 +105,26 @@ for i = 1:2:length(varargin),
   end
 end
 
-spikes = DATA.spikes;
-if isempty(spikes), return; end
+if isempty(units),
+	spikes = [];
+else
+	spikes = DATA.spikes;
+end
+% Adjust output matrix size
+if isempty(spikes),
+	switch(output),
+		case 'time',
+			spikes = nan(0,1);
+		case 'numbered',
+			spikes = nan(0,2);
+		case 'full',
+			spikes = nan(0,3);
+	end
+	return
+end
 
 % Selected units only
-if ~isempty(units),
+if ~isstring(units,'all'),
 	nUnits = size(units,1);
 	selected = zeros(size(spikes(:,1)));
 	for i = 1:nUnits,
