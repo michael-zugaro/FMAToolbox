@@ -46,11 +46,11 @@ end
 
 % Backward compatibility: previous versions used the syntax PlotIntervals(intervals,style,direction)
 parsed = false;
-if (nargin == 2 || nargin == 3) && isstring(lower(varargin{1}),'rectangles','bars'),
+if (nargin == 2 || nargin == 3) && isastring(lower(varargin{1}),'rectangles','bars'),
 	style = lower(varargin{1});
 	parsed = true;
 end
-if nargin == 3 && isstring(lower(varargin{2}),'h','v'),
+if nargin == 3 && isastring(lower(varargin{2}),'h','v'),
 	direction = lower(varargin{2});
 	parsed = true;
 end
@@ -64,17 +64,17 @@ if ~parsed,
 		switch(lower(varargin{i})),
 			case 'style',
 				style = lower(varargin{i+1});
-				if ~isstring(style,'bars','rectangles'),
+				if ~isastring(style,'bars','rectangles'),
 					error('Incorrect value for property ''style'' (type ''help <a href="matlab:help PlotIntervals">PlotIntervals</a>'' for details).');
 				end
 			case 'direction',
 				direction = lower(varargin{i+1});
-				if ~isstring(direction,'h','v'),
+				if ~isastring(direction,'h','v'),
 					error('Incorrect value for property ''direction'' (type ''help <a href="matlab:help PlotIntervals">PlotIntervals</a>'' for details).');
 				end
 			case 'color',
 				color = lower(varargin{i+1});
-				if ~isstring(color,'r','g','b','c','m','y','k','w') && ~isdvector(color,'#3','>=0','<=1'),
+				if ~isastring(color,'r','g','b','c','m','y','k','w') && ~isdvector(color,'#3','>=0','<=1'),
 					error('Incorrect value for property ''direction'' (type ''help <a href="matlab:help PlotIntervals">PlotIntervals</a>'' for details).');
 				end
 			case 'alpha',

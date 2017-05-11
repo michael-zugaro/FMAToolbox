@@ -113,13 +113,13 @@ for i = 1:2:length(varargin),
 
 		case 'type',
 			type = lower(varargin{i+1});
-			if (nDims == 1 && ~isstring(type,'c','l')) || (nDims == 2 && ~isstring(type,'cc','cl','lc','ll')),
+			if (nDims == 1 && ~isastring(type,'c','l')) || (nDims == 2 && ~isastring(type,'cc','cl','lc','ll')),
 				error('Incorrect value for property ''type'' (type ''help <a href="matlab:help MapStats">MapStats</a>'' for details).');
 			end
 
 		case {'verbose','debug'},
 			verbose = lower(varargin{i+1});
-			if ~isstring(verbose,'on','off'),
+			if ~isastring(verbose,'on','off'),
 				error('Incorrect value for property ''verbose'' (type ''help <a href="matlab:help MapStats">MapStats</a>'' for details).');
 			end
 			verbose = strcmp(verbose,'on');

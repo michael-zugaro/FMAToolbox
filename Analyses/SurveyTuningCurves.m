@@ -75,12 +75,12 @@ for i = 1:2:length(varargin),
 			end
 		case 'show',
 			show = varargin{i+1};
-			if ~isstring(show,'on','off'),
+			if ~isastring(show,'on','off'),
 				error('Incorrect value for property ''show'' (type ''help <a href="matlab:help SurveyFiringMaps">SurveyFiringMaps</a>'' for details).');
 			end
 		case 'type',
 			type = varargin{i+1};
-			if ~isstring(type,'polar','cartesian'),
+			if ~isastring(type,'polar','cartesian'),
 				error('Incorrect value for property ''type'' (type ''help <a href="matlab:help SurveyFiringMaps">SurveyFiringMaps</a>'' for details).');
 			end
 		otherwise,

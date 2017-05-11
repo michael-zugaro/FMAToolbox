@@ -76,13 +76,13 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'verbose',
 			verbose = varargin{i+1};
-			if ~isstring(verbose,'on','off'),
+			if ~isastring(verbose,'on','off'),
 				error('Incorrect value for property ''verbose'' (type ''help <a href="matlab:help InIntervals">InIntervals</a>'' for details).');
 			end
 			verbose = strcmp(verbose,'on');
 		case 'mode',
 			mode = varargin{i+1};
-			if ~isstring(mode,'safe','fast'),
+			if ~isastring(mode,'safe','fast'),
 				error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help InIntervals">InIntervals</a>'' for details).');
 			end
 			safe = strcmp(mode,'safe');

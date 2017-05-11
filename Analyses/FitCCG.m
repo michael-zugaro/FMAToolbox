@@ -53,7 +53,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'show',
 			show = varargin{i+1};
-			if ~isstring(show,'off','on'),
+			if ~isastring(show,'off','on'),
 				error('Incorrect value for property ''show'' (type ''help <a href="matlab:help FitCCG">FitCCG</a>'' for details).');
 			end
 		otherwise,

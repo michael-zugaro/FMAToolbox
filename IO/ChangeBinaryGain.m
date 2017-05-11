@@ -46,7 +46,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'output',
 			output = varargin{i+1};
-			if ~isstring(output),
+			if ~isastring(output),
 				error('Incorrect value for property ''output'' (type ''help <a href="matlab:help ChangeBinaryGain">ChangeBinaryGain</a>'' for details).');
 			end
 		case 'nchannels',
@@ -61,7 +61,7 @@ for i = 1:2:length(varargin),
 			end
 		case 'precision',
 			precision = varargin{i+1};
-			if ~isstring(precision),
+			if ~isastring(precision),
 				error('Incorrect value for property ''precision'' (type ''help <a href="matlab:help ChangeBinaryGain">ChangeBinaryGain</a>'' for details).');
 			end
 		case 'skip',

@@ -31,7 +31,7 @@ if nargin < 2,
 else
 	axis = lower(axis);
 end
-if ~isstring(axis,'x','y'),
+if ~isastring(axis,'x','y'),
 	varargin = {axis,varargin{:}};
 	axis = 'x';
 end

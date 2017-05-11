@@ -87,7 +87,7 @@ for i = 1:2:length(varargin),
 		case 'method',
 			method = lower(varargin{i+1});
 			% 'direct' and 'ratios' are for backward compatibility (deprecated)
-			if ~isstring(method,'pca','hippocampus','cortex','amygdala','direct','ratios'),
+			if ~isastring(method,'pca','hippocampus','cortex','amygdala','direct','ratios'),
 				error('Incorrect value for property ''method'' (type ''help <a href="matlab:help BrainStates">BrainStates</a>'' for details).');
 			end
 		case 'ncomponents',
@@ -97,7 +97,7 @@ for i = 1:2:length(varargin),
 			end
 		case 'show',
 			show = lower(varargin{i+1});
-			if ~isstring(show,'kmeans','clusters','all','none'),
+			if ~isastring(show,'kmeans','clusters','all','none'),
 				error('Incorrect value for property ''show'' (type ''help <a href="matlab:help BrainStates">BrainStates</a>'' for details).');
 			end
 		otherwise,

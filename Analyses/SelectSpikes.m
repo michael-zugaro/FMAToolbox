@@ -52,7 +52,7 @@ for i = 1:2:length(varargin),
   switch(lower(varargin{i})),
     case 'mode',
       mode = varargin{i+1};
-      if ~isstring(mode,'bursts','single'),
+      if ~isastring(mode,'bursts','single'),
         error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help SelectSpikes">SelectSpikes</a>'' for details).');
       end
     case 'isi',

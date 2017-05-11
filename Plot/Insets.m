@@ -56,7 +56,7 @@ if any(s>1|s<0),
   error('Sizes must be expressed as proportion [0..1] of total figure size (type ''help <a href="matlab:help Insets">Insets</a>'' for details).');
 end
 location = lower(location);
-if ~isstring(location,'topleft','top','topright','left','center','right','bottomleft','bottom','bottomright'),
+if ~isastring(location,'topleft','top','topright','left','center','right','bottomleft','bottom','bottomright'),
   error('Incorrect location (type ''help <a href="matlab:help Insets">Insets</a>'' for details).');
 end
 

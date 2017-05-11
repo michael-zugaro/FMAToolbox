@@ -107,7 +107,7 @@ for i = 1:2:length(varargin),
 
 		case 'mode',
 			mode = lower(varargin{i+1});
-			if ~isstring(mode,'norm','count'),
+			if ~isastring(mode,'norm','count'),
 				error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help ShortTimeCCG">ShortTimeCCG</a>'' for details).');
 			end
 

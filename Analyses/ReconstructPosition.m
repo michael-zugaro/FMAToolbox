@@ -121,7 +121,7 @@ for i = 1:2:length(varargin),
 			end
 		case 'show',
 			show = varargin{i+1};
-			if ~isstring(show,'on','off'),
+			if ~isastring(show,'on','off'),
 				builtin('error','Incorrect value for property ''show'' (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
 			end
 		case 'nbins',
@@ -131,12 +131,12 @@ for i = 1:2:length(varargin),
 			end
 		case 'type',
 			type = lower(varargin{i+1});
-			if (nDimensions == 1 && ~isstring(type,'cc','cl','lc','ll')) || (nDimensions == 2 && ~isstring(type,'ccl','cll','lcl','lll','ccc','clc','lcc','llc')),
+			if (nDimensions == 1 && ~isastring(type,'cc','cl','lc','ll')) || (nDimensions == 2 && ~isastring(type,'ccl','cll','lcl','lll','ccc','clc','lcc','llc')),
 				builtin('error','Incorrect value for property ''type'' (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
 			end
 		case 'mode',
 			mode = lower(varargin{i+1});
-			if ~isstring(mode,'both','train','test'),
+			if ~isastring(mode,'both','train','test'),
 				builtin('error','Incorrect value for property ''mode'' (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).');
 			end
 		case 'lambda',
@@ -166,7 +166,7 @@ if isempty(window),
 	end
 end
 % Defaults (training)
-if isstring(mode,'train','both') && isdscalar(training),
+if isastring(mode,'train','both') && isdscalar(training),
 	training = [-Inf positions(1,1)+training*(positions(end,1)-positions(1,1))];
 end
 % Defaults (type)
@@ -189,7 +189,7 @@ else
 	end
 end
 % Defaults (mode)
-if isstring(mode,'train','both') && ( exist('lambda','var') || exist('Px','var') ),
+if isastring(mode,'train','both') && ( exist('lambda','var') || exist('Px','var') ),
 	warning(['Inconsistent inputs, lambda and Px will be ignored in mode ''' mode ''' (type ''help <a href="matlab:help ReconstructPosition">ReconstructPosition</a>'' for details).']);
 	clear('lambda');clear('Px');
 end
@@ -216,7 +216,7 @@ end
 
 % TRAINING
 
-if isstring(mode,'both','train'),
+if isastring(mode,'both','train'),
 
 	% Split data (training vs test)
 	if strcmp(mode,'train'),

@@ -115,22 +115,22 @@ for i = 1:2:length(varargin),
 			end
 		case 'colorspace',
 			colorspace = lower(varargin{i+1});
-			if ~isstring(colorspace,'hsv','rgb'),
+			if ~isastring(colorspace,'hsv','rgb'),
 				error('Incorrect value for property ''colorspace'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
 			end
 		case 'bar',
 			drawBar = lower(varargin{i+1});
-			if ~isstring(drawBar,'on','off'),
+			if ~isastring(drawBar,'on','off'),
 				error('Incorrect value for property ''bar'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
 			end
 		case 'type',
 			type = lower(varargin{i+1});
-			if ~isstring(type,'linear','circular'),
+			if ~isastring(type,'linear','circular'),
 				error('Incorrect value for property ''type'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
 			end
 		case 'ydir',
 			ydir = lower(varargin{i+1});
-			if ~isstring(ydir,'normal','reverse'),
+			if ~isastring(ydir,'normal','reverse'),
 				error('Incorrect value for property ''ydir'' (type ''help <a href="matlab:help PlotColorMap">PlotColorMap</a>'' for details).');
 			end
 		otherwise,

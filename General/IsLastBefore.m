@@ -46,7 +46,7 @@ for i = 1:2:length(varargin),
   switch(lower(varargin{i})),
     case 'strict',
 		strict = lower(varargin{i+1});
-		if ~isstring(strict,'on','off'),
+		if ~isastring(strict,'on','off'),
 			error('Incorrect value for property ''strict'' (type ''help <a href="matlab:help IsLastBefore">IsLastBefore</a>'' for details).');
 		end
     otherwise,

@@ -36,7 +36,7 @@ default = get(0,'DefaultFigureCreateFcn');
 if isa(default,'function_handle'), default = func2str(default); end
 
 % Special cases: Hide('on'), Hide('off'), Hide('all'), Hide('none')
-if nargin == 1 && isstring(lower(parameter1),'on','off','all','none','status'),
+if nargin == 1 && isastring(lower(parameter1),'on','off','all','none','status'),
 	switch lower(parameter1),
 		case 'status',
 			if isempty(regexp(default,name)),

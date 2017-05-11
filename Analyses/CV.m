@@ -67,12 +67,12 @@ for i = 1:2:length(varargin),
   switch(lower(varargin{i})),
 		case 'measure',
 			measure = lower(varargin{i+1});
-			if ~isstring(measure,'cv','cv2','cvo'),
+			if ~isastring(measure,'cv','cv2','cvo'),
 				error('Incorrect value for property ''measure'' (type ''help <a href="matlab:help CV">CV</a>'' for details).');
 			end
 		case 'method',
 			method = lower(varargin{i+1});
-			if ~isstring(method,'fixed','adaptive','inverse'),
+			if ~isastring(method,'fixed','adaptive','inverse'),
 				error('Incorrect value for property ''method'' (type ''help <a href="matlab:help CV">CV</a>'' for details).');
 			end
 		case 'order',

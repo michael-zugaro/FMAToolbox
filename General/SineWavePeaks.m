@@ -45,13 +45,13 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'mode',
 			mode = lower(varargin{i+1});
-			if ~isstring(mode,'peaks','troughs'),
+			if ~isastring(mode,'peaks','troughs'),
 				error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help SineWavePeaks">SineWavePeaks</a>'' for details).');
 			end
 
 		case 'method',
 			method = lower(varargin{i+1});
-			if ~isstring(method,'zero','diff'),
+			if ~isastring(method,'zero','diff'),
 				error('Incorrect value for property ''method'' (type ''help <a href="matlab:help SineWavePeaks">SineWavePeaks</a>'' for details).');
 			end
 

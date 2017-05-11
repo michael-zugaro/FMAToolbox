@@ -46,7 +46,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'mode',
 			mode = lower(varargin{i+1});
-			if ~isstring(mode,'clean','all'),
+			if ~isastring(mode,'clean','all'),
 				error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help GetAngles">GetAngles</a>'' for details).');
 			end
 		otherwise,

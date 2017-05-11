@@ -51,7 +51,7 @@ for i = 1:2:length(varargin),
 
 		case 'type',
 			type = lower(varargin{i+1});
-			if ~isstring(type,'continuous','point'),
+			if ~isastring(type,'continuous','point'),
 				error('Incorrect value for property ''type'' (type ''help <a href="matlab:help PlotSamples">PlotSamples</a>'' for details).');
 			end
 			pointProcess = strcmp(type,'point');

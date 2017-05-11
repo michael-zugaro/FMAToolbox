@@ -176,12 +176,12 @@ for i = 1:2:length(varargin),
       end
     case 'hide',
       hide = lower(varargin{i+1});
-      if ~isstring(hide,'on','off'),
+      if ~isastring(hide,'on','off'),
         error('Incorrect value for property ''hide'' (type ''help <a href="matlab:help StartBatch">StartBatch</a>'' for details).');
       end
     case 'log',
       log = varargin{i+1};
-      if ~isstring(log),
+      if ~isastring(log),
         error('Incorrect value for property ''log'' (type ''help <a href="matlab:help StartBatch">StartBatch</a>'' for details).');
       end
     otherwise,
@@ -190,7 +190,7 @@ for i = 1:2:length(varargin),
 end
 
 % Compatibility with previous versions: reverse parameter order if necessary
-if isa(bfile,'function_handle') || (isstring(mfile) && isempty(which(mfile))),
+if isa(bfile,'function_handle') || (isastring(mfile) && isempty(which(mfile))),
 	tmp = bfile;
 	bfile = mfile;
 	mfile = tmp;
@@ -204,7 +204,7 @@ else
 end
 
 % Check batch file and function are valid
-if ~isstring(bfile) || ~exist(bfile,'file'),
+if ~isastring(bfile) || ~exist(bfile,'file'),
 	error('Batch file not found (type ''help <a href="matlab:help StartBatch">StartBatch</a>'' for details).');
 end
 if isempty(which(mfileName)),

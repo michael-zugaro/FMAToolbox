@@ -58,7 +58,7 @@ if isa(mfile,'function_handle'),
 end
 
 % Check batch file and function are valid
-if ~isstring(bfile) || ~exist(bfile,'file'),
+if ~isastring(bfile) || ~exist(bfile,'file'),
 	error(['Batch file not found (type ''help <a href="matlab:help DebugBatch">DebugBatch</a>'' for details).']);
 end
 if isempty(which(mfile)),
@@ -78,7 +78,7 @@ for i = 1:2:length(varargin),
   switch(lower(varargin{i})),
     case 'mode',
       mode = lower(varargin{i+1});
-      if ~isstring(mode,'run','set'),
+      if ~isastring(mode,'run','set'),
         error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help DebugBatch">DebugBatch</a>'' for details).');
       end
     otherwise,

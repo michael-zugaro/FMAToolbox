@@ -79,7 +79,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'mode',
 			mode = lower(varargin{i+1});
-			if ~isstring(mode,'separate','grouped'),
+			if ~isastring(mode,'separate','grouped'),
 				error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help PlotCircularDistribution">PlotCircularDistribution</a>'' for details).');
 			end
 		otherwise,

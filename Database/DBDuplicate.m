@@ -41,10 +41,10 @@ CheckMyM;
 if nargin < 2,
   error('Incorrect number of parameters (type ''help <a href="matlab:help DBDuplicate">DBDuplicate</a>'' for details).');
 end
-if ~isstring(old),
+if ~isastring(old),
   error('Incorrect old database name (type ''help <a href="matlab:help DBDuplicate">DBDuplicate</a>'' for details).');
 end
-if ~isstring(new),
+if ~isastring(new),
   error('Incorrect new database name (type ''help <a href="matlab:help DBDuplicate">DBDuplicate</a>'' for details).');
 end
 

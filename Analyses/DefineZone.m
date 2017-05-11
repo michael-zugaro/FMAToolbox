@@ -39,7 +39,7 @@ end
 if ~isdvector(s,'#2','>0'),
   error('Incorrect size (type ''help <a href="matlab:help DefineZone">DefineZone</a>'' for details).');
 end
-if ~isstring(shape,'rectangle','circle'),
+if ~isastring(shape,'rectangle','circle'),
   error('Incorrect shape (type ''help <a href="matlab:help DefineZone">DefineZone</a>'' for details).');
 end
 points = round(points);

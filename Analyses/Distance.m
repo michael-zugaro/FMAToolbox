@@ -52,7 +52,7 @@ for j = 1:2:length(varargin),
 	switch(lower(varargin{j})),
 		case 'type',
 			type = varargin{j+1};
-			if ~isstring(type,'l','c'),
+			if ~isastring(type,'l','c'),
 				error('Incorrect value for property ''type'' (type ''help <a href="matlab:help Distance">Distance</a>'' for details).');
 			end
 		otherwise,

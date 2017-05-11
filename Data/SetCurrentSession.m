@@ -38,7 +38,7 @@ filename = '';
 
 % Filename?
 if nargin ~= 0,
-	if ~isstring(varargin{1},'spikes'),
+	if ~isastring(varargin{1},'spikes'),
 		filename = varargin{1};
 		varargin = {varargin{2:end}};
 	end
@@ -57,12 +57,12 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'verbose',
 			verbose = lower(varargin{i+1});
-			if ~isstring(verbose,'on','off'),
+			if ~isastring(verbose,'on','off'),
 				error('Incorrect value for property ''verbose'' (type ''help <a href="matlab:help SetCurrentSession">SetCurrentSession</a>'' for details).');
 			end
 		case 'spikes',
 			spikes = lower(varargin{i+1});
-			if ~isstring(spikes,'on','off'),
+			if ~isastring(spikes,'on','off'),
 				error('Incorrect value for property ''spikes'' (type ''help <a href="matlab:help SetCurrentSession">SetCurrentSession</a>'' for details).');
 			end
 		otherwise,

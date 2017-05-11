@@ -110,7 +110,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'mode',
 			mode = lower(varargin{i+1});
-			if ~isstring(mode,'sum','mean','dist'),
+			if ~isastring(mode,'sum','mean','dist'),
 				error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help SyncHist">SyncHist</a>'' for details).');
 			end
 
@@ -140,13 +140,13 @@ for i = 1:2:length(varargin),
 
 		case 'type',
 			type = lower(varargin{i+1});
-			if ~isstring(type,'linear','circular'),
+			if ~isastring(type,'linear','circular'),
 				error('Incorrect value for property ''type'' (type ''help <a href="matlab:help SyncHist">SyncHist</a>'' for details).');
 			end
 
 		case 'error',
 			error = lower(varargin{i+1});
-			if ~isstring(error,'std','sem','95%'),
+			if ~isastring(error,'std','sem','95%'),
 				error('Incorrect value for property ''error'' (type ''help <a href="matlab:help SyncHist">SyncHist</a>'' for details).');
 			end
 

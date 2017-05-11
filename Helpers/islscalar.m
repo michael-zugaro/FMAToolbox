@@ -14,7 +14,7 @@
 %  SEE ALSO
 %
 %    See also islvector, islmatrix, isdmatrix, isdvector, isdscalar, isimatrix, isivector,
-%    isstring.
+%    isastring.
 %
 
 % Copyright (C) 2010-2011 by Michaël Zugaro

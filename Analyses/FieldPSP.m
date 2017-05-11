@@ -81,7 +81,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'direction',
 			direction = lower(varargin{i+1});
-			if ~isstring(direction,'up','down'),
+			if ~isastring(direction,'up','down'),
 				error('Incorrect value for property ''direction'' (type ''help <a href="matlab:help FieldPSP">FieldPSP</a>'' for details).');
 			end
 		case 'durations',
@@ -101,7 +101,7 @@ for i = 1:2:length(varargin),
 			end
 		case 'mode',
 			mode = lower(varargin{i+1});
-			if ~isstring(mode,'time','count'),
+			if ~isastring(mode,'time','count'),
 				error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help FieldPSP">FieldPSP</a>'' for details).');
 			end
 		case 'parent',
@@ -116,7 +116,7 @@ for i = 1:2:length(varargin),
 			end
 		case 'show',
 			show = lower(varargin{i+1});
-			if ~isstring(show,'on','off'),
+			if ~isastring(show,'on','off'),
 				error('Incorrect value for property ''show'' (type ''help <a href="matlab:help FieldPSP">FieldPSP</a>'' for details).');
 			end
 		otherwise,

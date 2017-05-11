@@ -45,7 +45,7 @@ if nargin == 2,
 	s = location;
 	location = a;
 	a = gca;
-elseif isstring(a),
+elseif isastring(a),
 	varargin = {s,varargin{:}};
 	s = location;
 	location = a;
@@ -65,7 +65,7 @@ if ~isdscalar(s,'>0','<1'),
 	error('Incorrect size (type ''help <a href="matlab:help SideAxes">SideAxes</a>'' for details).');
 end
 location = lower(location);
-if ~isstring(location,'top','bottom','left','right'),
+if ~isastring(location,'top','bottom','left','right'),
 	error('Incorrect location (type ''help <a href="matlab:help SideAxes">SideAxes</a>'' for details).');
 end
 

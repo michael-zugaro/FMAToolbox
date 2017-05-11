@@ -76,7 +76,7 @@ output = 'variables';
 % Optional query provided?
 if nargin == 0,
 	query = '';
-elseif isstring(query,'output'),
+elseif isastring(query,'output'),
 	varargin = {query varargin{:}};
 	query = '';
 end
@@ -94,7 +94,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'output',
 			output = lower(varargin{i+1});
-			if ~isstring(output,'variables','info','full','keys'),
+			if ~isastring(output,'variables','info','full','keys'),
 				error('Incorrect value for property ''output'' (type ''help <a href="matlab:help DBGetVariables">DBGetVariables</a>'' for details).');
 			end
 		otherwise,
@@ -123,7 +123,7 @@ end
 % Load variables from external storage if necessary
 for i = 1:length(x.v),
 	matFile = x.v{i};
-	if isstring(matFile) && length(matFile) > 4 && matFile(1) == '/' && strcmp('.mat',matFile(end-3:end)),
+	if isastring(matFile) && length(matFile) > 4 && matFile(1) == '/' && strcmp('.mat',matFile(end-3:end)),
 		if ~exist(matFile,'file'),
 			error(['External storage file for (' x.eid{i} ',' x.name{i} ') is missing.']); 
 		else

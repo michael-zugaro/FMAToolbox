@@ -122,7 +122,7 @@ for i = 1:2:length(varargin),
 			end
 		case 'mode',
 			mode = varargin{i+1};
-			if ~isstring(mode,'sum','mean','min','max'),
+			if ~isastring(mode,'sum','mean','min','max'),
 				error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help Accumulate">Accumulate</a>'' for details).');
 			end
 		otherwise,

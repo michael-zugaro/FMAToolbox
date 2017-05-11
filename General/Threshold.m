@@ -45,7 +45,7 @@ M = 0;
 if nargin < 3,
 	error('Incorrect number of parameters (type ''help <a href="matlab:help Threshold">Threshold</a>'' for details).');
 end
-if ~isstring(criterion,'>','>=','<','<='),
+if ~isastring(criterion,'>','>=','<','<='),
 	error('Incorrect criterion (type ''help <a href="matlab:help Threshold">Threshold</a>'' for details).');
 end
 

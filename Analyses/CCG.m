@@ -148,7 +148,7 @@ for i = 1:2:length(varargin),
 			end
 		case 'mode',
 			mode = varargin{i+1};
-			if ~isstring(mode,'ccg','ccv'),
+			if ~isastring(mode,'ccg','ccv'),
 				error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help CCG">CCG</a>'' for details).');
 			end
 		case 'totaltime',

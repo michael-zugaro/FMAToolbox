@@ -96,7 +96,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'output',
 			output = lower(varargin{i+1});
-			if ~isstring(output,'time','full','numbered'),
+			if ~isastring(output,'time','full','numbered'),
 				error('Incorrect value for property ''output'' (type ''help <a href="matlab:help GetSpikeTimes">GetSpikeTimes</a>'' for details).');
 			end
 		otherwise,
@@ -124,7 +124,7 @@ if isempty(spikes),
 end
 
 % Selected units only
-if ~isstring(units,'all'),
+if ~isastring(units,'all'),
 	nUnits = size(units,1);
 	selected = zeros(size(spikes(:,1)));
 	for i = 1:nUnits,

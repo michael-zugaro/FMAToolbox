@@ -68,12 +68,12 @@ for i = 1:2:length(varargin),
 			end
 		case 'track',
 			track = lower(varargin{i+1});
-			if ~isstring(track,'linear','circular'),
+			if ~isastring(track,'linear','circular'),
 				error('Incorrect value for property ''track'' (type ''help <a href="matlab:help PlotPhasePrecession">PlotPhasePrecession</a>'' for details).');
 			end
 		case 'laps',
 			laps = lower(varargin{i+1});
-			if ~isstring(laps,'all','single'),
+			if ~isastring(laps,'all','single'),
 				error('Incorrect value for property ''laps'' (type ''help <a href="matlab:help PlotPhasePrecession">PlotPhasePrecession</a>'' for details).');
 			end
 		case 'parent',

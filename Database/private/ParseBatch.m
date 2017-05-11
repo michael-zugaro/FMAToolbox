@@ -27,7 +27,7 @@ end
 
 % Make sure batch file is valid
 s = dbstack;
-if ~isstring(bfile) || ~exist(bfile,'file'),
+if ~isastring(bfile) || ~exist(bfile,'file'),
 	error(['Batch file not found (type ''help <a href="matlab:help ' s.name '">' s.name '</a>'' for details).']);
 end
 

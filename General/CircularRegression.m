@@ -102,7 +102,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'method',
 			method = varargin{i+1};
-			if ~isstring(method,'pole','k','ts'),
+			if ~isastring(method,'pole','k','ts'),
 				error('Incorrect value for property ''method'' (type ''help <a href="matlab:help CircularRegression">CircularRegression</a>'' for details).');
 			end
 		case 'slope',

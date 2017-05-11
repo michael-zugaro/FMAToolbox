@@ -65,12 +65,12 @@ for j = 1:2:length(varargin),
 	switch(lower(varargin{j})),
 		case 'type',
 			type = varargin{j+1};
-			if ~isstring(type,'linear','circular'),
+			if ~isastring(type,'linear','circular'),
 				error('Incorrect value for property ''type'' (type ''help <a href="matlab:help Interpolate">Interpolate</a>'' for details).');
 			end
 		case 'trim',
 			trim = lower(varargin{j+1});
-			if ~isstring(trim,'on','off'),
+			if ~isastring(trim,'on','off'),
 				error('Incorrect value for property ''trim'' (type ''help <a href="matlab:help Interpolate">Interpolate</a>'' for details).');
 			end
 		case 'maxgap',

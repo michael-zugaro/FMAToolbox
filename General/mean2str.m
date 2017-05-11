@@ -64,7 +64,7 @@ for i = 1:2:length(varargin),
       end
     case 'split',
       split = lower(varargin{i+1});
-      if ~isstring(split,'on','off'),
+      if ~isastring(split,'on','off'),
         error('Incorrect value for property ''split'' (type ''help <a href="matlab:help mean2str">mean2str</a>'' for details).');
       end
     otherwise,

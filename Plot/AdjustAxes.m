@@ -53,18 +53,18 @@ for i = 1:2:length(varargin),
   switch(lower(varargin{i})),
     case 'x',
       xlims = lower(varargin{i+1});
-      if ~isdvector(xlims,'<') && ~isstring(xlims,'auto','uniform'),
+      if ~isdvector(xlims,'<') && ~isastring(xlims,'auto','uniform'),
         error('Incorrect value for property ''xlims'' (type ''help <a href="matlab:help AdjustAxes">AdjustAxes</a>'' for details).');
       end
     case 'y',
       ylims = lower(varargin{i+1});
-      if ~isdvector(ylims,'<') && ~isstring(ylims,'auto','uniform'),
+      if ~isdvector(ylims,'<') && ~isastring(ylims,'auto','uniform'),
         error('Incorrect value for property ''ylims'' (type ''help <a href="matlab:help AdjustAxes">AdjustAxes</a>'' for details).');
       end
     case 'xy',
       xlims = lower(varargin{i+1});
       ylims = lower(varargin{i+1});
-      if ~isdvector(xlims,'<') && ~isstring(xlims,'auto','uniform'),
+      if ~isdvector(xlims,'<') && ~isastring(xlims,'auto','uniform'),
         error('Incorrect value for property ''AdjustAxess'' (type ''help <a href="matlab:help AdjustAxes">AdjustAxes</a>'' for details).');
       end
     otherwise,

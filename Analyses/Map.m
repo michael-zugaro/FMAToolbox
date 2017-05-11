@@ -153,13 +153,13 @@ for i = 1:2:length(varargin),
 
 		case 'mode',
 			mode = lower(varargin{i+1});
-			if ~isstring(mode,'interpolate','discard'),
+			if ~isastring(mode,'interpolate','discard'),
 				error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help Map">Map</a>'' for details).');
 			end
 
 		case 'type',
 			type = lower(varargin{i+1});
-			if (isempty(y) && ~isstring(type,'cc','cl','lc','ll')) || (~isempty(y) && ~isstring(type,'ccl','cll','lcl','lll','ccc','clc','lcc','llc')),
+			if (isempty(y) && ~isastring(type,'cc','cl','lc','ll')) || (~isempty(y) && ~isastring(type,'ccl','cll','lcl','lll','ccc','clc','lcc','llc')),
 				error('Incorrect value for property ''type'' (type ''help <a href="matlab:help Map">Map</a>'' for details).');
 			end
 

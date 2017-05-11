@@ -77,7 +77,7 @@ for i = 1:2:length(varargin),
 
 		case 'filter',
 			type = lower(varargin{i+1});
-			if ~isstring(type,'cheby2','fir1'),
+			if ~isastring(type,'cheby2','fir1'),
 				error(['Unknown filter type ''' type ''' (type ''help <a href="matlab:help Filter">Filter</a>'' for details).']);
 			end
 

@@ -74,7 +74,7 @@ if nargin == 2,
 	method = 'ww';
 else
 	method = lower(method);
-	if ~isstring(method,'ww','l2','lr'),
+	if ~isastring(method,'ww','l2','lr'),
 		error(['Unknown ''' method ''' method (type ''help <a href="matlab:help CircularANOVA">CircularANOVA</a>'' for details).']);
 	end
 end

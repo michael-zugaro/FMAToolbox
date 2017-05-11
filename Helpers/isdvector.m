@@ -31,7 +31,7 @@
 %
 %  SEE ALSO
 %
-%    See also isdmatrix, isdscalar, isimatrix, isivector, isiscalar, isstring,
+%    See also isdmatrix, isdscalar, isimatrix, isivector, isiscalar, isastring,
 %    islscalar, islvector, islmatrix.
 %
 
@@ -60,7 +60,7 @@ for i = 1:length(varargin),
 	try
 		if varargin{i}(1) == '#',
 			if length(x) ~= str2num(varargin{i}(2:end)), test = false; return; end
-		elseif isstring(varargin{i},'>','>=','<','<='),
+		elseif isastring(varargin{i},'>','>=','<','<='),
 			dx = diff(x);
 			if ~eval(['all(0' varargin{i} 'dx);']), test = false; return; end
 		else

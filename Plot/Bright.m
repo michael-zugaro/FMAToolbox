@@ -59,7 +59,7 @@ for i = 1:2:length(varargin),
 			end
 		case 'type',
 			type = lower(varargin{i+1});
-			if ~isstring(type,'linear','circular'),
+			if ~isastring(type,'linear','circular'),
 			error('Incorrect value for property ''type'' (type ''help <a href="matlab:help Bright">Bright</a>'' for details).');
 			end
 		otherwise,

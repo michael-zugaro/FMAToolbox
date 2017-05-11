@@ -86,12 +86,12 @@ for i = 1:2:length(varargin),
 			end
 		case 'method',
 			method = lower(varargin{i+1});
-			if ~isstring(method,'slope','amplitude'),
+			if ~isastring(method,'slope','amplitude'),
 				error('Incorrect value for property ''method'' (type ''help <a href="matlab:help Sync">Sync</a>'' for details).');
 			end
 		case 'verbose',
 			verbose = lower(varargin{i+1});
-			if ~isstring(verbose,'on','off'),
+			if ~isastring(verbose,'on','off'),
 				error('Incorrect value for property ''verbose'' (type ''help <a href="matlab:help Sync">Sync</a>'' for details).');
 			end
 		otherwise,

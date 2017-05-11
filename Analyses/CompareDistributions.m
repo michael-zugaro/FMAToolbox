@@ -114,18 +114,18 @@ for i = 1:2:length(varargin),
 			end
 		case 'tail',
 			tail = varargin{i+1};
-			if ~isstring(tail,'one','two'),
+			if ~isastring(tail,'one','two'),
 				error('Incorrect value for property ''tail'' (type ''help <a href="matlab:help CompareDistributions">CompareDistributions</a>'' for details).');
 			end
 		case 'show',
 			show = varargin{i+1};
-			if ~isstring(show,'on','off'),
+			if ~isastring(show,'on','off'),
 				error('Incorrect value for property ''show'' (type ''help <a href="matlab:help CompareDistributions">CompareDistributions</a>'' for details).');
 			end
 			show = strcmp(show,'on');
 		case 'verbose',
 			verbose = varargin{i+1};
-			if ~isstring(verbose,'on','off'),
+			if ~isastring(verbose,'on','off'),
 				error('Incorrect value for property ''verbose'' (type ''help <a href="matlab:help CompareDistributions">CompareDistributions</a>'' for details).');
 			end
 			verbose = strcmp(verbose,'on');

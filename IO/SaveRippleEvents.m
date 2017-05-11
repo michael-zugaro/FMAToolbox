@@ -42,7 +42,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'overwrite',
 			overwrite = varargin{i+1};
-			if ~isstring(overwrite,'on','off'),
+			if ~isastring(overwrite,'on','off'),
 				error('Incorrect value for property ''overwrite'' (type ''help <a href="matlab:help SaveRippleEvents">SaveRippleEvents</a>'' for details).');
 			end
 		otherwise,

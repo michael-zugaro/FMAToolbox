@@ -41,12 +41,12 @@ for i = 1:2:length(varargin),
   switch(lower(varargin{i})),
     case 'precision',
       precision = varargin{i+1};
-      if ~isstring(precision),
+      if ~isastring(precision),
         error('Incorrect value for property ''precision'' (type ''help <a href="matlab:help SaveBinary">SaveBinary</a>'' for details).');
       end
     case 'mode',
       mode = lower(varargin{i+1});
-      if ~isstring(mode,'new','append'),
+      if ~isastring(mode,'new','append'),
         error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help SaveBinary">SaveBinary</a>'' for details).');
       end
     otherwise,

@@ -117,7 +117,7 @@ for i = 1:2:length(varargin),
 				error('Value associated with property ''measures'' is not a cell array of strings (type ''help <a href="matlab:help RadialMaze">RadialMaze</a>'' for details).');
 			end
 			for j = 1:length(p),
-				if ~isstring(p{j},allMeasures{:}),
+				if ~isastring(p{j},allMeasures{:}),
 					error('Incorrect value for property ''measures'' (type ''help <a href="matlab:help RadialMaze">RadialMaze</a>'' for details).');
 				end
 			end
@@ -129,7 +129,7 @@ for i = 1:2:length(varargin),
 				error('Value associated with property ''plots'' is not a cell array of strings (type ''help <a href="matlab:help RadialMaze">RadialMaze</a>'' for details).');
 			end
 			for j = 1:length(f),
-			if ~isstring(f{j},allPlots{:}),
+			if ~isastring(f{j},allPlots{:}),
 					error('Incorrect value for property ''plots'' (type ''help <a href="matlab:help RadialMaze">RadialMaze</a>'' for details).');
 				end
 			end
@@ -137,7 +137,7 @@ for i = 1:2:length(varargin),
 			listPlots = true;
 		case 'anova',
 			doIt = lower(varargin{i+1});
-			if ~isstring(doIt,'on','off'),
+			if ~isastring(doIt,'on','off'),
 				error('Incorrect value for property ''anova'' (type ''help <a href="matlab:help RadialMaze">RadialMaze</a>'' for details).');
 			end
 			showANOVAs = strcmp(doIt,'on');

@@ -65,7 +65,7 @@ for i = 1:2:length(varargin),
 
 		case 'method',
 			method = lower(varargin{i+1});
-			if ~isstring(method,'fixed','adaptive','inverse','iisi'),
+			if ~isastring(method,'fixed','adaptive','inverse','iisi'),
 				error('Incorrect value for property ''method'' (type ''help <a href="matlab:help Frequency">Frequency</a>'' for details).');
 			end
 
@@ -89,7 +89,7 @@ for i = 1:2:length(varargin),
 
 		case 'show',
 			show = varargin{i+1};
-			if ~isstring(show,'on','off'),
+			if ~isastring(show,'on','off'),
 				error('Incorrect value for property ''show'' (type ''help <a href="matlab:help Frequency">Frequency</a>'' for details).');
 			end
 

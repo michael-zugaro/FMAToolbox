@@ -76,7 +76,7 @@ for i = 1:2:length(varargin),
 
     case 'match',
 		match = lower(varargin{i+1});
-		if ~isstring(match,'up','down','closest'),
+		if ~isastring(match,'up','down','closest'),
 			error('Incorrect value for property ''match'' (type ''help <a href="matlab:help Match">Match</a>'' for details).');
       end
 

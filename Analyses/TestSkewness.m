@@ -78,12 +78,12 @@ for i = 1:2:length(varargin),
 			end
 		case 'show',
 			show = varargin{i+1};
-			if ~isstring(show,'on','off'),
+			if ~isastring(show,'on','off'),
 				error('Incorrect value for property ''show'' (type ''help <a href="matlab:help TestSkewness">TestSkewness</a>'' for details).');
 			end
 		case 'style',
 			style = varargin{i+1};
-			if ~isstring(style,'hist','curves'),
+			if ~isastring(style,'hist','curves'),
 				error('Incorrect value for property ''style'' (type ''help <a href="matlab:help TestSkewness">TestSkewness</a>'' for details).');
 			end
 		case 'bins',

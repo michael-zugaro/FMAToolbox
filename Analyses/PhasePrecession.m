@@ -116,7 +116,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'boundaries',
 			boundaries = lower(varargin{i+1});
-			if ~isdvector(boundaries,'#2','>=0','<=1') && ~isstring(boundaries,'count'),
+			if ~isdvector(boundaries,'#2','>=0','<=1') && ~isastring(boundaries,'count'),
 				error('Incorrect value for property ''boundaries'' (type ''help <a href="matlab:help PhasePrecession">PhasePrecession</a>'' for details).');
 			end
 		case 'maxgap',

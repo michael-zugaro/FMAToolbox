@@ -32,7 +32,7 @@ else
 	positions = positions(:);
 end
 
-if ~isstring(direction,'h','v'),
+if ~isastring(direction,'h','v'),
 	varargin = {direction,varargin{:}};
 	direction = 'v';
 end

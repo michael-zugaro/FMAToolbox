@@ -67,12 +67,12 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'type',
 			type = lower(varargin{i+1});
-			if (vector && ~isstring(type,'c','l')) || (~vector && ~isstring(type,'cc','cl','lc','ll')),
+			if (vector && ~isastring(type,'c','l')) || (~vector && ~isastring(type,'cc','cl','lc','ll')),
 				error('Incorrect value for property ''type'' (type ''help <a href="matlab:help Smooth">Smooth</a>'' for details).');
 			end
 		case 'kernel',
 			kernel = lower(varargin{i+1});
-			if ~isstring(kernel,'gaussian','rectangular','triangular'),
+			if ~isastring(kernel,'gaussian','rectangular','triangular'),
 				error('Incorrect value for property ''kernel'' (type ''help <a href="matlab:help Smooth">Smooth</a>'' for details).');
 			end
 		otherwise,

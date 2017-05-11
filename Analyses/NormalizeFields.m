@@ -59,7 +59,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'rate',
 			rate = varargin{i+1};
-			if ~isstring(rate,'on','off'),
+			if ~isastring(rate,'on','off'),
 				error('Incorrect value for property ''rate'' (type ''help <a href="matlab:help NormalizeFields">NormalizeFields</a>'' for details).');
 			end
 		otherwise,

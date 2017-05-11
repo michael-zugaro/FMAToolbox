@@ -46,7 +46,7 @@ CheckMyM;
 if nargin < 1,
   error('Incorrect number of parameters (type ''help <a href="matlab:help DBCreate">DBCreate</a>'' for details).');
 end
-if ~isstring(database),
+if ~isastring(database),
   error('Incorrect database name (type ''help <a href="matlab:help DBCreate">DBCreate</a>'' for details).');
 end
 

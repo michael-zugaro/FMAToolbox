@@ -49,7 +49,7 @@ for j = 1:2:length(varargin),
 	switch(lower(varargin{j})),
 		case 'type',
 			type = lower(varargin{j+1});
-			if ~isstring(type,'linear','circular'),
+			if ~isastring(type,'linear','circular'),
 				error('Incorrect value for ''type'' (type ''help <a href="matlab:help Diff">Diff</a>'' for details).');
 			end
 		case 'smooth',

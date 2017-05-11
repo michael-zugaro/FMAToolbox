@@ -39,7 +39,7 @@ if nargin < 3,
 end
 
 % Check pattern
-if ~isstring(pattern,'xxy','xyy','xxyy'),
+if ~isastring(pattern,'xxy','xyy','xxyy'),
   error('Incorrect pattern (type ''help <a href="matlab:help PlotRepeat">PlotRepeat</a>'' for details).');
 end
 
@@ -51,7 +51,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'mode',
 			mode = varargin{i+1};
-			if ~isstring(mode,'curve','bar'),
+			if ~isastring(mode,'curve','bar'),
 				error('Incorrect value for property ''mode'' (type ''help <a href="matlab:help PlotRepeat">PlotRepeat</a>'' for details).');
 			end
 		case 'xlim',

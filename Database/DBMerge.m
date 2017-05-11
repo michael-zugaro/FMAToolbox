@@ -32,10 +32,10 @@ CheckMyM;
 if nargin < 2,
   error('Incorrect number of parameters (type ''help <a href="matlab:help DBMerge">DBMerge</a>'' for details).');
 end
-if ~isstring(source),
+if ~isastring(source),
   error('Incorrect source database name (type ''help <a href="matlab:help DBMerge">DBMerge</a>'' for details).');
 end
-if ~isstring(target),
+if ~isastring(target),
   error('Incorrect target database name (type ''help <a href="matlab:help DBMerge">DBMerge</a>'' for details).');
 end
 

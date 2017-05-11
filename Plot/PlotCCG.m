@@ -50,7 +50,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'full',
 			full = lower(varargin{i+1});
-			if ~isstring(full,'on','off'),
+			if ~isastring(full,'on','off'),
 				error('Incorrect value for property ''full'' (type ''help <a href="matlab:help CCG">CCG</a>'' for details).');
 			end
 			full = strcmp(full,'on');

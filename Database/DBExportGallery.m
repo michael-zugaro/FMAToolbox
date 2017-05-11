@@ -59,7 +59,7 @@ end
 % Optional query provided?
 if nargin == 1,
 	query = '';
-elseif isstring(query,'size','ncolumns','info','code'),
+elseif isastring(query,'size','ncolumns','info','code'),
 	varargin = {query varargin{:}};
 	query = '';
 end
@@ -91,13 +91,13 @@ for j = 1:2:length(varargin),
 
 		case 'info',
 			showInfo = lower(varargin{j+1});
-			if ~isstring(showInfo,'on','off'),
+			if ~isastring(showInfo,'on','off'),
 				error('Incorrect value for ''info'' (type ''help <a href="matlab:help DBExportGallery">DBExportGallery</a>'' for details).');
 			end
 
 		case 'code',
 			showCode = lower(varargin{j+1});
-			if ~isstring(showCode,'on','off'),
+			if ~isastring(showCode,'on','off'),
 				error('Incorrect value for ''code'' (type ''help <a href="matlab:help DBExportGallery">DBExportGallery</a>'' for details).');
 			end
 

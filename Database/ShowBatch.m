@@ -24,7 +24,7 @@ if nargin < 1,
 end
 
 % Make sure the batch file exists
-if ~isstring(bfile) || ~exist(bfile,'file'),
+if ~isastring(bfile) || ~exist(bfile,'file'),
 	error('Batch file not found (type ''help <a href="matlab:help ShowBatch">ShowBatch</a>'' for details).');
 end
 

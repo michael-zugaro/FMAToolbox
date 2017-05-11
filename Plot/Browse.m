@@ -66,7 +66,7 @@ default = get(0,'DefaultFigureCreateFcn');
 if isa(default,'function_handle'), default = func2str(default); end
 
 % Special cases: Browse('on') and Browse('off')
-if nargin == 1 && isstring(lower(parameter1),'on','off','all','none'),
+if nargin == 1 && isastring(lower(parameter1),'on','off','all','none'),
 	% Current default figure creation function
 	switch lower(parameter1),
 		case 'on',

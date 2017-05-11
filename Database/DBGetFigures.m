@@ -64,7 +64,7 @@ output = 'figures';
 % Optional query provided?
 if nargin == 0,
 	query = '';
-elseif isstring(query,'output'),
+elseif isastring(query,'output'),
 	varargin = {query varargin{:}};
 	query = '';
 end
@@ -82,7 +82,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'output',
 			output = lower(varargin{i+1});
-			if ~isstring(output,'figures','info','full','keys'),
+			if ~isastring(output,'figures','info','full','keys'),
 				error('Incorrect value for property ''output'' (type ''help <a href="matlab:help DBGetFigures">DBGetFigures</a>'' for details).');
 			end
 		otherwise,

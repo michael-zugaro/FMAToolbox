@@ -107,7 +107,7 @@ if isdvector(output),
 	else
 		d = [d ' '];
 	end
-elseif isstring(output),
+elseif isastring(output),
 	d = ['''' output ''' '];
 else
 	d = '';

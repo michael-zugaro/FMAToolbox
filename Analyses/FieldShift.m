@@ -60,12 +60,12 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'type',
 			type = varargin{i+1};
-			if ~isstring(type,'linear','circular'),
+			if ~isastring(type,'linear','circular'),
 				error('Incorrect value for property ''type'' (type ''help <a href="matlab:help FieldShift">FieldShift</a>'' for details).');
 			end
 		case 'show',
 			show = varargin{i+1};
-			if ~isstring(show,'on','off'),
+			if ~isastring(show,'on','off'),
 				error('Incorrect value for property ''show'' (type ''help <a href="matlab:help FieldShift">FieldShift</a>'' for details).');
 			end
 		otherwise,

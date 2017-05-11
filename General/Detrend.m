@@ -70,7 +70,7 @@ for i = 1:2:length(varargin),
 			end
 		case 'common',
 			common = varargin{i+1};
-			if ~isstring(common,'on','off'),
+			if ~isastring(common,'on','off'),
 				error('Incorrect value for property ''common'' (type ''help <a href="matlab:help Detrend">Detrend</a>'' for details).');
 			end
 		otherwise,

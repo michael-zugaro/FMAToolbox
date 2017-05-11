@@ -89,7 +89,7 @@ for i = 1:2:length(varargin),
 	switch(lower(varargin{i})),
 		case 'onlypng',
 			onlyPNG = lower(varargin{i+1});
-			if ~isstring(onlyPNG,'on','off'),
+			if ~isastring(onlyPNG,'on','off'),
 				error('Incorrect value for property ''onlypng'' (type ''help <a href="matlab:help DBAddFigure">DBAddFigure</a>'' for details).');
 			end
 		otherwise,

@@ -58,13 +58,13 @@ for i = 1:2:length(varargin),
 
     case 'method',
 		method = lower(varargin{i+1});
-      if ~isstring(method,'ml','ls','pl'),
+      if ~isastring(method,'ml','ls','pl'),
         error('Incorrect value for property ''method'' (type ''help <a href="matlab:help PETHTransition">PETHTransition</a>'' for details).');
       end
 
     case {'show','plot'},
     	show = lower(varargin{i+1});
-    	if ~isstring(show,'on','off'),
+    	if ~isastring(show,'on','off'),
         error('Incorrect value for property ''show'' (type ''help <a href="matlab:help PETHTransition">PETHTransition</a>'' for details).');
       end
 

@@ -70,7 +70,7 @@ for i = 1:2:length(varargin),
       end
     case 'select',
       select = lower(varargin{i+1});
-      if ~isstring(select,'id','number'),
+      if ~isastring(select,'id','number'),
         error('Incorrect value for property ''select'' (type ''help <a href="matlab:help GetLFP">GetLFP</a>'' for details).');
       end
     otherwise,
