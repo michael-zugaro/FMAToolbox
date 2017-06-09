@@ -51,5 +51,5 @@
 %
 %   CustomDefaults           - User-defined custom default values for function properties.
 %   GetCustomDefaults        - Get custom default value for a given function property.
-%   Settings                 - Global default values.
+%   GlobalSettings           - Global default values.
 %

@@ -94,7 +94,7 @@ if isempty(DATA) || ~isfield(DATA,'session') || ~isfield(DATA.session,'path') ||
 	DATA.positions = [];
 	DATA.spikes = [];
 	% Default settings
-	Settings;
+	GlobalSettings;
 end
 
 if isempty(filename) || (strcmp(filename,'same') && isempty(DATA.session.basename)),

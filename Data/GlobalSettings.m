@@ -1,4 +1,4 @@
-%Settings - Initialize settings for FMAToolbox.
+%GlobalSettings - Initialize settings for FMAToolbox.
 %
 % The global variable SETTINGS holds a number of basic settings such as the
 % minimum and maximum distance allowed between LEDs. Modify this variable to
@@ -8,8 +8,8 @@
 %   global SETTINGS;
 %   SETTINGS.maxDistance = 100;
 %
-% To change the global settings, edit <a href="matlab:edit Settings.m">Settings.m</a>. Note that this
-% will affect all users of the FMAToolbox. User settings take precedence over
+% To change the global settings, edit <a href="matlab:edit GlobalSettings.m">GlobalSettings.m</a>. Note that this will
+% affect all users of the FMAToolbox. User settings take precedence over
 % global settings.
 %
 % For some functions of the toolbox, default values can also be customized
@@ -19,7 +19,7 @@
 %
 %   See also CustomDefaults.
 
-% Copyright (C) 2004-2013 by Michaël Zugaro
+% Copyright (C) 2004-2017 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
