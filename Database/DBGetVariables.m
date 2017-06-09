@@ -121,16 +121,18 @@ if isempty(x),
 end
 
 % Load variables from external storage if necessary
-for i = 1:length(x.v),
-	matFile = x.v{i};
-	if isastring(matFile) && length(matFile) > 4 && matFile(1) == '/' && strcmp('.mat',matFile(end-3:end)),
-		if ~exist(matFile,'file'),
-			error(['External storage file for (' x.eid{i} ',' x.name{i} ') is missing.']); 
-		else
-			a = load(matFile);
-			x.v{i} = a.v;
-		end
-	end
+if isfield(x,'v'),
+    for i = 1:length(x.v),
+        matFile = x.v{i};
+        if isastring(matFile) && length(matFile) > 4 && matFile(1) == '/' && strcmp('.mat',matFile(end-3:end)),
+            if ~exist(matFile,'file'),
+                error(['External storage file for (' x.eid{i} ',' x.name{i} ') is missing.']); 
+            else
+                a = load(matFile);
+                x.v{i} = a.v;
+            end
+        end
+    end
 end
 
 % These extra fields can now be removed (see note above)
