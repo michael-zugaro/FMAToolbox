@@ -156,7 +156,7 @@ if isempty(map.z), return; end
 T = sum(map.time(:));
 p_i = map.time/(T+eps);
 lambda_i = map.z;
-lambda = mean(lambda_i(:));
+lambda = lambda_i(:)'*p_i(:);
 if T == 0 || lambda == 0,
 	stats.specificity = 0;
 else
