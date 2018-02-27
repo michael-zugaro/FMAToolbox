@@ -62,7 +62,7 @@ function [map,stats] = Map(v,z,varargin)
 %
 %    See also MapStats, FiringMap, PlotColorMap, Accumulate.
 
-% Copyright (C) 2002-2017 by Michaël Zugaro
+% Copyright (C) 2002-2018 by Michaël Zugaro, 2018 by Ralitsa Todorova
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -282,73 +282,25 @@ if strcmp(mode,'discard'),
 else
 	% In interpolation mode, interpolate missing points (where time < minTime) using other points
 	d = DistanceTransform(valid);
-	xx = repmat(x,length(y),1);
-	yy = repmat(y',1,length(x));
+    xx = repmat(x',1,length(y));
+    yy = repmat(y,length(x),1);
 	if exist('scatteredInterpolant') == 2,
 		F = scatteredInterpolant(xx(d==0),yy(d==0),z(d==0));
-	else
-		F = TriScatteredInterp(xx(d==0),yy(d==0),z(d==0));
-	end
-	zint = F(xx,yy);
+        zint = F(xx,yy);
+    else
+        if any(imag(z(:))),
+            Freal = TriScatteredInterp(xx(d==0),yy(d==0),real(z(d==0)));
+            zintReal = Freal(xx,yy);
+            Fimaginary = TriScatteredInterp(xx(d==0),yy(d==0),imag(z(d==0)));
+            zintImaginary = Fimaginary(xx,yy);
+            zint = zintReal + 1i.*zintImaginary;
+        else
+            F = TriScatteredInterp(xx(d==0),yy(d==0),z(d==0));
+            zint = F(xx,yy);
+        end
+    end
 	% (do not interpolate missing points too distant from valid points)
 	zint(d>maxDistance) = z(d>maxDistance);
 	zint(isnan(zint)) = z(isnan(zint));
 end
 
-
-
-%  % Interpolate if required (2D)
-%  function zint = Interpolate2(x,y,z,valid,mode,maxSize)
-%
-%  if strcmp(mode,'discard'),
-%  	% In discard mode, do nothing
-%  	zint = z;
-%  else
-%  	% In interpolation mode, interpolate missing points (where time < minTime) using other points
-%  	% Do this only for small patches of missing points
-%  	patches = FindPatches(valid,maxSize);
-%  	xx = repmat(x,length(y),1);
-%  	yy = repmat(y',1,length(x));
-%  	if exist('scatteredInterpolant') == 2,
-%  		F = scatteredInterpolant(xx(patches==0),yy(patches==0),z(patches==0));
-%  	else
-%  		F = TriScatteredInterp(xx(patches==0),yy(patches==0),z(patches==0));
-%  	end
-%  	zint = F(xx,yy);
-%  	% (do not interpolate large patches of missing points)
-%  	zint(patches==2) = z(patches==2);
-%  end
-%
-%  % Find patches of missing points
-%  % Output: patches(i,j) = 0 if (i,j) is not missing
-%  %         patches(i,j) = 1 if (i,j) is missing and in small patch
-%  %         patches(i,j) = 2 if (i,j) is missing and in large patch
-%  function patches = FindPatches(valid,maxSize)
-%
-%  patches = double(~valid);
-%
-%  % Loop through missing points, and update patch matrix so that:
-%  %  patches(i,j) = 0 if (i,j) is not missing
-%  %  patches(i,j) = 1 if (i,j) is missing and not yet examined
-%  %  patches(i,j) = 2 if (i,j) is missing and in patch of undetermined size
-%  %  patches(i,j) = 3 if (i,j) is missing and in small patch
-%  %  patches(i,j) = 4 if (i,j) is missing and in large patch
-%  while true,
-%  	% Find missing point(s)
-%  	[i,j] = find(patches==1);
-%  	if isempty(i), break; end
-%  	% Find first patch of contiguous missing points
-%  	patches = Contiguous(patches,i(1),j(1));
-%  	% Depending on size...
-%  	if sum(patches(:)==2) <= maxSize,
-%  		% ... this is a 'small' patch, set to 3
-%  		patches(patches==2) = 3;
-%  	else
-%  		% ... this is a 'large' patch, set to 4
-%  		patches(patches==2) = 4;
-%  	end
-%  end
-%
-%  % Set small patches to 1, and large patches to 2
-%  patches(patches==3) = 1;
-%  patches(patches==4) = 2;

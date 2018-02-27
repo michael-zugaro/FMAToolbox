@@ -8,7 +8,7 @@ function parameters = LoadParameters(filename)
 %
 %    filename            parameter file name
 
-% Copyright (C) 2004-2011 by Michaël Zugaro
+% Copyright (C) 2004-2018 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -45,6 +45,10 @@ if ~isempty(p.spikeDetection),
 		for group = 1:parameters.spikeGroups.nGroups,
 			parameters.spikeGroups.nSamples(group) = str2num(p.spikeDetection.channelGroups.group{group}.nSamples);
 			parameters.spikeGroups.peakSamples(group) = str2num(p.spikeDetection.channelGroups.group{group}.peakSampleIndex);
+			if isempty(p.spikeDetection.channelGroups.group{group}.channels),
+				parameters.spikeGroups.groups{group} = [];
+				continue
+			end
 			channels = p.spikeDetection.channelGroups.group{group}.channels.channel;
 			if isa(channels,'cell'),
 				for channel = 1:length(channels),

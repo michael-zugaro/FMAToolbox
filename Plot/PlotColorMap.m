@@ -166,7 +166,7 @@ data = squeeze(data);
 dimm = squeeze(dimm);
 p = imagesc(x,y,data,[m M]);
 set(a,'color',[0 0 0]);
-if any(dimm~=1),
+if any(dimm(:)~=1),
 	alpha(p,1./(1+threshold./(dimm+eps)));
 end
 

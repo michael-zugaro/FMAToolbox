@@ -199,7 +199,7 @@ if strcmp(method,'k'),
 end
 
 % ------------------------------------------------------------------------------------------------
-% Compute Theil–Sen estimator
+% Compute Theil-Sen estimator
 
 if strcmp(method,'ts'),
 	% Move phi values by multiples of 2.pi to get them as close as possible to the regression line

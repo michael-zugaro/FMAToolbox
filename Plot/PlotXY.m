@@ -1,4 +1,4 @@
-function p = PlotXY(X,varargin)
+function varargout = PlotXY(X,varargin)
 
 %PlotXY - Plot two columns of a matrix against each other.
 %
@@ -14,7 +14,7 @@ function p = PlotXY(X,varargin)
 %    <options>      options for function <a href="matlab:help plot">plot</a>
 %
 
-% Copyright (C) 2004-2011 by Michaël Zugaro
+% Copyright (C) 2004-2018 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -37,4 +37,9 @@ else
 	else
 		p = plot(X(:,1),X(:,2),varargin{:});
 	end
+end
+
+% The following code prevents the function returning a handle when no output is expected:
+if nargout > 0,
+	varargout{1} = p;
 end

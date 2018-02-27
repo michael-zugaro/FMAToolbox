@@ -1,4 +1,4 @@
-function [templates,correlations,eigenvalues] = ActivityTemplates(spikes,varargin)
+function [templates,correlations,eigenvalues,eigenvectors] = ActivityTemplates(spikes,varargin)
 
 %ActivityTemplates - Compute activity templates from PCA of spike trains.
 %
@@ -21,7 +21,7 @@ function [templates,correlations,eigenvalues] = ActivityTemplates(spikes,varargi
 %
 %  OUTPUT
 %
-%    templates      3D array of template matrices (dimension 1 is template #,
+%    templates      3D array of template matrices (dimension 3 is template #,
 %                   ordered in descending order of corresponding eigenvalue)
 %    correlations   spike count correlation matrix
 %    eigenvalues    significant eigenvalues, listed in descending order
@@ -30,7 +30,7 @@ function [templates,correlations,eigenvalues] = ActivityTemplates(spikes,varargi
 %
 %    See also ReactivationStrength.
 
-% Copyright (C) 2016 by Michaël Zugaro, Ralitsa Todorova
+% Copyright (C) 2016-2018 by Michaël Zugaro, Ralitsa Todorova
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -112,7 +112,7 @@ end
 
 %% Create correlation matrix
 n = zscore(n);
-correlations = (1/nBins)*n'*n;
+correlations = (1/(nBins-1))*n'*n;
 
 % Compute eigenvalues/vectors and sort in descending order
 [eigenvectors,eigenvalues] = eig(correlations);
@@ -120,16 +120,17 @@ correlations = (1/nBins)*n'*n;
 eigenvectors = eigenvectors(:,i);
 
 %% Keep only significant eigenvalues and compute templates
-sigma=1;
+
 q = nBins/nUnits;
 if q < 1,
 	warning('Not enough time bins to determine significant templates');
 	eigenvalues = NaN;
 end
-lambdaMax = 1+sqrt(1/q)^2;
+lambdaMax = (1+sqrt(1/q))^2;
 significant = eigenvalues>lambdaMax;
 eigenvectors = eigenvectors(:,significant);
-templates = zeros(sum(significant),nUnits,nUnits);
+templates = zeros(nUnits,nUnits,sum(significant));
 for i = 1:sum(significant),
-	templates(i,:,:) = eigenvectors(:,i)*eigenvectors(:,i)';
+	templates(:,:,i) = eigenvectors(:,i)*eigenvectors(:,i)';
+	templates(:,:,i) = templates(:,:,i) - diag(diag(templates(:,:,i))); % remove the diagonal
 end

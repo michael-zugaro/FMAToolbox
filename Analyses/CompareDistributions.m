@@ -56,7 +56,7 @@ function [h,stats] = CompareDistributions(group1,group2,varargin)
 %    stats.p            successive resulting global alpha values (one for each iteration)
 %
 
-% Copyright (C) 2010-2011 by Erika Cerasti, 2013-2014 by Michaël Zugaro
+% Copyright (C) 2010-2011 by Erika Cerasti, 2013-2018 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -225,8 +225,8 @@ while deviation*100 > tolerance,
 end
 
 % Statistics
-stats.observed = mean(group1) - mean(group2);
-stats.null = mean(differences,1);
+stats.observed = nanmean(group1) - nanmean(group2);
+stats.null = nanmean(differences,1);
 stats.pointwise = pointwise;
 stats.global = [];
 stats.alpha = [];

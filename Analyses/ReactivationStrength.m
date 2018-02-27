@@ -29,7 +29,7 @@ function strength = ReactivationStrength(spikes,templates,varargin);
 %
 %    See also ActivityTemplates.
 
-% Copyright (C) 2016 by Michaël Zugaro, Ralitsa Todorova
+% Copyright (C) 2016-2018 by Michaël Zugaro, Ralitsa Todorova
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -114,10 +114,13 @@ end
 dN = zscore(dN);
 
 % Compute reactivation strengths
-nTemplates = size(templates,1);
+nTemplates = size(templates,3);
 strength = zeros(nBins,nTemplates);
 for i = 1:nTemplates,
-	strength(:,i) = nansum(dN*(squeeze(templates(i,:,:))).*dN,2);
+    template = templates(:,:,i);
+    % Set the diagonal to zero to not count coactivation of i and j when i=j
+    template = template - diag(diag(template));
+    strength(:,i) = nansum(dN*(template).*dN,2);
 end
 t = nanmean(bins,2);
 strength = [t strength];

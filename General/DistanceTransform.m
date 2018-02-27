@@ -14,7 +14,7 @@ function dt = DistanceTransform(b)
 %    b              binary matrix
 %
 
-% Copyright (C) 2014 by Michaël Zugaro
+% Copyright (C) 2014-2018 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -49,7 +49,7 @@ for x = 1:n,
 	end
 end
 
-for y = 1:n,
+for y = 1:m,
 	q = 1;
 	s(1) = 1;
 	t(1) = 1;

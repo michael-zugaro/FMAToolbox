@@ -35,7 +35,7 @@ function DBAddFigure(f,eid,name,comments,parameters,mfiles,varargin)
 %    See also DBAddVariable, DBGetFigures, DBExportGallery.
 %
 
-% Copyright (C) 2007-2013 by Michaël Zugaro
+% Copyright (C) 2007-2018 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -122,6 +122,7 @@ catch
 end
 
 % M-Files
+code{1} = '';
 for i = 1:length(mfiles),
 	mfileName = which(mfiles{i});
 	if isempty(mfileName),

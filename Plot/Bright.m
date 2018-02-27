@@ -17,7 +17,7 @@ function m = Bright(n,varargin)
 %     'stops'       hue stops (default [2/3 0] linear, [0 1] circular)
 %    =========================================================================
 
-% Copyright (C) 2009-2013 by Michaël Zugaro
+% Copyright (C) 2009-2018 by Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
@@ -39,6 +39,11 @@ elseif ischar(n),
 	n = 100;
 elseif ~isdscalar(n,'>=0'),
 	error('Incorrect value for ''n'' (type ''help <a href="matlab:help Bright">Bright</a>'' for details).');
+end
+
+% Check number of parameters
+if mod(length(varargin),2) ~= 0,
+	error('Incorrect number of parameters (type ''help <a href="matlab:help Bright">Bright</a>'' for details).');
 end
 
 % Parse parameter list

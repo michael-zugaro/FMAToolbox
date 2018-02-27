@@ -45,6 +45,7 @@
 %   AdjustAxes               - Adjust axes limits for all subplots
 %   AdjustColorMap           - Adjust colormap for current figure, i.e. change gamma.
 %   Bright                   - Bright colormap (similar to HSV or JET, but brighter).
+%   Monochrome               - Monochrome colormap (from white to a given color).
 %   clim                     - Get or set color scaling limits for current axes.
 %   hsl2hsv                  - Convert hue-saturation-luminance colors to hue-saturation-value.
 %   hsv2hsl                  - Convert hue-saturation-value colors to hue-saturation-luminance.

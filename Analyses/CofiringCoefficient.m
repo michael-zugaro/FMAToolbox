@@ -1,4 +1,4 @@
-function [r,p] = CofiringCoefficient(spikes,intervals1,intervals2);
+function [r,p] = CofiringCoefficient(spikes,intervals1,intervals2)
 
 %CofiringCoefficient - Compute the cofiring coefficient between two sets of intervals.
 %
@@ -29,7 +29,7 @@ function [r,p] = CofiringCoefficient(spikes,intervals1,intervals2);
 %    p              p-value for Pearson's test
 %
 
-% Copyright (C) 2014-2015 by Ralitsa Todorova and Michaël Zugaro
+% Copyright (C) 2014-2018 by Ralitsa Todorova and Michaël Zugaro
 %
 % This program is free software; you can redistribute it and/or modify
 % it under the terms of the GNU General Public License as published by
