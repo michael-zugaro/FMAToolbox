@@ -49,3 +49,6 @@ if nargout > 1,
         groups = g;
     end
 end
+
+[channels,order] = sort(channels);
+groups = groups(order);

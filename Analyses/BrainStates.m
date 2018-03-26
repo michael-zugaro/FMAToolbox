@@ -155,7 +155,7 @@ switch(method),
 		features = bands.ratios.hippocampus(sleep);
 	case {'cortex','ratios'},
 		% Use heuristic ratios of Gervasoni et al. (2004)
-		features = bands.ratios.cortex(sleep);
+		features = bands.ratios.cortex(sleep,:);
 	case 'amygdala',
 		% Use gamma / low ratio
 		features = bands.ratios.amygdala(sleep);
