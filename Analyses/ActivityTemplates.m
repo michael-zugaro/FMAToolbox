@@ -5,8 +5,8 @@ function [templates,correlations,eigenvalues,eigenvectors] = ActivityTemplates(s
 % Computes the templates for the component activation analysis described in
 % Peyrache et al (2009). These templates can then be tested on different data
 % sets using <a href="matlab:help ReactivationStrength">ReactivationStrength</a>. Time bins can be automatically determined
-% using a fixed bin size, or provided as an explicit list (e.g. computed using
-% theta phases).
+% using a fixed bin size and a step, or provided as an explicit list (e.g.
+% computed using theta phases).
 %
 %  USAGE
 %
@@ -17,6 +17,7 @@ function [templates,correlations,eigenvalues,eigenvectors] = ActivityTemplates(s
 %    -------------------------------------------------------------------------
 %     'bins'        list of [start stop] for all bins
 %     'binSize'     bin size in s (default = 0.050)
+%     'step'        step in s (default = 0.050)
 %    =========================================================================
 %
 %  OUTPUT
@@ -40,8 +41,8 @@ function [templates,correlations,eigenvalues,eigenvectors] = ActivityTemplates(s
 % Defaults
 bins = [];
 defaultBinSize = 0.050;
+step = 0.05;
 binSize = [];
-overlap = [];
 
 % Check number of parameters
 if nargin < 1,
@@ -53,16 +54,21 @@ if ~isdmatrix(spikes,'@2'),
 end
 % Parse parameter list
 for i = 1:2:length(varargin),
-	if ~ischar(varargin{i}),
-		error(['Parameter ' num2str(i+2) ' is not a property (type ''help <a href="matlab:help ActivityTemplates">ActivityTemplates</a>'' for details).']);
-	end
-	switch(lower(varargin{i})),
-		case 'binsize',
-			binSize = varargin{i+1};
-			if ~isdscalar(binSize,'>0'),
-				error('Incorrect value for property ''binSize'' (type ''help <a href="matlab:help ActivityTemplates">ActivityTemplates</a>'' for details).');
-			end
-		case 'bins',
+    if ~ischar(varargin{i}),
+        error(['Parameter ' num2str(i+2) ' is not a property (type ''help <a href="matlab:help ActivityTemplates">ActivityTemplates</a>'' for details).']);
+    end
+    switch(lower(varargin{i})),
+        case 'binsize',
+            binSize = varargin{i+1};
+            if ~isdscalar(binSize,'>0'),
+                error('Incorrect value for property ''binSize'' (type ''help <a href="matlab:help ActivityTemplates">ActivityTemplates</a>'' for details).');
+            end
+        case 'step',
+            step = varargin{i+1};
+            if ~isdscalar(step,'>0'),
+                error('Incorrect value for property ''step'' (type ''help <a href="matlab:help ActivityTemplates">ActivityTemplates</a>'' for details).');
+            end
+        case 'bins',
 			bins = varargin{i+1};
 			if ~isdmatrix(bins,'@2'),
 				error('Incorrect value for property ''bins'' (type ''help <a href="matlab:help ActivityTemplates">ActivityTemplates</a>'' for details).');
@@ -94,7 +100,7 @@ id = spikes(:,2);
 % Shift spike times to start at 0, and list bins unless explicitly provided
 if isempty(bins),
 	spikes(:,1) = spikes(:,1) - spikes(1,1);
-	bins = (0:binSize:(spikes(end,1)-binSize))';
+	bins = (0:step:(spikes(end,1)-binSize))';
 	bins(:,2) = bins+binSize;
 else
 	m = min([min(spikes(:,1)) min(bins(:))]);

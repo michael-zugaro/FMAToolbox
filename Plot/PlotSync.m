@@ -86,7 +86,7 @@ end
 % Plot
 hold on;
 if pointProcess,
-	PlotTicks(synchronized(:,1),(indices-1)*spacing);
+	PlotTicks(synchronized(:,1),(indices-1)*spacing,'k');
 else
 	nSync = max(indices);
 	for i = 1:nSync,

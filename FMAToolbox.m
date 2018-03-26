@@ -10,9 +10,9 @@
 %    the animal, and behavioral events (stimulus presentation, photodetector crossing,
 %    brain stimulation, etc.)
 %
-%    <a href="http://fmatoolbox.sourceforge.net/">FMAToolbox</a> is part of a larger data analysis framework, including <a href="http://klusters.sourceforge.net/">Klusters</a> (a powerful
-%    and easy-to-use cluster cutting application), <a href="http://neuroscope.sourceforge.net/">NeuroScope</a> (an advanced viewer for
-%    electrophysiological and behavioral data), and <a href="http://ndmanager.sourceforge.net/">NDManager</a> (a simple application to
+%    <a href="http://fmatoolbox.sourceforge.net/">FMAToolbox</a> is part of a larger data analysis framework, including <a href="http://neurosuite.sourceforge.net/">Klusters</a> (a powerful
+%    and easy-to-use cluster cutting application), <a href="http://neurosuite.sourceforge.net/">NeuroScope</a> (an advanced viewer for
+%    electrophysiological and behavioral data), and <a href="http://neurosuite.sourceforge.net/">NDManager</a> (a simple application to
 %    manage recording parameters and data preprocessing).
 %
 %  INSTALLATION
@@ -36,7 +36,7 @@
 %
 %  LICENSE
 %
-%    This toolbox was developed by <a href="mailto:michael.zugaro@college-de-france.fr?subject=FMAToolbox" title="FMAToolbox">Michaël Zugaro</a> at the <a href="http://www.lppa.college-de-france.fr/EN/equipes/people/Zugaro/index.htm">LPPA</a> (CRNS-Collège de France, Paris,
+%    This toolbox was developed by <a href="http://zugarolab.net">Michaël Zugaro</a> (CRNS-Collège de France, Paris,
 %    France). It is free software distributed under the <a href="http://www.gnu.org/licenses/gpl.html">General Public License (GPL)</a>.
 %
 %  CONTENTS
@@ -53,8 +53,8 @@
 %  OVERVIEW
 %
 %    Functions provided in the <a href="matlab:help Data">Data</a> category can be used to read experimental data files.
-%    The file format is the same as in other programs such as <a href="http://klusters.sourceforge.net">Klusters</a>, <a href="http://neuroscope.sourceforge.net">NeuroScope</a> and
-%    <a href="http://ndmanager.sourceforge.net">NDManager</a> (see e.g. <a href="matlab:help http://neuroscope.sourceforge.net/UserManual/data-files.html">http://neuroscope.sourceforge.net/UserManual/data-files.html</a>).
+%    The file format is the same as in other programs such as <a href="http://neurosuite.sourceforge.net">Klusters</a>, <a href="http://neurosuite.sourceforge.net">NeuroScope</a> and
+%    <a href="http://neurosuite.sourceforge.net">NDManager</a> (see e.g. <a href="matlab:help http://neuroscope.sourceforge.net/UserManual/data-files.html">http://neuroscope.sourceforge.net/UserManual/data-files.html</a>).
 %    However, the rest of the toolbox is independent from these file formats, so you
 %    are free to use any format you like (of course, you would then have to add your own
 %    code to read your files).
