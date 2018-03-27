@@ -54,7 +54,7 @@
 %
 %    Functions provided in the <a href="matlab:help Data">Data</a> category can be used to read experimental data files.
 %    The file format is the same as in other programs such as <a href="http://neurosuite.sourceforge.net">Klusters</a>, <a href="http://neurosuite.sourceforge.net">NeuroScope</a> and
-%    <a href="http://neurosuite.sourceforge.net">NDManager</a> (see e.g. <a href="matlab:help http://neuroscope.sourceforge.net/UserManual/data-files.html">http://neuroscope.sourceforge.net/UserManual/data-files.html</a>).
+%    <a href="http://neurosuite.sourceforge.net">NDManager</a> (see e.g. <a href="matlab:help http://neurosuite.sourceforge.net/formats.html">this page</a>).
 %    However, the rest of the toolbox is independent from these file formats, so you
 %    are free to use any format you like (of course, you would then have to add your own
 %    code to read your files).
